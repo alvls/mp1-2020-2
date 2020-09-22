@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source no comment.c" />
     <ClCompile Include="Source.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
