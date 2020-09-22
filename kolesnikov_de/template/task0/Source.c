@@ -1,13 +1,15 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include < math.h >
+#include <locale.h>
 #include <stdio.h> 
 void main() {
 	setlocale(LC_ALL, "Russian");
 	float rb,rs,distance,r1,r2,x1,x2,y1,y2;
     printf("¬ведите данные 1 окружности(x,y,r)");	
 	scanf("%f %f %f", &x1, &y1, &r1);
-
 	printf("¬ведите данные 2 окружности(x,y,r)");
 	scanf("%f %f %f", &x2, &y2, &r2);
-	distance = sqrt(sqr(x1 - x2) + sqr(y1 - y2));
+	distance = sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
 	if (r1 > r2) {
 		rb = r1;
 		rs = r2;
