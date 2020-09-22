@@ -31,6 +31,10 @@ void main()
 	{
 		printf("Two points of intresection of circles.\n");
 	}
+	else if ((d == r1 - r2) || (d == r2 - r1)) 
+	{
+		printf("A circle in another circle and have one point of intersection.\n");
+	}
 
 	if (r1 > r2)
 	{
