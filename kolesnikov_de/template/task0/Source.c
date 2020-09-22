@@ -10,7 +10,6 @@ void main() {
 	printf("Введите данные 2 окружности(x,y,r)");
 	scanf("%lf %lf %lf", &x2, &y2, &r2);
 	distance = sqrt((x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2));
-
 	
 	if (r1 > r2) {
 		rb = r1;
@@ -28,22 +27,27 @@ void main() {
 	}
 	if (distance < rb - rs) 
 	{
-		printf("одна окружность лежит внутри другой");
+		printf("Одна окружность лежит внутри другой");
+		return;
 	}
 	else
 	{
 		if (distance = rb - rs) {
 			printf("Окружности касаются внутренним образом");
+			return;
 			
 		}
 		else {
-			if (distance = rb + rs) {
+			if (distance == rb + rs) {
 				printf("Окружности касаются внешним образом в 1 точке");
+				return;
 			}
-			if (rb - rs < distance < rb + rs) {
+			if (rb - rs < distance & distance < rb + rs) {
 				printf("Окружности касаются внешним образом в 2 точках");
+				return;
 			}
-			else printf("Окружности удалены друг от друга");
+
+			printf("Окружности удалены друг от друга");
 
 		}
 
