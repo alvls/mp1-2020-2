@@ -19,7 +19,7 @@ void main()
 	const float TDVP = 0.005;
 	const float TDSP = 0.015;
 	const float TWOOD = 0.01;
-	const float H_Proem = 0.415;//считаем, что высота проема 40 см
+	const float H_Proem = 0.415;//считаем, что высота проема 40 см + толщина ДСП
 	setlocale(LC_ALL, "Russian");
 	printf("Введите высоту шкафа h в сантиметрах, отделяя дробную часть запятой: ");
 	scanf_s("%f", &h);
@@ -51,7 +51,7 @@ void main()
 	k = h / H_Proem;
 	if ((h - k * H_Proem) != 0)
 		k = k + 1;
-	M = 2 * (h - 2 * TDSP) * d * TDSP * P_DSP + w * h * TDVP * P_DVP + 2 * w * d * TDSP * TDSP + w * h * TWOOD * P_WOOD + k * d * (w - 2 * TDSP) * P_DSP * TDSP;
+	M = 2 * (h - 2 * TDSP) * d * TDSP * P_DSP + w * h * TDVP * P_DVP + 2 * w * d * TDSP * P_DSP + w * h * TWOOD * P_WOOD + k * d * (w - 2 * TDSP) * P_DSP * TDSP;
 	printf("Масса шкафа: %f", M);
 	printf(" кг \n");
 	system("pause");
