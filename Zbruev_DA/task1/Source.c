@@ -13,9 +13,9 @@ void main()
 {
 	float h, w, d, DWP, DSP, WOOD, M;
 	int k;//к-количество полок
-	const float P_DVP = 820;
-	const float P_DSP = 720;
-	const float P_WOOD = 800;
+	const float P_DVP = 820;//буква P-плотность
+	const float P_DSP = 720;//буква P-плотность
+	const float P_WOOD = 800;//буква P-плотность
 	const float TDVP = 0.005;//буква T-толщина
 	const float TDSP = 0.015;//буква T-толщина
 	const float TWOOD = 0.01;//буква T-толщина
