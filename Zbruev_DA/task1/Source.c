@@ -16,9 +16,9 @@ void main()
 	const float P_DVP = 820;
 	const float P_DSP = 720;
 	const float P_WOOD = 800;
-	const float TDVP = 0.005;
-	const float TDSP = 0.015;
-	const float TWOOD = 0.01;
+	const float TDVP = 0.005;//буква T-толщина
+	const float TDSP = 0.015;//буква T-толщина
+	const float TWOOD = 0.01;//буква T-толщина
 	const float H_Proem = 0.415;//считаем, что высота проема 40 см + толщина ƒ—ѕ
 	setlocale(LC_ALL, "Russian");
 	printf("¬ведите высоту шкафа h в сантиметрах, отдел€€ дробную часть зап€той: ");
