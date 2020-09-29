@@ -13,9 +13,9 @@ void main()
 {
 	float h, w, d, DWP, DSP, WOOD, M;
 	int k;//к-количество полок
-	const float P_DVP = 820;//буква P-плотность
-	const float P_DSP = 720;//буква P-плотность
-	const float P_WOOD = 800;//буква P-плотность
+	const float P_DVP = 820;//плотность
+	const float P_DSP = 720;//плотность
+	const float P_WOOD = 800;//плотность
 	const float TDVP = 0.005;//буква T-толщина
 	const float TDSP = 0.015;//буква T-толщина
 	const float TWOOD = 0.01;//буква T-толщина
@@ -50,7 +50,9 @@ void main()
 	d = d / 100;
 	k = h / H_Proem;
 	if ((h - k * H_Proem) != 0)
+	{
 		k = k + 1;
+	}
 	M = 2 * (h - 2 * TDSP) * d * TDSP * P_DSP + w * h * TDVP * P_DVP + 2 * w * d * TDSP * P_DSP + w * h * TWOOD * P_WOOD + k * d * (w - 2 * TDSP) * P_DSP * TDSP;
 	printf("Масса шкафа: %f", M);
 	printf(" кг \n");
