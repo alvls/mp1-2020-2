@@ -4,7 +4,7 @@
 void main()
 {
 	int c;
-	float x1, y1, r1, x2, y2, r2; 
+	float x1, y1, r1, x2, y2, r2;
 	r1 = 1;
 	r2 = 2;
 	setlocale(LC_ALL, "Russian");
@@ -25,33 +25,33 @@ void main()
 	if ((r1 == r2) && ((y1 == y2) && (x1 == x2)))
 	{
 		printf("Окружности совпадают");
-	//res = 1;
+		//res = 1;
 	}
 	else
-	  if ((pow((x2 - x1), 2) + pow((y2 - y1), 2)) < pow((r2 - r1), 2))
-	   {
-		  printf("одна окружность лежит внутри другой");
-		//res = 2;
-	   }
-	  else    
-	    if ((r1 + r2) < sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2)))
-	     {
-		    printf("окружности лежат вне друг друга ");
-		    //res = 3;
-	     }
+		if ((pow((x2 - x1), 2) + pow((y2 - y1), 2)) < pow((r2 - r1), 2))
+		{
+			printf("одна окружность лежит внутри другой");
+			//res = 2;
+		}
 		else
-	      if ((r1 + r2) == sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2)))
-	       {
-		      printf("окружности касаются друг друга извне");
-		      //res = 4;
-	       }
-	      else 
-		    if (fabs(r1 - r2) == sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2)))
-		     {
-			    printf("окружности касаются друг друга изнутри");
-			//res = 5;
-		     }
-			else 
-				printf("окружности пересекаются");
+			if ((r1 + r2) < sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2)))
+			{
+				printf("окружности лежат вне друг друга ");
+				//res = 3;
+			}
+			else
+				if ((r1 + r2) == sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2)))
+				{
+					printf("окружности касаются друг друга извне");
+					//res = 4;
+				}
+				else
+					if (fabs(r1 - r2) == sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2)))
+					{
+						printf("окружности касаются друг друга изнутри");
+						//res = 5;
+					}
+					else
+						printf("окружности пересекаются");
 	//system('  pause');
 }
