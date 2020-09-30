@@ -48,8 +48,8 @@ void main()
 		scanf_s("%f", &d);
 	}
 	d = d / 100;
-	k = h / H_Proem;
-	if ((h - k * H_Proem) != 0)
+	k = (h - 2 * TDSP)/ H_Proem;
+	if (((h-2*TDSP) - k * H_Proem) != 0)
 	{
 		k = k + 1;
 	}
