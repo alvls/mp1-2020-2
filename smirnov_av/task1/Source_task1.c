@@ -13,29 +13,30 @@
 void main()
 {
 	setlocale(LC_ALL, "Russian");
-	const double p_dvp = 0.00082; //кг/см^3  
-	const double p_dsp = 0.00072; //кг/см^3 
-	const double p_wood = 0.00081; //кг/см^3 
-	double h, w, t1 = 0.5; //Задняя стенка(ДВП) h = 180-220cm w = 80 - 120cm t1(толщина задней стенки)
-	double d, t2 = 1.5, t3 = 1;//Боковины(ДСП) + двери(дерево) h =180-220 d = 50-90(глубина) t2(толщина боковин) t3(толщина двери)
-	double sum_m, m1, m2, m3, m4, m5;
+	const double p_dvp = 0.00082;	//кг/см^3  
+	const double p_dsp = 0.00072;	//кг/см^3 
+	const double p_wood = 0.00081;	//кг/см^3 
+	double high, width, t_back = 0.5;	//Задняя стенка(ДВП) h = 180-220cm w = 80 - 120cm t1(толщина задней стенки)
+	double depth, t_side = 1.5, t_doors = 1;	//Боковины(ДСП) + двери(дерево) h =180-220 d = 50-90(глубина) t2(толщина боковин) t3(толщина двери)
+	double sum_m, m_back, m_side, m_roofs, m_doors, m_shelf;
 	int quantity;
 
 	printf("Введите высоту(h)(180-220см) накладной задней стенки и ее ширину(w)(80-120cm): ");
-	scanf_s("%lf %lf", &h, &w);
-	if ((h <= 220) && (h >= 180) && (w >= 80) && (w <= 120))
+	scanf_s("%lf %lf", &high, &width);
+
+	if ((high <= 220) && (high >= 180) && (width >= 80) && (width <= 120))
 	{
-		printf("Введите глубину(d)(50-90cm) боковины: ");
-		scanf_s("%lf", &d);
-		if ((d >= 50) && (d <= 90))
+		printf("Введите глубину(50-90cm) боковины: ");
+		scanf_s("%lf", &depth);
+		if ((depth >= 50) && (depth <= 90))
 		{
-			quantity = (h - 3) / 41.5; //кол-во полок, которые влезут в шкаф (целое кол-во)
-			m1 = p_dvp * h * w * t1;//масса задней стенки 
-			m2 = p_dsp * 2 * (h - 3) * d * t2;//масса боковин
-			m3 = p_dsp * 2 * w * d * t2;//масса крышек
-			m4 = p_wood * h * w * t3; //масса дверей 
-			m5 = p_dsp * quantity * (t2 * (w - 2 * t2) * d);
-			sum_m = m1 + m2 + m3 + m4 + m5;
+			quantity = (high - 3) / 41.5; //кол-во полок, которые влезут в шкаф (целое кол-во)
+			m_back = p_dvp * high * width * t_back;//масса задней стенки 
+			m_side = p_dsp * 2 * (high - 3) * depth * t_side;//масса боковин
+			m_roofs = p_dsp * 2 * width * depth * t_side;//масса крышек
+			m_doors = p_wood * high * width * t_doors; //масса дверей 
+			m_shelf = p_dsp * quantity * (t_side * (width - 2 * t_side) * depth); //масса полок
+			sum_m = m_back + m_side + m_roofs + m_doors + m_shelf;
 
 			printf("Масса шкафа в кг = %lf", sum_m);
 		}
@@ -44,5 +45,5 @@ void main()
 	}
 	else printf("Высота или ширина не входят в диапазон значений\n");
 
-	scanf_s("%lf", &h);
+	scanf_s("%lf", &high);
 }
