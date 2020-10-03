@@ -28,16 +28,11 @@ void main()
 		scanf("%i", &w);
 	} while (!(h <= 220 && h >= 180 && w >= 50 && w <= 90 && l <= 120 && l >= 80));
 	n = (h - 3) / 40; // чтобы все полки уместились, пусть даже и впритык (я так понял, что так нужно)
-	polka = n * dsd * (w-3) * (l - 3);
-	//(printf("%f\n", polka); 
+	polka = n * dsd * (w-3) * (l - 3); 
 	osn = 2 * l * w * dsd;
-	//printf("%f\n", osn);
 	bok = 2 * (h - 3) * w * dsd;
-	//printf("%f\n", bok);
 	dver = ded * h * l;
-	//printf("%f\n", dver);
 	zad = h * l * dvd;
-	//printf("%f\n", zad);*/
 	m = (polka + bok + osn) * dsp + dver * dep + zad * dvp;
 	m /= 1000;
 	printf("Масса шкафа в килограммах равна: %0.3f\n", m);
