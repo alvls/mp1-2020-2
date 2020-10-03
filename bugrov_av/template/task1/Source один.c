@@ -40,6 +40,6 @@ void main()
 	//printf("%f\n", zad);*/
 	m = (polka + bok + osn) * dsp + dver * dep + zad * dvp;
 	m /= 1000;
-	printf("Масса шкафа в килограммах равна: %f\n", m);
+	printf("Масса шкафа в килограммах равна: %0.3f\n", m);
 	system("pause");
 }
