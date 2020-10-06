@@ -23,4 +23,4 @@ void main() {
 	m5 =num*pDCP*tDCP*(d-tDVP)*(w-2*tDCP); //polka:width-2*width sidewall=2*tDCP,depth-width back wall=tDVP  
 	m = (m1 + m2 + m3 + m4 + m5) / 1000;
 	printf("Mass=%ikg",m);
-}
+}и
