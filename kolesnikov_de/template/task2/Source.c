@@ -4,8 +4,8 @@
 #include <locale.h>
 void main() {
 	setlocale(LC_ALL, "rus");
-	char mode,mark,correction, markold;
-	int num, ran, numoftry = 0, prnum,left,right;
+	char mode,mark;
+	int num, ran, numoftry = 0,left,right;
 	while (1) {
 		printf("Введите режим\n");
 		scanf_s("%d", &mode);
@@ -44,7 +44,7 @@ void main() {
 		while (1) {
 			printf("Введите выше число\n");
 			scanf_s("%d", &num);
-			if (num < 1001 | num > 0)
+			if (num < 1001 || num > 0)
 				break;
 		}
 		left = 0;
@@ -74,18 +74,6 @@ void main() {
 			}
 
 		}
-
-
-
-
-
-
 	}
-
-
-
-
-
-
-	printf("Количество попыток = %d", numoftry);
+printf("Количество попыток = %d", numoftry);
 }
