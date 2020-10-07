@@ -4,8 +4,9 @@
 #include <locale.h>
 void main() {
 	setlocale(LC_ALL, "rus");
-	char mode,mark;
-	int num, ran, numoftry = 0,left,right;
+	char mark, out;
+	int num, ran, left, right, mode;
+	int numoftry = 0;
 	while (1) {
 		printf("Введите режим\n");
 		scanf_s("%d", &mode);
@@ -18,19 +19,18 @@ void main() {
 		while (1) {
 			numoftry += 1;
 			while (1) {
-				printf("Ваше предположение:\n");
+				printf("Ваша догадка:\n");
 				scanf_s("%d", &num);
-				if (num < 1001 & num > 0)
+				if ((num < 1001) && (num > 0))
 					break;
 			}
 
-			if (num > ran) {
-				printf("Выше число больше\n");
-				continue;
-
-			}
 			if (num < ran) {
-				printf("Выше число меньше\n");
+				printf("Загаданное число больше\n");
+				continue;
+			}
+			if (num > ran) {
+				printf("Загаданное число меньше\n");
 				continue;
 			}
 			else {
@@ -44,7 +44,7 @@ void main() {
 		while (1) {
 			printf("Введите выше число\n");
 			scanf_s("%d", &num);
-			if (num < 1001 || num > 0)
+			if ((num < 1001) && (num > 0))
 				break;
 		}
 		left = 0;
@@ -54,11 +54,11 @@ void main() {
 			num = (left + right) / 2;
 			numoftry += 1;
 			printf("Мы думаем ваше число = %d \n", num);
-			printf("Впишите знак сравнения нашего числа и вашего \n");
+			printf("Впишите знак сравнения вашего числа и нашего \n");
 			do {
 				scanf_s("%c", &mark);
 			} while (mark == '\n');
-			
+
 			if (mark == '>') {
 				left = (left + right) / 2;
 				continue;
@@ -70,10 +70,14 @@ void main() {
 			if (mark == '=') {
 				printf("\nМы угадали!\n");
 				break;
-
 			}
-
 		}
 	}
-printf("Количество попыток = %d", numoftry);
+	printf("Количество попыток = %d\n", numoftry);
+	printf("Выйди из программы?\n");
+	do {
+		scanf_s("%c", &out);
+	} while (out == '\n');
+	if (out == 'да')
+		return;
 }
