@@ -7,7 +7,8 @@ void main()
 	int N, number, s=500;//s-сравнение
 	int P;//в нее записывается попытка пользователя
 	int t = 0;
-	int i = 0;
+	int i = 1;
+	int step;
 	char b;
 	setlocale(LC_ALL, "Russian");
 	printf("Введите номер режима: ");
@@ -52,16 +53,23 @@ void main()
 			printf("Если загаданное число больше, введите <. Если загаданное число меньше, введите > \n");
 			b = getchar();
 			b = getchar();
+			step = s / 2;
 			if (b == '<')
 			{
-				s = s + s / 2;
+				if (step % 2 == 0)
+					s = s + s / 2;
+				else
+					s = s + step;
 				i++;
 			}
 			else
 			{
 				if (b == '>')
 				{
-					s = s - s / 2;
+					if (step % 2 == 0)
+						s = s - s / 2;
+					else
+						s = s - step;
 					i++;
 				}
 				else
