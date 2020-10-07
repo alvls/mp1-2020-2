@@ -8,7 +8,7 @@ void main() {
 	int num, ran, left, right, mode;
 	int numoftry = 0;
 	while (1) {
-		printf("Введите режим\n");
+		printf("Input mode\n");
 		scanf_s("%d", &mode);
 		if (mode == 2 || mode == 1)
 			break;
@@ -19,22 +19,22 @@ void main() {
 		while (1) {
 			numoftry += 1;
 			while (1) {
-				printf("Ваша догадка:\n");
+				printf("Your quess:\n");
 				scanf_s("%d", &num);
 				if ((num < 1001) && (num > 0))
 					break;
 			}
 
 			if (num < ran) {
-				printf("Загаданное число больше\n");
+				printf("The hidden number is greater than your\n");
 				continue;
 			}
 			if (num > ran) {
-				printf("Загаданное число меньше\n");
+				printf("The hidden number is less than your\n");
 				continue;
 			}
 			else {
-				printf("Вы угадали!\n");
+				printf("You got it!\n");
 				break;
 
 			}
@@ -42,7 +42,7 @@ void main() {
 	}
 	else {
 		while (1) {
-			printf("Введите выше число\n");
+			printf("Please input your number\n");
 			scanf_s("%d", &num);
 			if ((num < 1001) && (num > 0))
 				break;
@@ -53,8 +53,8 @@ void main() {
 		while (1) {
 			num = (left + right) / 2;
 			numoftry += 1;
-			printf("Мы думаем ваше число = %d \n", num);
-			printf("Впишите знак сравнения вашего числа и нашего \n");
+			printf("We think your number is %d\n", num);
+			printf("Enter a sign comparing your number and ours\n");
 			do {
 				scanf_s("%c", &mark);
 			} while (mark == '\n');
@@ -68,16 +68,16 @@ void main() {
 				continue;
 			}
 			if (mark == '=') {
-				printf("\nМы угадали!\n");
+				printf("We guessed right!\n");
 				break;
 			}
 		}
 	}
-	printf("Количество попыток = %d\n", numoftry);
-	printf("Выйди из программы?\n");
+	printf("Number of try`s = %d\n", numoftry);
+	printf("Exit the program?\n");
 	do {
 		scanf_s("%c", &out);
 	} while (out == '\n');
-	if (out == 'да')
+	if (out == 'yes')
 		return;
 }
