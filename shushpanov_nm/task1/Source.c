@@ -11,14 +11,15 @@ void main()
 	float weight1, weight2, weight3, weight4, weight5, weightCupboard;
 	float const THICKNESS_DVP = 0.5, THICKNESS_DSP = 1.5, THICKNESS_TREE = 1; //считаем в см
 	float const DENSITY_DSP = 0.00072, DENSITY_DVP = 0.00082, DENSITY_TREE = 0.00081; //
-	printf("Ширина может быть от 180 до 220, а высота от 80 до 120.\n");
+	printf("Высота от 80 до 120, ширина может быть от 180 до 220, а глубина от 50 до 90.\n");
 	printf("Введите высоту (см) задней накладной стенки: \n");
 	scanf("%d", &heightWallDvp);
 	printf("Введите ширину (см) задней накладной стенки: \n");
 	scanf("%d", &widthWallDvp);
 	printf("Введите глубину (см): \n");
 	scanf("%d", &depthSideWallDsp);
-	if (((heightWallDvp >= 180) && (heightWallDvp <= 220)) || (widthWallDvp >= 80) && (widthWallDvp <= 120))
+	if (((heightWallDvp >= 180) && (heightWallDvp <= 220)) || ((widthWallDvp >= 80) && (widthWallDvp <= 120)) 
+		|| ((depthSideWallDsp >= 50)) && (depthSideWallDsp <= 90))
 	{
 		heightSideWallDsp = heightWallDvp; //высота одной боковой стенки из общей высоты вычитаем высоту накладных верхней и нижней стенки
 		heightOverheadDoorsTree = heightWallDvp; //высота дверей
@@ -33,14 +34,14 @@ void main()
 		weight5 = shelves * DENSITY_DSP * (widthWallDvp - 2 * THICKNESS_DSP) * depthSideWallDsp * THICKNESS_DSP; //масса полок
 		weightCupboard = weight1 + weight2 + weight3 + weight4 + weight5;
 		printf("\n");
-		printf("Масса задней стенки: %.2f \n", weight1);
-		printf("Масса боковых стенок: %.2f \n", weight2);
-		printf("Масса крышек (вверх/низ): %.2f \n", weight3);
-		printf("Масса дверей: %.2f \n", weight4);
-		printf("Количество полок: %d \n", shelves);
-		printf("Масса полок: %.2f \n", weight5);
+		printf("Масса задней стенки: %.2f кг\n", weight1);
+		printf("Масса боковых стенок: %.2f кг\n", weight2);
+		printf("Масса крышек (вверх/низ): %.2f кг\n", weight3);
+		printf("Масса дверей: %.2f кг\n", weight4);
+		printf("Количество полок: %d шт\n", shelves);
+		printf("Масса полок: %.2f кг\n", weight5);
 		printf("\n");
-		printf("Масса шкафа: %.2f \n", weightCupboard);
+		printf("Масса шкафа: %.2f кг\n", weightCupboard);
 	}
 	else
 	{
