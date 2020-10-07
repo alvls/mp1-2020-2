@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <locale.h>
-int main() {
+int main() 
+{
 
     setlocale(LC_ALL, "rus");
     float h, w, d;
@@ -20,11 +21,11 @@ int main() {
     const float td = 1;//толщина дверей в см
     const float tp = 1.5;//толщина полок в мм
 
-    printf("Введите длину задней стенки h \n");
+    printf("Введите высоту шкафа h (от 180 см до 220 см) \n");
     scanf_s("%f", &h);
-    printf("Введите ширину шкафа w \n");
+    printf("Введите ширину шкафа w (от 80 см до 120 см) \n");
     scanf_s("%f", &w);
-    printf("Введите глубину шкафа d \n");
+    printf("Введите глубину шкафа d (от 50 см до 90 см) \n");
     scanf_s("%f", &d);
     if ((h <= 220) && (h >= 180) && (w <= 120) && (w >= 80) && (d >= 50) && (d <= 90))
     {
@@ -50,7 +51,8 @@ int main() {
         printf("Общая масса шкафа %f кг\n", M);
         getchar();
     }
-    else {
+    else 
+    {
         printf("Ошибка при вводе данных\n");
         getchar();
     }
