@@ -36,7 +36,6 @@ void main() {
 			else {
 				printf("You got it!\n");
 				break;
-
 			}
 		}
 	}
@@ -47,8 +46,8 @@ void main() {
 			if ((num < 1001) && (num > 0))
 				break;
 		}
-		left = 0;
-		right = 1000;
+		left = 1;
+		right = 1001;
 		num = 0;
 		while (1) {
 			num = (left + right) / 2;
