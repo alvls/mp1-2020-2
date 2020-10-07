@@ -11,7 +11,7 @@ void main()
 	float weight1, weight2, weight3, weight4, weight5, weightCupboard;
 	float const THICKNESS_DVP = 0.5, THICKNESS_DSP = 1.5, THICKNESS_TREE = 1; //считаем в см
 	float const DENSITY_DSP = 0.00072, DENSITY_DVP = 0.00082, DENSITY_TREE = 0.00081; //
-	printf("¬ысота от 80 до 120, ширина может быть от 180 до 220, а глубина от 50 до 90.\n");
+	printf("¬ысота от 180 до 220, ширина может быть от 80 до 120, а глубина от 50 до 90.\n");
 	printf("¬ведите высоту (см) задней накладной стенки: \n");
 	scanf("%d", &heightWallDvp);
 	printf("¬ведите ширину (см) задней накладной стенки: \n");
