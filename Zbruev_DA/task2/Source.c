@@ -46,15 +46,12 @@ void main()
 	{
 		printf("Загадайте число от 1 до 1000 и введите его \n");
 		scanf_s("%d", &N);
-		do
-		{
-			b = getchar();
-		} while (b != '\n' && b != EOF);
 		while (N != s)
 		{
 			printf("%d \n", s);
 			printf("Если загаданное число больше, введите <. Если загаданное число меньше, введите > \n");
-			scanf_s("%c", &b);
+			b = getchar();
+			b = getchar();
 			if (b == '<')
 			{
 				s = s + s / 2;
