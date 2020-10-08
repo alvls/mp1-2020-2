@@ -45,7 +45,8 @@ void main()
 		polk = kol * ((w - 2 * bok) * d * dsp * bok);
 		//printf("Вес полок: %f\n", polk);
 		ves = (zst + (2 * bks) + (2 * krsh) + dver + polk);
-		printf("Вес шкафа: %f\n", ves);
+		printf("Вес шкафа: %f", ves); 
+		printf(" кг");
 	}
 	else
 		printf("Ошибка в вводе данных");
