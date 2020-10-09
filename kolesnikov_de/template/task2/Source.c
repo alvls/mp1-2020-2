@@ -24,7 +24,6 @@ void main() {
 				if ((num < 1001) && (num > 0))
 					break;
 			}
-
 			if (num < ran) {
 				printf("The hidden number is greater than your\n");
 				continue;
