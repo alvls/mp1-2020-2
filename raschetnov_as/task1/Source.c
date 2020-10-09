@@ -11,13 +11,15 @@ void main()
 	float locker_weigth;
 	float V1, V2, V3, V4, V5;
 	float W1, W2, W3, W4, W5;
-	printf("enter numbers\n");
+	printf("Enter numbers of height in range between 180 and 220, weight in range between 80 and 120, depth in range between 50 and 90: \n");
 	k = scanf("%f %f %f", &h, &w, &d);
 	while (k != 3 || h < 180 || h > 220 || w < 80 || w > 120 || d < 50 || d > 90 )
 	{	
-		printf("not a number or numbers are wrong, try again\n");
-			while((c = getchar()) != '\n' && c != EOF);
-				{k = scanf("%f %f %f", &h, &w, &d);}		
+		printf("Not a number or numbers are out of range, try again:\n");
+		while((c = getchar()) != '\n' && c != EOF);
+			{
+				k = scanf("%f %f %f", &h, &w, &d);
+			}		
 	} 
 	h = h/100;
 	w = w/100;
@@ -34,5 +36,5 @@ void main()
 	W4 = V4 * DENSITY_WOOD;
 	W5 = V5 * DENSITY_DSP;
 	locker_weigth = W1+W2+W3+W4+W5;
-	printf("locker weigth is: %.2f", locker_weigth);
+	printf("Locker weigth is: %.2f", locker_weigth);
 }
