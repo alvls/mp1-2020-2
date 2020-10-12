@@ -40,15 +40,7 @@ void main()
 			printf("Попытайтесь отгадать еще раз: ");
 			scanf_s("%d", &P);
 		} 
-		printf("Вы угадали! Вы сделали %i", t);
-		printf(" попыт");
-		if (t%10==1)
-			printf("ку\n");
-		else 
-			if ((t%10==2)|| (t % 10 == 3)|| (t % 10 == 4))
-				printf("ки\n");
-			else 
-				  printf("ок\n");
+		printf("Вы угадали! Всего попыток: \n", t);
 	}
 	else if (number == 2)
 	{
