@@ -36,7 +36,6 @@ void main() {
 	else {
 		printf("Chose number from 1 to 1000 \n");
 		min = 1; max = 1000; c = ' ';
-		printf("Are u ready? \n");
 
 		while (c != '=') {
 			n = rand() % (max - min + 1) + min;//Generate number from min to max
@@ -60,6 +59,6 @@ void main() {
 		}
 	}
 
-	printf("Number of attempts: %d", a);
+	printf("Number of attempts: %d \n", a);
 	scanf_s("%d", &mod);
 }
