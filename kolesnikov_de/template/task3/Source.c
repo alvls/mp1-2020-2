@@ -14,9 +14,6 @@ int main() {
 	for (i = 0; i < lenght; i++) {
 		number[i] = rand() % 9 + 1;
 	}
-	for (i = 0; i < ARRLENGHT; i++) {
-		printf("%d", number[i]);
-	}
 	while (1) {
 		printf("Enter your number\n");
 		scanf_s("%d", &trnum);
