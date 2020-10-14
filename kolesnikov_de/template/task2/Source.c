@@ -72,10 +72,10 @@ void main() {
 		}
 	}
 	printf("Number of try`s = %d\n", numoftry);
-	printf("Exit the program?\n");
+	printf("Exit the program(y)?\n");
 	do {
 		scanf_s("%c", &out);
 	} while (out == '\n');
-	if (out == 'yes')
+	if (out == 'y')
 		return;
 }
