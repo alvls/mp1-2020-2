@@ -7,12 +7,10 @@ int main() {
 	int trnum, rebtime = 0, i, lenght, j, cows = 0, bulls = 0, code;
 
 	srand(time(NULL));
-
 	do {
 		printf("Please input lenght of number(from 2 to 5)\n");
 		scanf_s("%d", &lenght);
 	} while ((lenght > 5) || (lenght < 2));
-
 	for (i = 0; i < lenght; i++) {
 		number[i] = rand() % 9 + 1;
 	}
@@ -28,7 +26,6 @@ int main() {
 		}
 		cows = 0;
 		bulls = 0;
-
 		for (i = 0; i < lenght; i++) {
 			for (j = 0; j < lenght; j++) {
 				if ((trynumber[i] == number[j]) && (i == j)) {
