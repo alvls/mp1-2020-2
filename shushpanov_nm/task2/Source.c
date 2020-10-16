@@ -6,6 +6,7 @@
 #include <time.h>
 #include <string.h>
 
+//Восстановление task2
 void main()
 {
 	setlocale(LC_ALL, "Rus");
