@@ -1,0 +1,4 @@
+﻿  Source3.c
+C:\Users\Danii\mp1-2020-2\yunin_dd\task3\Source3.c(31,18): warning C4244: функция: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\Danii\mp1-2020-2\yunin_dd\task3\Source3.c(100,29): warning C4244: +=: преобразование "double" в "int", возможна потеря данных
+  task3.vcxproj -> C:\Users\Danii\mp1-2020-2\yunin_dd\x64\Debug\task3.exe
