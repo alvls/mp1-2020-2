@@ -10,12 +10,12 @@ void main()
 	int arr1[10], arr2[10], array[5];
 	printf("Desription of the game:\n");
 	printf("You have to guess program's number following simple steps: quantity of cows means how much digits of number you guessed and quantity of bulls means how much digits on the right positions of number you guessed\n");
-	printf("Enter number length:\n");
+	printf("Enter number length between 2 and 5:\n");
 	q = scanf("%d", &n);
 	while (q != 1 || n < 2 || n > 5)
 	{
 		printf("You entered wrong symbol or your number is out of range, try again:\n");
-		printf("Enter number length:\n");
+		printf("Enter number length between 2 and 5:\n");
 		while ((c = getchar()) != '\n' && c != EOF);
 		{
 			q = scanf("%d", &n);
@@ -75,8 +75,6 @@ void main()
 		{
 			z = 9 * pow(10, (n - 1));
 			number1 = pow(10, (n - 1)) + rand() % z;
-			printf("%d", number1);
-			printf("\n");
 			copy = number1;
 			for (i = 0; i < n; i++)
 			{
