@@ -80,16 +80,18 @@ void main()
 			}
 			printf("\nЧисло быков: %d", l);
 			int f = 0;
-			int h = 0;
+			int h;
+			int m = 0;
 			for (i = 0; i < n; i++)
 			{
 				for (f = 0; f < n; f++)
 				{
 					if (B[i] == A[f])
-						h++;
+						m++;
 				}
 				f++;
 			}
+			h = m - l;
 			printf("\nЧисло коров: %d", h);
 		}	
 	}
