@@ -22,7 +22,7 @@ void main()
 	{
 		srand(time(NULL));
 		N = rand() % 1000 + 1;
-		printf("%d\n", N);
+		//printf("%d\n", N);
 		printf("Попытайтесь отгадать число от 1 до 1000 \n");
 		scanf_s("%d", &P);
 		while (N != P) 
@@ -40,7 +40,7 @@ void main()
 			printf("Попытайтесь отгадать еще раз: ");
 			scanf_s("%d", &P);
 		} 
-		printf("Вы угадали! Всего попыток: \n", t);
+		printf("Вы угадали! Всего попыток: %d\n", t);
 	}
 	else if (number == 2)
 	{
