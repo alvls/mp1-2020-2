@@ -4,8 +4,8 @@
 #include <stdio.h>
 void main()
 {
-	int thoughts = 0, i = 0, n, k = 0, p = 0, s = 0, q = 0, z = 0, number1 = 0, copy, copy2 = 0;
-	int counter = 0;
+	int thoughts = 0, i = 0, n, k = 0, p = 0, s = 0, q = 0, z = 0, number1 = 0, copy = 0;
+	int counter = 0, counter2 = 1, j = 0;
 	int c;
 	int arr1[10], arr2[10], array[5];
 	printf("Desription of the game:\n");
@@ -22,75 +22,23 @@ void main()
 		}
 	}
 	q = 0;
-	srand(time(NULL));
-	switch (n)
-	{
-	case 2:
-		while (s != 1)
+	while(counter2 != 0)
+	{	
+		z = 9 * pow(10, (n - 1));
+		number1 = pow(10, (n - 1)) + rand() % z;
+		copy = number1;
+		for(i = 0; i < n; i++)
+		{	
+			counter2 = 0;
+			arr1[i] = copy % 10;
+			copy /= 10;
+		}	
+		for(i = 0; i < n; i++)
 		{
-			z = 9 * pow(10, (n - 1));
-			number1 = pow(10, (n - 1)) + rand() % z;
-			copy = number1;
-			for (i = 0; i < n; i++)
-			{
-				array[i] = copy % 10;
-				copy /= 10;
-			}
-			if (array[0] != array[1])
-				s = 1;
+			for(j = i + 1; j < n; j++)
+				if(arr1[i] == arr1[j])
+					counter2++;
 		}
-		break;
-	case 3:
-		while (s != 1)
-		{
-			z = 9 * pow(10, (n - 1));
-			number1 = pow(10, (n - 1)) + rand() % z;
-			copy = number1;
-			for (i = 0; i < n; i++)
-			{
-				array[i] = copy % 10;
-				copy /= 10;
-			}
-			if (array[0] != array[1] && array[0] != array[2] && array[1] != array[2])
-				s = 1;
-		}
-		break;
-	case 4:
-		while (s != 1)
-		{
-			z = 9 * pow(10, (n - 1));
-			number1 = pow(10, (n - 1)) + rand() % z;
-			copy = number1;
-			for (i = 0; i < n; i++)
-			{
-				array[i] = copy % 10;
-				copy /= 10;
-			}
-			if (array[0] != array[1] && array[0] != array[2] && array[0] != array[3] && array[1] != array[2] && array[1] != array[3] && array[2] != array[3])
-				s = 1;
-		}
-		break;
-	case 5:
-		while (s != 1)
-		{
-			z = 9 * pow(10, (n - 1));
-			number1 = pow(10, (n - 1)) + rand() % z;
-			copy = number1;
-			for (i = 0; i < n; i++)
-			{
-				array[i] = copy % 10;
-				copy /= 10;
-			}
-			if (array[0] != array[1] && array[0] != array[2] && array[0] != array[3] && array[0] != array[4] && array[1] != array[2] && array[1] != array[3] && array[1] != array[4] && array[2] != array[3] && array[2] != array[4] && array[3] != array[4])
-				s = 1;
-		}
-		break;
-	}
-	copy2 = number1;
-	for (i = 0; i < n; i++)
-	{
-		arr1[i] = copy2 % 10;
-		copy2 /= 10;
 	}
 	while (p != n)
 	{
@@ -142,6 +90,6 @@ void main()
 	if (thoughts != 6)
 	{
 		printf("You guessed my number!\n");
-		printf("It took you %d tries to guess itcl", counter);
+		printf("It took you %d tries to guess it", counter);
 	}
 }
