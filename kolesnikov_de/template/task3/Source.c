@@ -2,10 +2,17 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <time.h>
+#include "Console.cpp"
 int main() {
+	textcolor(BLACK);
+	textbackground(WHITE);
+	textattr(CYAN);
+	setwindow(32, 32);
+	SMALL_RECT window;
+	COORD buf;
+
 	int number[ARRLENGHT] = { 0,0,0,0,0 }, trynumber[ARRLENGHT] = { 0,0,0,0,0 };
 	int trnum, rebtime = 0, i, lenght, j, cows = 0, bulls = 0, code, tmp;
-
 	srand(time(NULL));
 	do {
 		printf("Please input lenght of number(from 2 to 5)\n");
@@ -47,6 +54,8 @@ int main() {
 				}
 			}
 		}
+		GetWindow(&window, &buf);
+		HideCursor();
 		rebtime += 1;
 		printf("Number of cows = %d,Number of bulls=%d\n", cows, bulls);
 		if (bulls == lenght) {
