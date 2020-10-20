@@ -4,16 +4,29 @@
 #include <time.h>
 int main() {
 	int number[ARRLENGHT] = { 0,0,0,0,0 }, trynumber[ARRLENGHT] = { 0,0,0,0,0 };
-	int trnum, rebtime = 0, i, lenght, j, cows = 0, bulls = 0, code;
+	int trnum, rebtime = 0, i, lenght, j, cows = 0, bulls = 0, code, tmp;
 
 	srand(time(NULL));
 	do {
 		printf("Please input lenght of number(from 2 to 5)\n");
 		scanf_s("%d", &lenght);
 	} while ((lenght > 5) || (lenght < 2));
+	//Generating number
 	for (i = 0; i < lenght; i++) {
-		number[i] = rand() % 9 + 1;
+		number[i] = tmp = rand() % 9 + 1;
+		while (1) {
+			for (j = 0; j < i; j++) {
+				if (number[j] == tmp) {
+					number[i] = tmp = rand() % 9 + 1;
+					break;
+				}
+			}
+			if (j == i) {
+				break;
+			}
+		}
 	}
+
 	while (1) {
 		printf("Enter your number\n");
 		scanf_s("%d", &trnum);
