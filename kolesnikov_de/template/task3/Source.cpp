@@ -11,7 +11,7 @@ int main() {
 	int trnum, rebtime = 0, i, lenght, j, cows = 0, bulls = 0, code, tmp, theme;
 	srand(time(NULL));
 	//Theme
-	printf("Enable Light Theme?(1-yes,2-no)\n");
+	printf("Enable Light Theme?(1-yes)\n");
 	scanf_s("%d", &theme);
 	if (theme == 1) {
 		system("color F0");
@@ -36,15 +36,18 @@ int main() {
 			}
 		}
 	}
+	for (i = 0; i < lenght; i++) {
+		printf("%d", number[i]);
+	}
+
+
 	while (1) {
 		printf("Enter your number\n");
 		scanf_s("%d", &trnum);
-
-		for (i = 0; i < ARRLENGHT; i++) {
-			trynumber[ARRLENGHT - i - 1] = trnum % 10;
+		for (i = 0; i < lenght; i++) {
+			trynumber[lenght- i - 1] = trnum % 10;
 			trnum /= 10;
 		}
-
 		cows = 0;
 		bulls = 0;
 		for (i = 0; i < lenght; i++) {
@@ -65,6 +68,7 @@ int main() {
 			textbackground(LIGHTGREEN);
 			printf("And..You win!,You need %d try`s,close program to quit\n", rebtime);
 			system("pause");
+			return 0;
 		}
 		textcolor(WHITE);
 		textbackground(RED);
@@ -85,7 +89,7 @@ int main() {
 			}
 			return 0;
 		}
-		
+		if (code != (1 || 2))
+			return 0;
 	}
-
 }
