@@ -1,14 +1,21 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define TEN_DIVISIONS 10
+#include "Console.cpp"
 #include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include <conio.h>
 
-void main()
+int main()
 {
 	setlocale(LC_ALL, "Rus");
+	textcolor(CYAN);
+	textbackground(WHITE);
+	setwindow(87, 20);
+	HideCursor();
+	ConsolePosition();
 	int n, dublerN = 0, resultUser, resultProg, done = 0, doneGame = 0, randomInterval, date, dateProg, dateUser, dateVerification, powVerification, count = 0, powRandom, power, number, cow, bull;
 	char key;
 	//int *mas;
@@ -17,6 +24,7 @@ void main()
 	//mas = (int*)malloc(n * sizeof(int));
 	if (n >= 2 && n <= 5)
 	{
+		textcolor(DARKGRAY);
 		randomInterval = pow(TEN_DIVISIONS, n);
 		printf("Компьютер загадывает число...\n");
 		srand(time(NULL));
@@ -59,15 +67,18 @@ void main()
 		//printf("\n");
 		printf("Число загадано...\n");
 		printf("Игра начинается..\n");
+		textcolor(LIGHTMAGENTA);
 		printf("\nПравила игры:\n");
 		printf("Угадывайте число, программа будет вам говорить 'бык' - угадана цифра и позиция цифры; \n'корова' - угадана цифра, но неверная позиция.\n");
 		while (doneGame == 0)
 		{
+			textcolor(RED);
 			printf("\nЕсли хотите выйти из игры, то нажмите 'ESC'!\n");
 			printf("Если же вы не хотите выходить из игры, то нажмите любую другую клавишу!\n");
-			key = getch();
+			key = _getch();
 			if (key != 27)
 			{
+				textcolor(CYAN);
 				printf("Введите число такое, чтобы цифры не повторялись: ");
 				scanf("%d", &resultUser);
 				printf("\n");
@@ -137,6 +148,7 @@ void main()
 							}
 						}
 					}
+					textcolor(LIGHTGREEN);
 					if (bull == n)
 					{
 						doneGame = 1;
@@ -237,7 +249,8 @@ void main()
 				}
 				else
 				{
-					printf("Число должно состоять из %d цифр и цифры не должны повторяться!.\n", n);
+					textcolor(LIGHTMAGENTA);
+					printf("Число должно состоять из %d цифр и цифры не должны повторяться!\n", n);
 					dublerN = 0;
 				}
 			}
@@ -251,6 +264,8 @@ void main()
 	{
 		printf("Число не соответствует промежутку от 2 до 5 или введен неизвестный символ.\n");
 	}
+	textcolor(RED);
+	printf("\n");
 	printf("Конец программы...\n");
 	system("pause");
 }
