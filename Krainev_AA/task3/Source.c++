@@ -18,6 +18,7 @@
 #include<stdlib.h>
 #include<locale.h>
 #include<malloc.h>
+#include"Console.cpp"
 #define _CRT_SECURE_NO_WARNINGS
 
 
@@ -38,7 +39,8 @@ int main()
     int f, h; // h - коровы  m f - для цикла 
     int z = 0;// вспомогательная. используется для перебора массива 
     int pomog = 0;
-
+    //int true = 1;
+    //int false = 0;
 
 
     //организация  массива и ввод его размера и выделение  нужной памяти для массива (элемент типа int)
