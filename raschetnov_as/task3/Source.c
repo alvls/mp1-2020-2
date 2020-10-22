@@ -2,12 +2,13 @@
 #include <stdio.h>
 #include <math.h>	
 #include <stdio.h>
+#include<time.h>
 void main()
 {
 	int thoughts = 0, i = 0, n, k = 0, p = 0, s = 0, q = 0, z = 0, number1 = 0, copy = 0;
 	int counter = 0, counter2 = 1, j = 0;
 	int c;
-	int arr1[10], arr2[10], array[5];
+	int arr1[10], arr2[10];
 	printf("Desription of the game:\n");
 	printf("You have to guess program's number following simple steps: quantity of cows means how much digits of number you guessed and quantity of bulls means how much digits on the right positions of number you guessed\n");
 	printf("Enter number length between 2 and 5:\n");
@@ -22,6 +23,7 @@ void main()
 		}
 	}
 	q = 0;
+	srand(time(NULL));
 	while (counter2 != 0)
 	{
 		z = 9 * pow(10, (n - 1));
@@ -67,16 +69,6 @@ void main()
 				arr2[i] = thoughts % 10;
 				thoughts = thoughts / 10;
 			}
-			for (k = 0; k < n; k++) 		// проверка на коров.
-			{
-				for (i = 0; i < n; i++)
-				{
-					if (arr1[i] == arr2[k])
-						s++;
-				}
-			}
-			printf("Cows: %d", s);
-			printf("\n");
 			for (i = 0; i < n; i++)			// проверка на быков.
 			{
 				if (arr1[i] == arr2[i])
@@ -85,6 +77,16 @@ void main()
 			printf("Bulls: %d", p);
 			printf("\n");
 			counter++;
+			for (k = 0; k < n; k++) 		// проверка на коров.
+			{
+				for (i = 0; i < n; i++)
+				{
+					if (arr1[i] == arr2[k])
+						s++;
+				}
+			}
+			printf("Cows: %d", s - p	);
+			printf("\n");
 		}
 	}
 	if (thoughts != 6)
