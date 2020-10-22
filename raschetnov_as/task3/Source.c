@@ -22,21 +22,21 @@ void main()
 		}
 	}
 	q = 0;
-	while(counter2 != 0)
-	{	
+	while (counter2 != 0)
+	{
 		z = 9 * pow(10, (n - 1));
 		number1 = pow(10, (n - 1)) + rand() % z;
 		copy = number1;
-		for(i = 0; i < n; i++)
-		{	
+		for (i = 0; i < n; i++)
+		{
 			counter2 = 0;
 			arr1[i] = copy % 10;
 			copy /= 10;
-		}	
-		for(i = 0; i < n; i++)
+		}
+		for (i = 0; i < n; i++)
 		{
-			for(j = i + 1; j < n; j++)
-				if(arr1[i] == arr1[j])
+			for (j = i + 1; j < n; j++)
+				if (arr1[i] == arr1[j])
 					counter2++;
 		}
 	}
