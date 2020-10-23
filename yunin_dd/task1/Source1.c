@@ -1,4 +1,4 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #include <locale.h>
 #include <math.h>
 
@@ -12,18 +12,18 @@ void main()
 	* THICKNESSTREE - Толщина дерева.
 	* RASBETWEENSHELF - Расстояние между полками.
 	*/
-	const long COUNTSIDEWALL = 2, COUNTULWALL = 2;
+	/*const long COUNTSIDEWALL = 2, COUNTULWALL = 2;
 	/*
 	* COUNTSIDEWALL - Количество боковых стен;
 	* COUNTULWALL - Количество верхних и нижних стен;
 	*/
-	const long DENSITYDSP = 720, DENSITYDVP = 820, DENSITYTREE = 810;
+	//const long DENSITYDSP = 720, DENSITYDVP = 820, DENSITYTREE = 810;
 	/*
 	* DENSITYDSP - Плотность ДСП.
 	* DENSITYDVP - Плотность ДВП.
 	* DENSITYTREE - Плотность Дерева.
 	*/
-	double h, w, d;
+	//double h, w, d;
 	/*
 	*h - Высота шкафа, которая задаётся пользователем.
 	*w - Ширина шкафа, которая задаётся пользователем.
@@ -33,7 +33,7 @@ void main()
 	/*
 	*Число полок в шкафу.
 	*/
-	double vdsp, vdvp, vtree, itogmass, vdsp1, vdsp2, vdsp3;
+	//double vdsp, vdvp, vtree, itogmass, vdsp1, vdsp2, vdsp3;
 	/*
 	* vdsp - Объём материалов из ДСП.
 	* vdvp - Объём материалов из ДВП.
@@ -43,7 +43,7 @@ void main()
 	* vdsp2 - Объём верхней и нижней полки.
 	* vdsp3 - Объём боковых полок.
 	*/
-	printf("\tДобро пожаловать в программу, которая определяет массу шкафа!\n");
+	/*printf("\tДобро пожаловать в программу, которая определяет массу шкафа!\n");
 	printf("Внимание! Данные в программу нужно вносить в метрах, для разделения дробной и целой частей используйте символ ','\n");
 	printf("Диапазон значений высоты шкафа от 1.8 м до 2.2 м!\n");
 	printf("Введите высоту шкафа h:");//Укажите значаение в метрах от 1.8м до 2.2м .
@@ -91,4 +91,4 @@ void main()
 	printf("%lf", itogmass);
 	printf(" кг.");
 	scanf_s("%d", &a);
-}
+}*/

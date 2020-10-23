@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <locale.h>
+#include "Console.cpp"
 
 #define Array_SIZE 5
 //1. Создать алгоритм, который формирует число с различными цифрами.
@@ -27,11 +28,19 @@
 
 int main()
 {
+	//clrscr() - Функция очищает экран консоли!
+	//gotoxy(int x, int y) - Функция отступает на определенные координаты от исходного места положения!
+	//textcolor(int color) - Функцуия меняет цвет текста!
+	//textbackground(int color) - Функция меняет фон экрана!
+	//textattr(int color) - Функция меняет цвет и фона экрана и текста!
+	//setwindow(int width, int height) - Функция изменяет размер вызываемой консоли!
+	//HideCursor(void) - Функция убирает видимость курсор!
+	//ShowCursor(void) - Функция показывает видимость курсора!
 	setlocale(LC_ALL, "Rus");
 	srand(time(NULL));
 	int arr[Array_SIZE] = { 0 };
 	int arr1[Array_SIZE] = { 0 };
-	int i, j, tekchislo, n, chi, inchi, out, inchi1, elem, k, bull, cow, count;
+	int i, j, tekchislo, n, chi, inchi, out, inchi1, elem, k, bull, cow, count, countpop;
 	//i - Счётчик для массива числа,которое генерирует программа.
 	//j - Вспомогательный счётчик для массива числа,которое генерирует программа.
 	//tekchislo - Переменная, которая рандомится для заполнения массива.
@@ -45,30 +54,42 @@ int main()
 	//bul - Количество "быков" в числе.
 	//cow - Количество "коров" в числе.
 	//count - Переменная для проверки ошибочного ввода(не числа).
+	textcolor(GREEN);
 	printf("\tУважаемый пользователь, рады вас приветствовать в игре \"Быки и коровы\"!\n");
+	textcolor(LIGHTGREEN);
 	printf("А теперь перейдём к описанию игры. Для начала вы выбираете количество цифр в числе, с которым вам предстоит играть.\n");
 	printf("Вы можете выбрать количество цифр в числе от 2 до 5. Дальше программа загадывает число с тем количеством цифр, что вы выбрали.\n");
 	printf("После чего программа даёт вам право ввести число, которое как вы думаете загадала программа.\n");
+	textcolor(RED);
 	printf("Внимание! Вводите число с таким же количеством цифр, что вы выбрали, или вы только запутаетесь.\n");
+	textcolor(LIGHTGREEN);
 	printf("Уважаемый пользователь, вводите число с неповторяющими цифрами, чтобы не запутаться.\n");
 	printf("После вашего числа появляется статистика, количество угаданных цифр и количество цифр верно расположенных на  местах.\n");
 	printf("Дальше вы можете продолжить игру, чтобы угадать число или сдаться, т.е. выйти из программы.\n");
 	printf("А теперь приступим к игре. Желаем удачи!\n");
+	textcolor(CYAN);
 	printf("Введите длину загадываемого числа n(от 2 до 5):\n");
+	textcolor(YELLOW);
 	count = scanf_s("%d", &n);
 	if (count == 1)
 	{
 		//n = 1;
 		while ((n < 2) || (n > 5))
 		{
-			printf("Внимание! Программа работает только с числами от 2 знаков до 5!\n Если вы введёте число не из этого диапазона, программа попросит ввести число ещё раз!\n");
+			textcolor(RED);
+			printf("Внимание! Программа работает только с числами от 2 знаков до 5!\nЕсли вы введёте число не из этого диапазона, программа попросит ввести число ещё раз!\n");
+			textcolor(CYAN);
 			printf("Введите длину загадываемого числа n(от 2 до 5):\n");
+			textcolor(YELLOW);
 			scanf_s("%d", &n);
 		}
 	}
 	if (count == 0)
 	{
+		textcolor(RED);
 		printf("Ошибка! Нужно вводить число, а не символ! Запустите программу ещё раз!\n");
+		HideCursor();
+		textattr(WHITE);
 		system("pause");
 		return 0;
 	}
@@ -101,16 +122,21 @@ int main()
 	}
 	//printf("\nЧисло, преобразованное из массива: %d \n", chi);
 	inchi = 0;
+	countpop = 0;
 	while (inchi != chi)
 	{
 		bull = 0;
 		cow = 0;
+		textcolor(CYAN);
 		printf("Введите число:\n");
-
+		textcolor(YELLOW);
 		count = scanf_s("%d", &inchi);
 		if (count != 1)
 		{
+			textcolor(RED);
 			printf("Ошибка! Нужно вводить число, а не символ! Запустите программу ещё раз!\n");
+			HideCursor();
+			textattr(WHITE);
 			system("pause");
 			return 0;
 		}
@@ -125,42 +151,67 @@ int main()
 		{
 			for (i = 0; i < n; i++)
 			{
-				if (arr1[k] == arr[i])
+				if (arr1[k] == arr[i] && (i != k))
 				{
-					cow += 1;
-					if (k == i)
-					{
-						bull += 1;
-					}
+					cow++;
+				}
+				if ((arr1[k] == arr[i])&&(k == i))
+				{
+					bull++;
 				}
 			}
 		}
+		countpop++;
+		textcolor(LIGHTCYAN);
 		printf("Результат:\n");
+		textcolor(WHITE);
 		printf("Количество \"коров\" в числе = %d. \n", cow);
 		printf("Количество \"быков\" в числе = %d. \n", bull);
 		if (inchi == chi)
 		{
-			printf("Поздравляю! Вы угадали число!\n");
+			clrscr();
+			gotoxy(40,0);
+			textattr(RED);
+			textbackground(WHITE);
+			printf("Поздравляю! Вы угадали число!\n\n\n");
+			textattr(BLUE);
+			printf("Уважаемый пользователь, ваша статистика:\n");
+			textattr(RED);
+			printf("Количество \"быков\" в числе = %d. \n", bull);
+			textattr(MAGENTA);
+			printf("Количество попыток, которое наподобилось, чтобы угадать число: %d\n",countpop);
+			HideCursor();
+			textattr(WHITE);
 			system("pause");
 			return 0;
 		}
+		textcolor(BLUE);
 		printf("Если хотите продолжить игру введите 1!\n");
+		textcolor(LIGHTRED);
 		printf("Если вы не хотите продолжать(то есть вы сдаётесь), введите 2!\n");
+		textcolor(YELLOW);
 		scanf_s("%d", &out);
 		if (out == 2)
 		{
+			textcolor(MAGENTA);
 			printf("Вы не захотели продолжать, программа завершила свою работу!\n");
+			HideCursor();
+			textattr(WHITE);
 			system("pause");
 			return 0;
 		}
 		else if (out != 1)
 		{
+			textcolor(RED);
 			printf("Ошибка, такой функции в программе нет!Сбой программы!\n");
+			HideCursor();
+			textattr(WHITE);
 			system("pause");
 			return 0;
 		}
 		else
 		{
+			textcolor(GREEN);
 			printf("Продолжаем игру!\n");
 		}
 	}
