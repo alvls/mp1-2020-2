@@ -173,7 +173,7 @@ int main()
 			gotoxy(40,0);
 			textattr(RED);
 			textbackground(WHITE);
-			printf("Поздравляю! Вы угадали число!\n\n\n");
+			printf("Поздравляю! Вы угадали число!\n\n");
 			textattr(BLUE);
 			printf("Уважаемый пользователь, ваша статистика:\n");
 			textattr(RED);
