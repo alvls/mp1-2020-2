@@ -28,9 +28,9 @@ void main()
 		arr[i] = arr[0];
 	for (i = 1; i < n; i++)
 	{
-			do
+		do
 			{
-				t = rand() % 10;
+			  t = rand() % 10;
 			} while ((arr[0] == t)|| (arr[1] == t) || (arr[2] == t) || (arr[3] == t) || (arr[4] == t));
 		arr[i] = t;
 	}
@@ -38,11 +38,12 @@ void main()
 		b = b * 10 + arr[i];
 	while (1)
 	{
-		printf("Попытайтесь отгадать число, не содержащее одинаковых цифр.  \n");
+		printf("Попытайтесь отгадать число, не содержащее одинаковых цифр. Если хотите закончить, введите 0 \n");
 		scanf_s("%d", &P);
 		if (P == 0)
 		{
 			printf("Вы почти отгадали число %d\n", b);
+			printf("Всего попыток: %d \n", count-1);
 			printf("Конец работы\n");
 			break;
 		}
@@ -53,7 +54,10 @@ void main()
 			if ((step == arr[0]) || (step == arr[1]) || (step == arr[2]) || (step == arr[3]) || (step == arr[4]))
 				cow++;
 			if (step == arr[i])
+			{
 				buffalo++;
+				cow--;
+			}
 		}
 		if (buffalo == n)
 		{
