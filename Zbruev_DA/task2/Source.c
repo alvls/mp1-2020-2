@@ -24,7 +24,6 @@ void main()
 	{
 		srand(time(NULL));
 		N = rand() % 1000 + 1;
-		//printf("%d\n", N);
 		printf("Попытайтесь отгадать число от 1 до 1000 \n");
 		scanf_s("%d", &P);
 		while (N != P) 
@@ -58,9 +57,9 @@ void main()
 			if (b == '>')
 			{
 				if (step % 2 == 0)
-					s = s + step;
-				else
 					s = s + step+1;
+				else
+					s = s + step;
 				t2++;
 			}
 			else
@@ -68,9 +67,9 @@ void main()
 				if (b == '<')
 				{
 					if (step % 2 == 0)
-						s = s - step;
-					else
 						s = s - step-1;
+					else
+						s = s - step;
 					t2++;
 				}
 				else
