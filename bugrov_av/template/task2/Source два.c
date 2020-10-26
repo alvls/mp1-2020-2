@@ -24,9 +24,9 @@ met1: srand(time(NULL));
 	switch (n)
 	{
 	case 1:
+		printf("Введите предполагаемое числo\n");
 		while (a != num)
 		{
-			printf("Введите предполагаемое числo\n");
 			scanf("%d", &a);
 			i++;
 			if (a < num)
