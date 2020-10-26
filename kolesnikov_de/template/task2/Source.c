@@ -24,7 +24,6 @@ void main() {
 				if ((num < 1001) && (num > 0))
 					break;
 			}
-
 			if (num < ran) {
 				printf("The hidden number is greater than your\n");
 				continue;
@@ -73,10 +72,10 @@ void main() {
 		}
 	}
 	printf("Number of try`s = %d\n", numoftry);
-	printf("Exit the program?\n");
+	printf("Exit the program(y)?\n");
 	do {
 		scanf_s("%c", &out);
 	} while (out == '\n');
-	if (out == 'yes')
+	if (out == 'y')
 		return;
 }
