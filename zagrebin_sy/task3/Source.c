@@ -9,10 +9,11 @@ void main() {
 	int n=0, x, found;
 	char c;
 	int i, j, att = 0;
-	int s = 0;
 
 	int e[5];
 	int en;
+
+	int cows, bulls = 0;
 
 
 	while (n < 2 || n>5) {//get length
@@ -31,8 +32,9 @@ void main() {
 		arr[i] = x;
 	}
 
-	while (s != n) {
-		s = 0;
+	while (bulls != n) {
+		bulls = 0;
+		cows = 0;
 		att++;
 		printf("Enter your number \n");//get user number
 		while (c = getchar() != '\n');
@@ -46,14 +48,14 @@ void main() {
 			for (j = 0; j < n; j++)
 				if (arr[j] == e[i]) {
 					if (i == j) {
-						printf("%d on right position \n", e[i]);
-						s++;
+						bulls++;
 					}
 					else {
-						printf("%d on wrong position \n", e[i]);
+						cows++;
 					}
 				}
 		}
+		printf("You got %d cows and %d bulls \n", cows, bulls);
 	}
 	printf("Finally you win. You spent %d attempts \n", att);
 	scanf_s("%d", &x);
