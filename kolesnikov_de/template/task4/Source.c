@@ -1,4 +1,4 @@
-#define NumOfProducts 10
+﻿#define NumOfProducts 10
 #include <stdio.h>
 int code,lastbarcode,count = 0,temp1, temp2,lastcode=-1,i=0,autoen=0,countproducts=0,sum=0,sumd=0,totalsum=0,k=0,
 productcount[NumOfProducts] = { 0 }, barcodeout[NumOfProducts] = { 0 };
@@ -22,7 +22,6 @@ int descriptionsize[NumOfProducts][2] = {
 double discountlist[] = {10,25,45,15,20,10,5,5,90,50 };
 
 
-
 void addtoout(int code, int barcode) {
 	temp1 = barcodeout[code];
 	if (temp1 != 1) {
@@ -32,7 +31,6 @@ void addtoout(int code, int barcode) {
 	else
 		printf("This barcode is already added to cheque\n");
 }
-	
 	
 void notoout(int code,int barcode) {
 	barcodeout[code] = 0;
@@ -54,10 +52,12 @@ void FinalSum(int mode) {
 		}
 	}
 	if (mode == 1) {
-		printf("Sum without diskount`s = %d, sum of discounts = %d, total sum = %d\n", sum, sumd, totalsum);
+		printf("Sum without diskount`s = %dp\nSum of discounts = %dp\n"
+			"--------------------"
+			"-----------\nTotal sum = %dp\n", sum, sumd, totalsum);
 	}
 	else
-		printf("Total sum = %d\n", totalsum);
+		printf("Total sum = %dp\n", totalsum);
 
 }
 void seedescription(int code) {
@@ -84,34 +84,41 @@ void scanproduct() {
 	if (autoen == 1) {
 		addtoout(lastcode,lastbarcode);
 	}
-
 }
 void makeout() {
-	printf("Discription\n");
+	system("cls");
+	printf("\t\t\t\t ------------\n");
+	printf("\t\t\t\t|   Cheque   |\n");
+	printf("\t\t\t\t ------------\n");
+
 	for (i = 0; i < NumOfProducts; i++) {
 		if (barcodeout[i] == 1){
 			k += 1;
 			printf("%d. ", k);
 			seedescription(i);
-			printf(" Price: %d",pricelist[i]);
+			printf(" Price: %dp",pricelist[i]);
 			temp1 = productcount[i];
 			printf(" Count: %d", temp1);
-			printf(" Total sum = %d\n", summator(i,temp1));
+			printf(" Total sum = %dp\n", summator(i,temp1));
 			printf("\n");
 		}
 		
 	}
-	printf("\n");
-	printf("\n");
+	printf("\n\n");
+	printf("\t\t\t\t  ---------\n");
+	printf("\t\t\t\t |  TOTAL  |\n");
+	printf("\t\t\t\t  ---------\n");
 	FinalSum(1);
+	printf("\n");
 	k = 0;
+	system("pause");
 }
 
 int main() {
-
 	while (1) {
 		printf("Input command:\n1-scan product\n2-see product description\n3-add product data to receipt\n"
-		"4-generate a receipt\n5-calculate a total ammount\n6-delete product from receipt\n7-automatic mode(auto add after scan)\n0-EXIT\n");
+		"4-generate a receipt\n5-calculate a total ammount"
+		"\n6-delete product from receipt\n7-automatic mode(auto add after scan)\n0-EXIT\n");
 		scanf_s("%d", &code);
 		switch (code)
 		{
