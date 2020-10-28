@@ -1,6 +1,6 @@
 #define NumOfProducts 10
 #include <stdio.h>
-int code,lastbarcode,count = 0,temp1, temp2,lastcode=-1,i=0, sum=0, sumd=0,totalsum=0,autoen=0,countproducts=0,
+int code,lastbarcode,count = 0,temp1, temp2,lastcode=-1,i=0,autoen=0,countproducts=0,sum=0,sumd=0,totalsum=0,k=0,
 productcount[NumOfProducts] = { 0 }, barcodeout[NumOfProducts] = { 0 };
 
 //SETTING DATA
@@ -19,7 +19,7 @@ int descriptionsize[NumOfProducts][2] = {
 	{0,32},{32,81},{81,112},{112,137} ,{137,164} ,{164,200},
 	{200,244} ,{244,287} ,{287,331} ,{331,374}
 };
-float discountlist[] = {10,25,45,15,20,10,5,5,90,50 };
+double discountlist[] = {10,25,45,15,20,10,5,5,90,50 };
 
 
 
@@ -40,9 +40,10 @@ void notoout(int code,int barcode) {
 }
 int summator(int code,int count) {
 	temp1 = (pricelist[code]);
-	return((temp1-(temp1 * (discountlist[code] / 100))*count));
+	return((temp1-(temp1 * (discountlist[code] / 100)))*count);
 }
 void FinalSum(int mode) {
+	totalsum = sumd = sum = 0;
 	for (i = 0; i < NumOfProducts; i++) {
 		if (barcodeout[i] == 1) {
 			temp1 = pricelist[i];
@@ -65,7 +66,6 @@ void seedescription(int code) {
 	for (temp1; temp1 < temp2; temp1++) {
 		printf("%c", description[temp1]);
 	}
-	printf("\n");
 }
 void scanproduct() {
 	printf("Input barcode\n");
@@ -87,8 +87,11 @@ void scanproduct() {
 
 }
 void makeout() {
+	printf("Discription\n");
 	for (i = 0; i < NumOfProducts; i++) {
 		if (barcodeout[i] == 1){
+			k += 1;
+			printf("%d. ", k);
 			seedescription(i);
 			printf(" Price: %d",pricelist[i]);
 			temp1 = productcount[i];
@@ -101,6 +104,7 @@ void makeout() {
 	printf("\n");
 	printf("\n");
 	FinalSum(1);
+	k = 0;
 }
 
 int main() {
@@ -115,8 +119,10 @@ int main() {
 			scanproduct();
 			break;
 		case 2:
-			if (lastcode != -1)
+			if (lastcode != -1) {
 				seedescription(lastcode);
+				printf("\n");
+			}
 			else
 				printf("You don`t scan a product\n");
 			break;
