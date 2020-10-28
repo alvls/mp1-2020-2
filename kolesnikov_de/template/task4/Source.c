@@ -1,6 +1,6 @@
 #define NumOfProducts 10
 #include <stdio.h>
-int code,lastbarcode,count = 0,temp1, temp2,lastcode,i=0, sum=0, sumd=0,totalsum=0,autoen=0,countproducts=0,k,
+int code,lastbarcode,count = 0,temp1, temp2,lastcode,i=0, sum=0, sumd=0,totalsum=0,autoen=0,countproducts=0,
 productcount[NumOfProducts] = { 0 }, barcodeout[NumOfProducts] = { 0 };
 
 //SETTING DATA
@@ -44,6 +44,9 @@ void FinalSum(int mode) {
 			sumd += temp1*(discountlist[i]/100)*temp2;
 			totalsum = (sum - sumd);
 		}
+	}
+	if (i == NumOfProducts) {
+		printf("Don`t find that bar code\n");
 	}
 	if (mode == 1) {
 		printf("Sum without diskount`s = %d, sum of discounts = %d, total sum = %d\n", sum, sumd, totalsum);
