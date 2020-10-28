@@ -1,6 +1,6 @@
 #define NumOfProducts 10
 #include <stdio.h>
-int code,lastbarcode,count = 0,temp1, temp2,lastcode,i=0, sum=0, sumd=0,totalsum=0,autoen=0,countproducts=0,
+int code,lastbarcode,count = 0,temp1, temp2,lastcode=-1,i=0, sum=0, sumd=0,totalsum=0,autoen=0,countproducts=0,
 productcount[NumOfProducts] = { 0 }, barcodeout[NumOfProducts] = { 0 };
 
 //SETTING DATA
@@ -16,20 +16,27 @@ char description[] = ("Smart Digital Picture Frame 10.1Multipurpose Foldable Com
 	"Kitchen Storage Baker's Rack with Wood Table"
 	"Step Hair Dryer And Volumizer Hot Air Brush");
 int descriptionsize[NumOfProducts][2] = {
-	{0,32},{32,81},{81,112},{112,137} ,{137,168} ,{168,205},
-	{205,263} ,{263,307} ,{307,345} ,{345,388}
+	{0,32},{32,81},{81,112},{112,137} ,{137,164} ,{164,200},
+	{200,244} ,{244,287} ,{287,331} ,{331,374}
 };
 float discountlist[] = {10,25,45,15,20,10,5,5,90,50 };
 
 
 
-void addtoout() {
-	barcodeout[lastcode] = 1;
-	printf("Successfully added product with barcode = %d\n",lastbarcode);
+void addtoout(int code, int barcode) {
+	temp1 = barcodeout[code];
+	if (temp1 != 1) {
+		barcodeout[code] = 1;
+		printf("Successfully added product with barcode = %d\n", barcode);
+	}
+	else
+		printf("This barcode is already added to cheque\n");
 }
-void notoout() {
-	barcodeout[lastcode] = 0;
-	printf("Successfully removed product with barcode = %d\n", lastbarcode);
+	
+	
+void notoout(int code,int barcode) {
+	barcodeout[code] = 0;
+	printf("Successfully removed product with barcode = %d\n", barcode);
 }
 int summator(int code,int count) {
 	temp1 = (pricelist[code]);
@@ -45,9 +52,6 @@ void FinalSum(int mode) {
 			totalsum = (sum - sumd);
 		}
 	}
-	if (i == NumOfProducts) {
-		printf("Don`t find that bar code\n");
-	}
 	if (mode == 1) {
 		printf("Sum without diskount`s = %d, sum of discounts = %d, total sum = %d\n", sum, sumd, totalsum);
 	}
@@ -55,9 +59,9 @@ void FinalSum(int mode) {
 		printf("Total sum = %d\n", totalsum);
 
 }
-void seedescription() {
-	temp1 = descriptionsize[lastcode][0];
-	temp2 = descriptionsize[lastcode][1];
+void seedescription(int code) {
+	temp1 = descriptionsize[code][0];
+	temp2 = descriptionsize[code][1];
 	for (temp1; temp1 < temp2; temp1++) {
 		printf("%c", description[temp1]);
 	}
@@ -67,7 +71,6 @@ void scanproduct() {
 	printf("Input barcode\n");
 	scanf_s("%d", &lastbarcode);
 	for (i = 0; i < NumOfProducts; i++) {
-		printf("Yeah");
 		if (index[i] == lastbarcode) {
 			productcount[i] += 1;
 			countproducts += 1;
@@ -75,19 +78,18 @@ void scanproduct() {
 			break;
 		}
 	}
+	if (i == NumOfProducts) {
+		printf("Don`t find that bar code\n");
+	}
 	if (autoen == 1) {
-		addtoout();
+		addtoout(lastcode,lastbarcode);
 	}
 
 }
 void makeout() {
 	for (i = 0; i < NumOfProducts; i++) {
 		if (barcodeout[i] == 1){
-			temp1 = descriptionsize[i][0];
-			temp2 = descriptionsize[i][1];
-			for (temp1; temp1 < temp2; temp1++) {
-				printf("%c", description[temp1]);
-			}
+			seedescription(i);
 			printf(" Price: %d",pricelist[i]);
 			temp1 = productcount[i];
 			printf(" Count: %d", temp1);
@@ -113,10 +115,13 @@ int main() {
 			scanproduct();
 			break;
 		case 2:
-			seedescription();
+			if (lastcode != -1)
+				seedescription(lastcode);
+			else
+				printf("You don`t scan a product\n");
 			break;
 		case 3:
-			addtoout();
+			addtoout(lastcode,lastbarcode);
 			break;
 		case 4:
 			makeout();
@@ -126,7 +131,7 @@ int main() {
 			FinalSum(0);
 			break;
 		case 6:
-			notoout();
+			notoout(lastcode,lastbarcode);
 		case 7:
 			if (autoen != 1)
 				autoen = 1;
