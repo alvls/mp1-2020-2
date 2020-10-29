@@ -31,9 +31,9 @@ void info(int code) {
 void main() {
 	int code;
 
-	printf("Welcome to Pyatorochka \nType 0 to exit \n");
+	printf("Welcome to Pyatorochka \nType -1 to exit \n");
 	scanf_s("%d", &code);
-	while (code) {
+	while (code != -1) {
 		info(code);
 		scanf_s("%d", &code);
 	}
