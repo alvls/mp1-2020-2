@@ -50,6 +50,7 @@ void notoout(int code,int barcode) {
 	}
 	
 }
+void logo();
 int summator(int code,int count) {
 	temp1 = (pricelist[code]);
 	return((temp1-(temp1 * (discountlist[code] / 100)))*count);
@@ -84,7 +85,7 @@ void cleanout() {
 	}
 	printf("Succsessfully clean cheque");
 }
-
+void logo();
 void scanproduct() {
 	printf("Input barcode\n");
 	scanf_s("%d", &lastbarcode);
@@ -130,11 +131,18 @@ void makeout() {
 	printf("\n");
 	k = 0;
 	printf("\t\t\tTHANKS FOR YOUR SHOPPING!\n");
+
+
+	
 	timesec();
 	system("pause");
+	
 }
-
+     
+    
 int main() {
+	logo();
+	printf("WELCOME TO OUR STORE!\n\n");
 	while (1) {
 		printf("Input command:\n1-scan product\n2-see product description\n3-add product data to receipt\n"
 		"4-generate a receipt\n5-calculate a total ammount"
@@ -178,6 +186,30 @@ int main() {
 			return 0;
 		}
 	}
+
 }
 
+void logo() {
+	printf("                       ,########.                             \n"
+		"                 .#########      ,(##########///                 \n"
+		"                #########     (########(////////*                \n"
+		"              .#######(    ////////////////////    ##            \n"
+		"             ############/     .//////////.     *######       \n"
+		"           ############(######             .############         \n"
+		"          #############     #############################.       \n"
+		"         #############(       *###########################       \n"
+		"        ,#############        #############################      \n"
+		"        ##############                      .##############      \n"
+		"        #############                          ############      \n"
+		"        (############   ,#########.             (##########      \n"
+		"         ############################            ##########      \n"
+		"         (###########################(           #########       \n"
+		"          (##########################           #########        \n"
+		"           .#######################            ########         \n"
+		"             (################(.             *########           \n"
+		"               *##                         #########			  \n"
+		"                                       ##########                \n"
+		"                               ./###########(                    \n"
+		"                              .*///*.							  \n");
+}
 
