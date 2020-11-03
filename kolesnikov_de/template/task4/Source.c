@@ -1,25 +1,20 @@
 ﻿#define NumOfProducts 10
 #include <stdio.h>
+#include <time.h>
 int code,lastbarcode,count = 0,temp1, temp2,lastcode=-1,i=0,autoen=0,countproducts=0,sum=0,sumd=0,totalsum=0,k=0,
 productcount[NumOfProducts] = { 0 }, barcodeout[NumOfProducts] = { 0 };
+
+
 
 //SETTING DATA
 int index[] = { 4343,5124,3213,4342,6543,6542,6876,5323,2314,9876 };
 int pricelist[] = { 1543,1654,7654,2434,5453,434,545,6325,9876, 4353};
-char description[] = ("Smart Digital Picture Frame 10.1Multipurpose Foldable Computer Study Desk - Black"
-	"2-Piece Melamine Dinnerware Set"
-	"Moving Boxes with Handles"
-	"Dual Performance Bath Towel"
-	"Foldable Clothes Drying Laundry Rack"
-	"Replacement Water Filters for Water Pitchers"
-	"Memory Foam With Strong Innerspring Support"
-	"Kitchen Storage Baker's Rack with Wood Table"
-	"Step Hair Dryer And Volumizer Hot Air Brush");
-int descriptionsize[NumOfProducts][2] = {
-	{0,32},{32,81},{81,112},{112,137} ,{137,164} ,{164,200},
-	{200,244} ,{244,287} ,{287,331} ,{331,374}
-};
-double discountlist[] = {10,25,45,15,20,10,5,5,90,50 };
+char* decription[NumOfProducts] = { {"Smart Digital Picture Frame 10.1"},{"Multipurpose Foldable Computer Study Desk - Black"},
+	{"2-Piece Melamine Dinnerware Set"},{"Moving Boxes with Handles"},{"Dual Performance Bath Towel"},
+	{"Foldable Clothes Drying Laundry Rack"},{"Replacement Water Filters for Water Pitchers"},
+	{"Memory Foam With Strong Innerspring Support"},{"Kitchen Storage Baker's Rack with Wood Table"},
+	{"Step Hair Dryer And Volumizer Hot Air Brush"} };
+double discountlist[] = { 10,25,45,15,20,10,5,5,90,50 };
 
 
 void addtoout(int code, int barcode) {
@@ -31,10 +26,29 @@ void addtoout(int code, int barcode) {
 	else
 		printf("This barcode is already added to cheque\n");
 }
-	
+void timesec() {
+	time_t result = time(NULL);
+	char str[26];
+	ctime_s(str, sizeof str, &result);
+	printf("Cheque print time:%s\n",str);
+}
+
 void notoout(int code,int barcode) {
-	barcodeout[code] = 0;
-	printf("Successfully removed product with barcode = %d\n", barcode);
+	int mode;
+	do {
+		printf("Delete all product data(set count = 0 and delete from chequek) OR  Just delete product from cheque?(1,2)");
+		scanf_s("%d", &mode);
+	} while (mode > 2 || mode < 1);
+	if (mode == 1) {
+		productcount[code] = 0;
+		barcodeout[code] = 0;
+		printf("Successfully delete information of product with barcode = %d\n", barcode);
+	}
+	if (mode == 2){
+		barcodeout[code] = 0;
+		printf("Successfully removed product with barcode = %d\n", barcode);
+	}
+	
 }
 int summator(int code,int count) {
 	temp1 = (pricelist[code]);
@@ -61,12 +75,16 @@ void FinalSum(int mode) {
 
 }
 void seedescription(int code) {
-	temp1 = descriptionsize[code][0];
-	temp2 = descriptionsize[code][1];
-	for (temp1; temp1 < temp2; temp1++) {
-		printf("%c", description[temp1]);
-	}
+	printf("%s", decription[code]);
 }
+void cleanout() {
+	for (int i = 0; i < NumOfProducts; i++) {
+		barcodeout[i] = 0;
+		productcount[i] = 0;
+	}
+	printf("Succsessfully clean cheque");
+}
+
 void scanproduct() {
 	printf("Input barcode\n");
 	scanf_s("%d", &lastbarcode);
@@ -87,7 +105,7 @@ void scanproduct() {
 }
 void makeout() {
 	system("cls");
-	printf("\t\t\t\t ------------\n");
+	printf("\a\t\t\t\t ------------\n");
 	printf("\t\t\t\t|   Cheque   |\n");
 	printf("\t\t\t\t ------------\n");
 
@@ -111,6 +129,8 @@ void makeout() {
 	FinalSum(1);
 	printf("\n");
 	k = 0;
+	printf("\t\t\tTHANKS FOR YOUR SHOPPING!\n");
+	timesec();
 	system("pause");
 }
 
@@ -118,7 +138,7 @@ int main() {
 	while (1) {
 		printf("Input command:\n1-scan product\n2-see product description\n3-add product data to receipt\n"
 		"4-generate a receipt\n5-calculate a total ammount"
-		"\n6-delete product from receipt\n7-automatic mode(auto add after scan)\n0-EXIT\n");
+		"\n6-delete product from receipt\n7-automatic mode(auto add after scan)\n8-clear the cheque\n0-EXIT\n");
 		scanf_s("%d", &code);
 		switch (code)
 		{
@@ -150,6 +170,9 @@ int main() {
 				autoen = 1;
 			else
 				autoen = 0;
+			break;
+		case 8:
+			cleanout();
 			break;
 		case 0:
 			return 0;
