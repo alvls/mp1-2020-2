@@ -1,4 +1,4 @@
-#include <stdio.h>
+п»ї#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include<locale.h>
@@ -6,7 +6,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 int tov[4];
 
-void PrintTovar(int* tov, int* C, int* b, char* D) //информация о отсканированном продукте //сколько раз отсканирован один продукт 
+void PrintTovar(int* tov, int* C, int* b, char* D) //РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РѕС‚СЃРєР°РЅРёСЂРѕРІР°РЅРЅРѕРј РїСЂРѕРґСѓРєС‚Рµ //СЃРєРѕР»СЊРєРѕ СЂР°Р· РѕС‚СЃРєР°РЅРёСЂРѕРІР°РЅ РѕРґРёРЅ РїСЂРѕРґСѓРєС‚ 
 {
 	int k = 0;
 	for (int i = 0; i < 4; i++)
@@ -15,17 +15,17 @@ void PrintTovar(int* tov, int* C, int* b, char* D) //информация о отсканированно
 	if (k == 4)
 	{
 		*b+=1;
-		printf("%s %5d шт.\n", D, *b);
+		printf("%s %5d С€С‚.\n", D, *b);
 	}
 	return;
 }
-void chek1(int b, int l, int h, char* D, int* prise_itog, int* prise_itog_sale) //чек
+void chek1(int b, int l, int h, char* D, int* prise_itog, int* prise_itog_sale) //С‡РµРє
 {
 	if (b != 0)
 	{
 		int prise= b * l;
 		int prise_sale = b *(l- l * h / 100);
-		printf("%50s %10d*%d=%1dруб\n              скидка: %d руб\n", D, b, (l - l * h / 100), prise_sale, (prise-prise_sale));
+		printf("%50s %10d*%d=%1dСЂСѓР±\n              СЃРєРёРґРєР°: %d СЂСѓР±\n", D, b, (l - l * h / 100), prise_sale, (prise-prise_sale));
 		*prise_itog += prise;
 		*prise_itog_sale+= prise_sale;
 		return;
@@ -34,65 +34,65 @@ void chek1(int b, int l, int h, char* D, int* prise_itog, int* prise_itog_sale) 
 int main()
 {
 	setlocale(LC_ALL, "rus");
-	int notebook96[4] = { 2,3,8,9 }; //120 рублей 
+	int notebook96[4] = { 2,3,8,9 }; //120 СЂСѓР±Р»РµР№ 
 	int notebook9 = 120;
 	int blok9 = 0;
-	char Arr1[SIZE] = "2389 Тетрадка 96 листов 120 руб./шт.";
+	char Arr1[SIZE] = "2389 РўРµС‚СЂР°РґРєР° 96 Р»РёСЃС‚РѕРІ 120 СЂСѓР±./С€С‚.";
 
-	int notebook48[4] = { 1,8,5,0 }; //100 рублей 
+	int notebook48[4] = { 1,8,5,0 }; //100 СЂСѓР±Р»РµР№ 
 	int notebook4 = 100;
 	int blok4 = 0;
-	char Arr2[SIZE] = "1850 Тетрадка 48 листов 100 руб./шт.";
+	char Arr2[SIZE] = "1850 РўРµС‚СЂР°РґРєР° 48 Р»РёСЃС‚РѕРІ 100 СЂСѓР±./С€С‚.";
 
-	int penblue[4] = { 3,2,5,1 }; //80 рублей
+	int penblue[4] = { 3,2,5,1 }; //80 СЂСѓР±Р»РµР№
 	int penb = 80;
 	int rychkab = 0;
-	char Arr3[SIZE] = "3251 Синяя ручка 80 руб./шт.";
+	char Arr3[SIZE] = "3251 РЎРёРЅСЏСЏ СЂСѓС‡РєР° 80 СЂСѓР±./С€С‚.";
 
-	int penblack[4] = { 6,7,1,4 }; //90 рублей 
+	int penblack[4] = { 6,7,1,4 }; //90 СЂСѓР±Р»РµР№ 
 	int pen = 90;
 	int rychka = 0;
-	char Arr4[SIZE] = "6751 Чёрная ручка 90 руб./шт.";
+	char Arr4[SIZE] = "6751 Р§С‘СЂРЅР°СЏ СЂСѓС‡РєР° 90 СЂСѓР±./С€С‚.";
 
-	int pencils[4] = { 9,6,6,2 }; //150 рублей
+	int pencils[4] = { 9,6,6,2 }; //150 СЂСѓР±Р»РµР№
 	int pencl = 150;
 	int pencil = 0;
-	char Arr5[SIZE] = "9662 Набор карандашей 150 руб./шт.";
+	char Arr5[SIZE] = "9662 РќР°Р±РѕСЂ РєР°СЂР°РЅРґР°С€РµР№ 150 СЂСѓР±./С€С‚.";
 
-	int eraser[4] = { 5,7,3,9 }; //20 рублей 
+	int eraser[4] = { 5,7,3,9 }; //20 СЂСѓР±Р»РµР№ 
 	int eras = 20;
 	int er = 0;
-	char Arr6[SIZE] = "5739 Ластик 20 руб./шт.";
+	char Arr6[SIZE] = "5739 Р›Р°СЃС‚РёРє 20 СЂСѓР±./С€С‚.";
 
-	int penscolor[4] = { 1,6,1,7 }; //160 рублей 
+	int penscolor[4] = { 1,6,1,7 }; //160 СЂСѓР±Р»РµР№ 
 	int pencol = 160;
 	int penc = 0;
-	char Arr7[SIZE] = "1617 Набор цветных ручек 160 руб./шт.";
+	char Arr7[SIZE] = "1617 РќР°Р±РѕСЂ С†РІРµС‚РЅС‹С… СЂСѓС‡РµРє 160 СЂСѓР±./С€С‚.";
 
-	int stickers[4] = { 2,8,6,4 }; //100 рублей
+	int stickers[4] = { 2,8,6,4 }; //100 СЂСѓР±Р»РµР№
 	int sticker = 100;
 	int stick = 0;
-	char Arr8[SIZE] = "2864 Набор стикеров 100 руб./шт.";
+	char Arr8[SIZE] = "2864 РќР°Р±РѕСЂ СЃС‚РёРєРµСЂРѕРІ 100 СЂСѓР±./С€С‚.";
 
-	int line15[4] = { 5,8,2,4 }; //40 рублей 
+	int line15[4] = { 5,8,2,4 }; //40 СЂСѓР±Р»РµР№ 
 	int line1 = 40;
 	int line = 0;
-	char Arr9[SIZE] = "5824 Линейка 15 см. 40 руб./шт.";
+	char Arr9[SIZE] = "5824 Р›РёРЅРµР№РєР° 15 СЃРј. 40 СЂСѓР±./С€С‚.";
 
-	int line20[4] = { 8,7,0,3 }; //50 рублей 
+	int line20[4] = { 8,7,0,3 }; //50 СЂСѓР±Р»РµР№ 
 	int line2 = 50;
 	int lin = 0;
-	char Arr10[SIZE] = "8703 Линейка 20 см. 50 руб./шт.";
+	char Arr10[SIZE] = "8703 Р›РёРЅРµР№РєР° 20 СЃРј. 50 СЂСѓР±./С€С‚.";
 
 	int prise_itog=0;
 	int prise_itog_sale=0;
 	int tovar = 0;
-	printf("Введите штрихкод товара ");
+	printf("Р’РІРµРґРёС‚Рµ С€С‚СЂРёС…РєРѕРґ С‚РѕРІР°СЂР° ");
 	scanf_s("%d", &tovar);
-	while (tovar != 0) //сканируем товары
+	while (tovar != 0) //СЃРєР°РЅРёСЂСѓРµРј С‚РѕРІР°СЂС‹
 	{
 		system("cls");
-		for (int i = 4 - 1; i >= 0; i--) //переводит штрихкод в массив 
+		for (int i = 4 - 1; i >= 0; i--) //РїРµСЂРµРІРѕРґРёС‚ С€С‚СЂРёС…РєРѕРґ РІ РјР°СЃСЃРёРІ 
 		{
 			int m = tovar % 10;
 			tovar = tovar / 10;
@@ -109,14 +109,14 @@ int main()
 		PrintTovar(tov, line15, &line, Arr9);
 		PrintTovar(tov, line20, &lin, Arr10);
 
-		printf("Введите штрихкод товара ");
+		printf("Р’РІРµРґРёС‚Рµ С€С‚СЂРёС…РєРѕРґ С‚РѕРІР°СЂР° ");
 		scanf_s("%d", &tovar);
 	}
 	system("cls");
 	if (tovar == 0)
 	{
-		printf("                      ЧЕК\n");
-		chek1(blok9, notebook9, 10, Arr1, &prise_itog, &prise_itog_sale); //третий параметр - скидка 
+		printf("                      Р§Р•Рљ\n");
+		chek1(blok9, notebook9, 10, Arr1, &prise_itog, &prise_itog_sale); //С‚СЂРµС‚РёР№ РїР°СЂР°РјРµС‚СЂ - СЃРєРёРґРєР° 
 		chek1(blok4, notebook4, 5, Arr2, &prise_itog, &prise_itog_sale);
 		chek1(rychkab, penb, 20, Arr3, &prise_itog, &prise_itog_sale);
 		chek1(rychka, pen, 10, Arr4, &prise_itog, &prise_itog_sale);
@@ -127,10 +127,10 @@ int main()
 		chek1(line, line1, 5, Arr9, &prise_itog, &prise_itog_sale);
 		chek1(lin, line2, 25, Arr10, &prise_itog, &prise_itog_sale);
 
-		printf("\nСумма без скидки: %48d", prise_itog);
-		printf("\nСумма с учётом скидки: %43d", prise_itog_sale);
-		printf("\nИтого скидка по чеку: %43d", (prise_itog - prise_itog_sale));
-		printf("\n\nИТОГ: %d\n", prise_itog_sale);
+		printf("\nРЎСѓРјРјР° Р±РµР· СЃРєРёРґРєРё: %48d", prise_itog);
+		printf("\nРЎСѓРјРјР° СЃ СѓС‡С‘С‚РѕРј СЃРєРёРґРєРё: %43d", prise_itog_sale);
+		printf("\nРС‚РѕРіРѕ СЃРєРёРґРєР° РїРѕ С‡РµРєСѓ: %43d", (prise_itog - prise_itog_sale));
+		printf("\n\nРРўРћР“: %d\n", prise_itog_sale);
 	}
 	system("pause");
 }
