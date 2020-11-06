@@ -26,7 +26,7 @@
 рассчитать итоговую сумму к оплате.*/
 
 int check_numbers[SIZE] = { 1001,1002,1003,1004,1005,1006,1007,1008,1009,1010 }; //поле штрих-кодов, может начинаться только с 1,2,..,9
-char products[SIZE][17] = { "Колбаса 300г","Белый хлеб","Сосиски 150г","Картошка 1кг","Чипсы Lays 90г", "Сметана","Сыр 150г","Ржаной хлеб","Доширак","Творог 220г" };//названия продуктов
+char products[SIZE][17] = { "Колбаса 300г","Белый хлеб","Сосиски 150г","Картошка 1кг","Чипсы Lays 90г", "Сметана","Сыр 150г","Ржаной хлеб","Доширак","Творог" };//названия продуктов
 int prices[SIZE] = { 350,27,156,30,75,60,130,27, 38, 80}; //цены
 int kolvo_products[SIZE] = { 0 }; //кол-во каждого продукта
 int sequence_ind[SIZE] = { 0 }; //последовательность индексов при сканировании
@@ -123,7 +123,7 @@ void print_check() //печатает чек
 	printf("\n");
 	for (i; i < ch; i++)
 	{
-		for (j; j < 17; j++)
+		for (j=0; j < 17; j++)
 		{
 			printf("%c", products[sequence_ind[i]][j]); //название
 		}
@@ -132,7 +132,7 @@ void print_check() //печатает чек
 		printf("%15.d", kolvo_products[sequence_ind[i]]); //кол-во продуктов
 		printf("%13.lfр\n", sales_prices[sequence_ind[i]] * kolvo_products[sequence_ind[i]]); //общая стоимость данного продукта
 	}
-	printf("\n");
+	
 }
 
 void main()
@@ -174,13 +174,14 @@ void main()
 			continue;
 		}
 		kolvo_index_sequence(index_products); //передаем функции индекс, чтобы посчитать кол-во этого продукта и запомнить порядок следования продуктов
-		total_price += prices[sequence_ind[index_products]];
-		final_price += sales_prices[sequence_ind[index_products]];
+		total_price += prices[index_products];
+		final_price += sales_prices[index_products];
 		show_information(index_products); 
 		while ((c = getchar()) != '\n');
 	}
 	printf("\n");
 	print_check();
+	printf("\n");
 	printf("Общая стоимость:%dр\n", total_price);
 	printf("Скидка:%dр\n", total_price - final_price);
 	printf("К оплате:%dр\n", final_price);
