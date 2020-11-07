@@ -2,7 +2,9 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <time.h>
-#define SIZE 10 //кол-во товаров
+#define SIZE 14
+
+//кол-во товаров
 /*
 *
 Разработать программу «Электронная касса».
@@ -25,36 +27,36 @@
 сформировать чек за покупку,
 рассчитать итоговую сумму к оплате.*/
 
-int check_numbers[SIZE] = { 1001,1002,1003,1004,1005,1006,1007,1008,1009,1010 }; //поле штрих-кодов, может начинаться только с 1,2,..,9
-char products[SIZE][17] = { "Колбаса 300г","Белый хлеб","Сосиски 150г","Картошка 1кг","Чипсы Lays 90г", "Сметана","Сыр 150г","Ржаной хлеб","Доширак","Творог" };//названия продуктов
-int prices[SIZE] = { 350,27,156,30,75,60,130,27, 38, 80}; //цены
+char check_numbers[SIZE][4] = { "1501","1024","6035","7234","1952","1316","3721","1428","9430","1410","1854","2803","7421","0021"}; 
+char products[SIZE][17] = { "Колбаса 300г","Белый хлеб","Сосиски 150г","Картошка 1кг","Чипсы Lays 90г", "Сметана","Сыр 150г",
+"Ржаной хлеб","Доширак","Творог 220г","Жвачка Mamba","Торт","Мороженое","Творожная масса"};//названия продуктов
+int prices[SIZE] = { 350,27,156,30,75,60,130,27, 38, 80,50,200,56,60}; //цены
 int kolvo_products[SIZE] = { 0 }; //кол-во каждого продукта
 int sequence_ind[SIZE] = { 0 }; //последовательность индексов при сканировании
 int ch; //общее кол-во отсканированных продуктов
 double sales_prices[SIZE] = { 0 }; //массив цен со скидкой(формируется случайно с шагом 5% при запуске программы)
 
-int scan_check(int code) //идентифицирует товар, возвращает его индекс
+int scan_check(char mas_code[]) //идентифицирует товар, возвращает его индекс
 {
 	int i = 0;
-	int copy = check_numbers[SIZE - 1];
-	check_numbers[SIZE - 1] = code;
-	while (check_numbers[i] != code)
-		i++;
-	if (i == SIZE - 1)
+	int j = 0;
+	int flag = 0;
+	for (i = 0; i < SIZE; i++)
 	{
-		if (copy != code)
+		for (j = 0; j < 4; j++)
 		{
-			printf("Ошибка, такого кода товара не существует, попробуйте еще раз\n");
-			check_numbers[SIZE - 1] = copy;
-			return -1;
+			if (mas_code[j] == check_numbers[i][j])
+				flag++;
 		}
-		else
-		{
-			return SIZE - 1;
-		}
+		if (flag == 4)
+			return i;
+		flag = 0;
 	}
-	check_numbers[SIZE - 1] = copy;
-	return i;
+	if (flag != 4)
+	{
+		printf("Такого штрих-кода не сущетствует, попробуйте еще раз\n");
+		return -1;
+	}
 }
 
 void kolvo_index_sequence(int i) //считает кол-во и запоминает последовательность отсканированных товаров
@@ -70,9 +72,14 @@ void print_codes() //выводит на экран список товаров со штрих-кодами
 {
 	int i = 0;
 	int j = 0;
+	int g = 0;
 	for ( i = 0; i < SIZE; i++)
 	{
-		printf("%d ", check_numbers[i]);
+		for (g = 0; g < 4; g++)
+		{
+			printf("%c", check_numbers[i][g]);
+		}
+		printf(" ");
 		for (j = 0; j < 17; j++)
 		{
 			printf("%c", products[i][j]);
@@ -108,7 +115,6 @@ void show_information(int ind) //после сканирования выводит название цену без ск
 		printf("Цена со скидкой :%.1lfр", sales_prices[ind]);
 	}
 	printf("\n");
-	printf("\n");
 }
 
 void print_check() //печатает чек
@@ -132,18 +138,20 @@ void print_check() //печатает чек
 		printf("%15.d", kolvo_products[sequence_ind[i]]); //кол-во продуктов
 		printf("%13.lfр\n", sales_prices[sequence_ind[i]] * kolvo_products[sequence_ind[i]]); //общая стоимость данного продукта
 	}
-	
 }
 
 void main()
 {
 	setlocale(LC_ALL, "Russian");
-	int code = 0;
+	char code[4] = {"0"};
+	int i = 0;
+	int flag = 0;
 	char c; //для очистки ввода
 	int final_price = 0; //цена с учетом скидок
 	int total_price = 0; //цена без скидок
 	int index_products = -1; //индекс отсканированного продукта в массиве штрих-кодов
-	int choice; //выбор пользователя о выводе списка кодов и названий товаров
+	int choice;//выбор пользователя о выводе списка кодов и названий товаров
+
 	sales(); //формирует массив цен со скидкой
 	printf("Здравствуйте, Вас приветсвует программа-сканер, хотите ознакомиться со списком товаров и их штрих-кодами?1-Да 2-Нет\n");
 	do {
@@ -159,25 +167,28 @@ void main()
 			printf("Ошибка ввода, попробуйте еще раз: ");
 	}
 	while (choice != 2);
-	printf("Чтобы закончить сканирование и получить Ваш чек, напишите комбинацию 1234\n");
-	while (code != 1234) 
+	printf("Чтобы закончить сканирование и получить Ваш чек, напишите 0000\n");
+	while (flag != 4) 
 	{
-		
 		printf("Введите штрих-код:");
-		scanf_s("%d", &code);
-		if (code == 1234)
+		while ((c = getchar()) != '\n');
+		flag = 0;
+		for (i = 0; i < 4; i++)
+		{
+			scanf_s("%c", &code[i]);
+			 if(code[i] == '0')
+				flag++;
+		}
+		if (flag == 4)
 			break;
 		index_products = scan_check(code);
 		if (index_products == -1)
-		{
-			while ((c = getchar()) != '\n');
 			continue;
-		}
-		kolvo_index_sequence(index_products); //передаем функции индекс, чтобы посчитать кол-во этого продукта и запомнить порядок следования продуктов
-		total_price += prices[index_products];
+		kolvo_index_sequence(index_products);
+		total_price += prices[index_products]; 
 		final_price += sales_prices[index_products];
-		show_information(index_products); 
-		while ((c = getchar()) != '\n');
+		show_information(index_products);
+		printf("\n");
 	}
 	printf("\n");
 	print_check();
@@ -186,5 +197,4 @@ void main()
 	printf("Скидка:%dр\n", total_price - final_price);
 	printf("К оплате:%dр\n", final_price);
 	system("pause");
-	
 }
