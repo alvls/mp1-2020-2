@@ -11,7 +11,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.c">
+    <ClCompile Include="Source(Реализация с массивом интов).c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source%28Основная%29.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
