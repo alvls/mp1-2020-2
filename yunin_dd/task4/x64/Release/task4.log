@@ -1,0 +1,7 @@
+﻿  Source.c
+C:\Users\Danii\mp1-2020-2\yunin_dd\task4\Source.c(94,18): warning C4244: функция: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Создание кода
+  Previous IPDB not found, fall back to full compilation.
+  All 12 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Создание кода завершено
+  task4.vcxproj -> C:\Users\Danii\mp1-2020-2\yunin_dd\x64\Release\task4.exe
