@@ -1,7 +1,7 @@
 ﻿#define NumOfProducts 10
 #include <stdio.h>
 #include <time.h>
-int code,lastbarcode,count = 0,temp1, temp2,lastcode=-1,i=0,autoen=0,countproducts=0,sum=0,sumd=0,totalsum=0,k=0,
+int code,lastbarcode,count = 0,temp1, temp2,lastcode=-1,i=0,autoen=0,countproducts=0,sum=0,sumd=0,totalsum=0,k=0,alarm=0,
 productcount[NumOfProducts] = { 0 }, barcodeout[NumOfProducts] = { 0 };
 
 
@@ -16,15 +16,21 @@ char* decription[NumOfProducts] = { {"Smart Digital Picture Frame 10.1"},{"Multi
 	{"Step Hair Dryer And Volumizer Hot Air Brush"} };
 double discountlist[NumOfProducts] = { 10,25,45,15,20,10,5,5,90,50 };
 
-
+//Program
 void addtoout(int code, int barcode) {
-	temp1 = barcodeout[code];
-	if (temp1 != 1) {
-		barcodeout[code] = 1;
-		printf("Successfully added product with barcode = %d\n", barcode);
+	if (alarm != 1) {
+
+		temp1 = barcodeout[code];
+		if (temp1 != 1) {
+			barcodeout[code] = 1;
+			printf("Successfully added product with barcode = %d\n", barcode);
+		}
+		else
+			printf("This barcode = %d is already added to cheque\n", barcode);
 	}
 	else
-		printf("This barcode is already added to cheque\n");
+		printf("You need to check the barcode\n");
+
 }
 void timesec() {
 	time_t result = time(NULL);
@@ -34,20 +40,24 @@ void timesec() {
 }
 
 void notoout(int code,int barcode) {
-	int mode;
-	do {
-		printf("Delete all product data(set count = 0 and delete from chequek) OR  Just delete product from cheque?(1,2)");
-		scanf_s("%d", &mode);
-	} while (mode > 2 || mode < 1);
-	if (mode == 1) {
-		productcount[code] = 0;
-		barcodeout[code] = 0;
-		printf("Successfully delete information of product with barcode = %d\n", barcode);
+	if (alarm != 1) {
+		int mode;
+		do {
+			printf("Delete all product data(set count = 0 and delete from chequek) OR  Just delete product from cheque?(1,2)");
+			scanf_s("%d", &mode);
+		} while (mode > 2 || mode < 1);
+		if (mode == 1) {
+			productcount[code] = 0;
+			barcodeout[code] = 0;
+			printf("Successfully delete information of product with barcode = %d\n", barcode);
+		}
+		if (mode == 2) {
+			barcodeout[code] = 0;
+			printf("Successfully removed product with barcode = %d\n", barcode);
+		}
 	}
-	if (mode == 2){
-		barcodeout[code] = 0;
-		printf("Successfully removed product with barcode = %d\n", barcode);
-	}
+	else
+		printf("You need to check the barcode\n");
 	
 }
 void logo();
@@ -76,7 +86,11 @@ void FinalSum(int mode) {
 
 }
 void seedescription(int code) {
-	printf("%s", decription[code]);
+	if (alarm != 1) {
+		printf("%s", decription[code]);
+	}
+	else
+		printf("You need to check the barcode\n");
 }
 void cleanout() {
 	for (int i = 0; i < NumOfProducts; i++) {
@@ -94,11 +108,13 @@ void scanproduct() {
 			productcount[i] += 1;
 			countproducts += 1;
 			lastcode = i;
+			alarm = 0;
 			break;
 		}
 	}
 	if (i == NumOfProducts) {
 		printf("Don`t find that bar code\n");
+		alarm = 1;
 	}
 	if (autoen == 1) {
 		addtoout(lastcode,lastbarcode);
@@ -120,7 +136,6 @@ void makeout() {
 			printf(" Total sum = %dp\n", summator(i,temp1));
 			printf("\n");
 		}
-		
 	}
 	printf("\n\n");
 	printf("\t\t\t\t  ---------\n");
@@ -168,6 +183,7 @@ int main() {
 			break;
 		case 6:
 			notoout(lastcode,lastbarcode);
+			break;
 		case 7:
 			if (autoen != 1)
 				autoen = 1;
