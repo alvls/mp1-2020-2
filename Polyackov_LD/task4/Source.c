@@ -206,7 +206,6 @@ void inputinf(int intcode[ARR_SIZE])
         }
         kolvotovarov[i]++; //Товар добавлен в корзину
         onevivod(i);
-        //Добавить массив данных
     }
 }
 
@@ -229,7 +228,8 @@ void print4ek()
     for (i = 0; i < 76; i++)
         printf("_");
     printf("\n|\t\t\t\tКассовый чек\t\t\t\t   |\n|");
-    for (i = 0; i < 74; i++) //Штрих-код чека
+    printf("                |");
+    for (i = 0; i < 42; i++) //Штрих-код чека
     {
         int r = rand() % 2;
         if (r == 0)
@@ -237,7 +237,7 @@ void print4ek()
         else
             printf(" ");
     }
-    printf("|\n");
+    printf("|\t\t   |\n");
     printgran();
     for (i = 0; i < k; i++)
     {
@@ -252,12 +252,12 @@ void print4ek()
             printf("%c", tovar[c][j]);
         }
         smartwhitespace(size + 2);
-        printf("(%5.2f - %2d%%) x %3d = %6.2f\t   |\n", price[c], discount[c], kolvotovarov[c], pricewithkolvoanddisc[c]);
+        printf("(%6.2f - %2d%%) x %3d = %8.2f\t   |\n", price[c], discount[c], kolvotovarov[c], pricewithkolvoanddisc[c]);
         itog += pricewithkolvoanddisc[c];
         skidka += price[c] * kolvotovarov[c] - pricewithkolvoanddisc[c];
         printgran();
     }
-    printf("| ИТОГОВАЯ СУММА К ОПЛАТЕ: %.3f руб.\t\t\t\t\t   |\n| Благодаря скидкам в нашем магазине, Вы сэкономили: %7.3f руб.\t   |\n", itog, skidka);
+    printf("| ИТОГОВАЯ СУММА К ОПЛАТЕ: %8.3f руб.\t\t\t\t   |\n| Благодаря скидкам в нашем магазине, Вы сэкономили: %8.3f руб.\t   |\n", itog, skidka);
     printgran();
     printf("|\t\t     Спасибо за покупку! Приходите ещё!\t\t\t   |\n");
     for (i = 0; i < 76; i++)
