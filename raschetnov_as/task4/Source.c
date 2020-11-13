@@ -32,13 +32,13 @@ void checkBarcodes()
 
 void weekdaysList(int days[])
 {
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", days[0], weekDays[0]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", days[1], weekDays[1]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", days[2], weekDays[2]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", days[3], weekDays[3]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", days[4], weekDays[4]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", days[5], weekDays[5]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", days[6], weekDays[6]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[0], weekDays[0]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[1], weekDays[1]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[2], weekDays[2]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[3], weekDays[3]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[4], weekDays[4]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[5], weekDays[5]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[6], weekDays[6]);
 	printf("\n");
 }
 
@@ -78,12 +78,12 @@ void discountsList()
 
 	case 1:
 	{
-		printf("\t\t\t\t\t\t\tIf you buy products for more then 50$ you will get 10$ discount.\n");
+		printf("\t\t\t\t\t\t\tIf you buy 2 coffee 1 more coffee for free.\n");
 		break;
 	}
 	case 2:
 	{
-		printf("\t\t\t\t\t\t\tIf you buy 2 coffee 1 more coffee for free.\n");
+		printf("\t\t\t\t\t\t\tIf you buy products for more then 50$ you will get 10$ discount.\n");
 		break;
 	}
 	case 3:
@@ -98,7 +98,7 @@ void discountsList()
 	}
 	case 5:
 	{
-		printf("\t\t\t\t\t\t\tCandies 10%% off, Cookies 10%% off.\n");
+		printf("\t\t\t\t\t\t\tCandies 10%% off, Cookies 10%% off, Tea 10%% off.\n");
 		break;
 	}
 	case 6:
@@ -109,7 +109,7 @@ void discountsList()
 	}
 }
 
-void productsList(int productsArray[])
+void productsList(int productsArray[], int priceArray[] )
 {
 	printf("\t\t\t\t\t\t\tThere is a list of products we own in our shop.\n");
 	printf("\t\t\t\t\t\t\tAlso, theres is a list of discounts for today:\n");
@@ -119,17 +119,17 @@ void productsList(int productsArray[])
 	printf("\n");
 	printf("\t\t\t\t\t\t\tChoose products by entering their barcodes using a table below:\n");
 	printf("\n");
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", productsArray[0], shopProducts[0]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", productsArray[1], shopProducts[1]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", productsArray[2], shopProducts[2]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", productsArray[3], shopProducts[3]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", productsArray[4], shopProducts[4]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", productsArray[5], shopProducts[5]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", productsArray[6], shopProducts[6]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", productsArray[7], shopProducts[7]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", productsArray[8], shopProducts[8]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", productsArray[9], shopProducts[9]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n", productsArray[10], shopProducts[10]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[0], shopProducts[0], priceArray[0]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[1], shopProducts[1], priceArray[1]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[2], shopProducts[2], priceArray[2]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[3], shopProducts[3], priceArray[3]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[4], shopProducts[4], priceArray[4]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[5], shopProducts[5], priceArray[5]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[6], shopProducts[6], priceArray[6]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[7], shopProducts[7], priceArray[7]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[8], shopProducts[8], priceArray[8]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[9], shopProducts[9], priceArray[9]);
+	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[10], shopProducts[10], priceArray[10]);
 }
 
 
@@ -232,7 +232,7 @@ void main()
 	int countArray[11];
 	//int number = INT_MIN;
 	weekdaysFunction(days);
-	productsList(productsArray);
+	productsList(productsArray, priceArray);
 	for (i = 0; i < 11; i++)
 		countArray[i] = 0;
 	while (number != 0)
@@ -257,7 +257,7 @@ void main()
 				break;
 			}
 		if (number == 1)
-			productsList(productsArray);
+			productsList(productsArray, priceArray);
 		if (number != 0 && number != productsArray[i])
 			printf("\t\t\t\t\t\t\tProduct wasn't found\n");
 	}
