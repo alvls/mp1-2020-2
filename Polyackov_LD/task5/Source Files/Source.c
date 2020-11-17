@@ -53,11 +53,6 @@ void fullvivod(); //Вывод информацию по всем сортировкам
 void printgran(int type, int i); //Рисует грани
 void polzsort(int i); //Выводит на экран выбранную пользователем сортировку (для таблицы и работы во время кода)
 
-//////////////////////////////////////////////////////////////////////////////////////
-void ClearScreen(int y); //Взято из интернета https://stackoverrun.com/ru/q/1628655 //
-//////////////////////////////////////////////////////////////////////////////////////
-
-
 //Объявление глобальных переменных
 char lastpath[FILENAME_MAX]; //Хранит значение пути для выбора этого же пути на новой сортировке
 
@@ -93,7 +88,6 @@ int menu()
             printf("Данная функция не предусмотрена программой. Введите число от 0 до 3.\n");
         }
     }
-    ClearScreen(0);
     c = getc(stdin); //Очистка потока ввода
     switch (vibor)
     {
@@ -122,9 +116,9 @@ int getinform()
     char path[FILENAME_MAX]; //путь, который ввёл пользователь
     int count = 0; //подсчёт количества файлов
 
+    system("cls");
     printf("\n Введите путь к папке с файлами:\n");
     fgets(path, FILENAME_MAX, stdin); //scanf_s в данном случае выдаёт множество ошибок
-    ClearScreen(0);
     printf("\n Вы ввели путь: %s\n", path);
     preobr(path); //Преобразование для программы
     //printf("Для проверки разработчиком. Введённая строка преобразуется в %s\n", path); //для проверки разработчиком
@@ -186,7 +180,6 @@ int choiceyoursort(int count, structinf* c_file)
             printf(" Данный параметр сортировки не предусмотрен программой. Введите число от 1 до 2.\n");
         }
     }
-    ClearScreen(3);
     printf(" Вы выбрали сортировку по ");
     if (vibor[0] == 1)
     {
@@ -205,7 +198,6 @@ int choiceyoursort(int count, structinf* c_file)
             printf(" Данная сортировка не предусмотрена программой. Введите число от 1 до 7.\n");
         }
     }
-    ClearScreen(5);
     printf(" Выбранная сортировка: \"");
     polzsort(vibor[1]);
     printf("\"\n");
@@ -270,7 +262,6 @@ int choiceyoursort(int count, structinf* c_file)
             printf(" Данный выбор не предусмотрен программой. Введите 1 или 2.\n");
         }
     }
-    ClearScreen(11);
     if (vibor[2] == 1)
     {
         printgran(1, 60);
@@ -619,44 +610,4 @@ void polzsort(int i)
         printf("Такой сортировки нет\n");
         break;
     }
-}
-
-void ClearScreen(int y)
-{
-    //Взято из интернета
-    //https://stackoverrun.com/ru/q/1628655
-
-    HANDLE hStdOut;
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    DWORD count;
-    DWORD cellCount;
-    COORD homeCoords = { 0, y };
-
-    hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (hStdOut == INVALID_HANDLE_VALUE) return;
-
-    /* Get the number of cells in the current buffer */
-    if (!GetConsoleScreenBufferInfo(hStdOut, &csbi)) return;
-    cellCount = csbi.dwSize.X * csbi.dwSize.Y;
-
-    /* Fill the entire buffer with spaces */
-    if (!FillConsoleOutputCharacter(
-        hStdOut,
-        (TCHAR)' ',
-        cellCount,
-        homeCoords,
-        &count
-    )) return;
-
-    /* Fill the entire buffer with the current colors and attributes */
-    if (!FillConsoleOutputAttribute(
-        hStdOut,
-        csbi.wAttributes,
-        cellCount,
-        homeCoords,
-        &count
-    )) return;
-
-    /* Move the cursor home */
-    SetConsoleCursorPosition(hStdOut, homeCoords);
 }
