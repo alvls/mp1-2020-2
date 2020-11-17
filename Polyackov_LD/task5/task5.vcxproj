@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ClearScreen.c" />
     <ClCompile Include="Source Files\Source.c">
       <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/windows1251 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
