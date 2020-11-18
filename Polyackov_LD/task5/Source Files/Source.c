@@ -27,34 +27,54 @@ Cписок методов сортировки: пузырьком, выбором, вставками, слиянием, Хоара, Шелла
 #include <locale.h>
 #include <Windows.h> //Используем здесь для поддержки русского языка (если конкретнее, то для того, чтобы пользователь мог вводить папки с русскими буквами)
 
-//Стуктура, содержащая полученную информацию
+//Стуктура, содержащая полученную информацию по одному файлу
 typedef struct finddata
 {
     _fsize_t size;
     char name[FILENAME_MAX];
-} structinf;
+} oneinf;
+
+//Структура, содержащая общую информацию по сортировкам
+typedef struct fullinformationaboutsorts
+{
+    short typesort; //Метод сортировки
+    short updown; //Возрастание или убывание
+    int countoffiles; //Количество файлов
+    long double timer; //Время сортировки
+} fullinf; 
 
 //Объявление функций
 int menu();
 int getinform(); //Осуществлет получение информации по файлам
 char preobr(char* path); //Преобразовывает путь, введённый пользователем, в путь, который нужен программе
-void bubblesort(int count, structinf* c_file); //Сортировка пузырьком
-void selectsort(int count, structinf* c_file); //Сортировка выбором
-void insertsort(int count, structinf* c_file); //Сортировка вставками
-void mergesort(int left, int right, structinf* c_file); //Сортировка слиянием
-void merge(int lefte, int right, structinf* c_file);
-void quicksort(structinf* c_file, int count); //Хоара=быстрая
-int shellsort(long size, structinf* c_file);
-int countingsort(int n, int k, structinf* c_file);
-int choiceyoursort(int count, structinf* c_file);
-void vozrastanie(int count, structinf* c_file); //Если пользователь выбрал сортировку по убыванию, то эта функция отзеркалит массив, который уже отсортирован по убыванию
+void bubblesort(int count, oneinf* c_file); //Сортировка пузырьком
+void selectsort(int count, oneinf* c_file); //Сортировка выбором
+void insertsort(int count, oneinf* c_file); //Сортировка вставками
+void mergesort(int left, int right, oneinf* c_file); //Сортировка слиянием
+void merge(int lefte, int right, oneinf* c_file); //Слияние двух массивов
+void quicksort(oneinf* c_file, int count); //Хоара=быстрая
+int shellsort(int count, oneinf* c_file); //Сортировка Шелла
+int increment(long inc[], int count); //Дополнительная функция для сортировки Шелла
+int countingsort(int count, oneinf* c_file); //Сортировка подсчётом
+int choiceyoursort(int count, oneinf* c_file); //Позволяет построить сортировку на любой вкус
+void vozrastanie(int count, oneinf* c_file); //Если пользователь выбрал сортировку по убыванию, то эта функция отзеркалит массив, который уже отсортирован по убыванию
 void instruction(); // Инструкция к программе
 void fullvivod(); //Вывод информацию по всем сортировкам
 void printgran(int type, int i); //Рисует грани
-void polzsort(int i); //Выводит на экран выбранную пользователем сортировку (для таблицы и работы во время кода)
+void polzsorttype(int i); //Выводит на экран выбранную пользователем сортировку (для таблицы и работы во время кода)
+fullinf* checknull(fullinf* arr)
+{
+    if (arr == 0)
+    {
+        printf("Произошло переполнение памяти. Нет возможности продолжить работу программы.\n");
+        exit(55);
+    }
+    return (arr);
+}
 
 //Объявление глобальных переменных
-char lastpath[FILENAME_MAX]; //Хранит значение пути для выбора этого же пути на новой сортировке
+fullinf* inf; //Полная информация по каждой из сортировок 
+long ind = 0; //Количество сортировок (для выделения памяти)
 
 void main()
 {
@@ -70,6 +90,7 @@ void main()
     printgran(1, 73);
     printf("| Мы стараемся над улучшением нашей программы, следите за обновлениями! |\n");
     printgran(1, 73);
+    free(inf);
     system("pause");
 }
 
@@ -92,14 +113,17 @@ int menu()
     switch (vibor)
     {
     case 1:
+        system("cls");
         getinform();
-        break;
+        return 1;
     case 2:
+        system("cls");
         fullvivod();
-        break;
+        return 2;
     case 3:
+        system("cls");
         instruction();
-        break;
+        return 3;
     case 0:
         return 0;
     default:
@@ -110,15 +134,17 @@ int menu()
 
 int getinform()
 {
-    structinf* c_file; //в этом массиве сохраняем имя и размер при обработке файла
+    oneinf* c_file; //в этом массиве сохраняем имя и размер при обработке файла
     struct _finddata_t inf_file; //в эту структуру сохраняется вся информация по найденному файлу
     intptr_t hFile;
     char path[FILENAME_MAX]; //путь, который ввёл пользователь
     int count = 0; //подсчёт количества файлов
 
-    system("cls");
+    ind++;
+    inf = checknull(realloc(inf, ind * sizeof(fullinf)));
     printf("\n Введите путь к папке с файлами:\n");
     fgets(path, FILENAME_MAX, stdin); //scanf_s в данном случае выдаёт множество ошибок
+    system("cls");
     printf("\n Вы ввели путь: %s\n", path);
     preobr(path); //Преобразование для программы
     //printf("Для проверки разработчиком. Введённая строка преобразуется в %s\n", path); //для проверки разработчиком
@@ -133,10 +159,10 @@ int getinform()
         {
             count++;
         } while (_findnext(hFile, &inf_file) == 0); //пока файлы в папке не кончатся
-        _findclose(hFile);
+        _findclose(hFile); 
     }
     count -= 2;
-    c_file = (structinf*)malloc(count * sizeof(structinf));
+    c_file = (oneinf*)malloc(count * sizeof(oneinf)); //Сначала посчитал кол-во эл-тов в папке, чтобы не вызывать очень много раз realloc и проверку на != NULL
     if (c_file == NULL)
     {
         printf(" Слишком много файлов в директории! Невозможно выделить нужное количество памяти для хранения информации.\n");
@@ -154,8 +180,8 @@ int getinform()
         count++;
     } while (_findnext(hFile, &inf_file) == 0); //пока файлы в папке не кончатся
     _findclose(hFile);
-    strcpy(lastpath, path);
     count -= 2; //Так как в любой папке существует минимум два файла . и ..
+    inf[ind - 1].countoffiles = count;
     if (count == 0)
     {
         printf(" По этому пути не найдено ни одного файла!\n"); //Ни одного существенного файла, но пользователь не догадается, что в папке существуют скрытые файлы
@@ -167,7 +193,7 @@ int getinform()
     }
 }
 
-int choiceyoursort(int count, structinf* c_file)
+int choiceyoursort(int count, oneinf* c_file)
 {
     int vibor[3] = { 0 };
     long double t[2] = { 0 };
@@ -180,7 +206,8 @@ int choiceyoursort(int count, structinf* c_file)
             printf(" Данный параметр сортировки не предусмотрен программой. Введите число от 1 до 2.\n");
         }
     }
-    printf(" Вы выбрали сортировку по ");
+    system("cls");
+    printf("\n Вы выбрали сортировку по ");
     if (vibor[0] == 1)
     {
         printf("возрастанию\n");
@@ -199,7 +226,9 @@ int choiceyoursort(int count, structinf* c_file)
         }
     }
     printf(" Выбранная сортировка: \"");
-    polzsort(vibor[1]);
+    polzsorttype(vibor[1]);
+    inf[ind - 1].typesort = vibor[1];
+    inf[ind - 1].updown = vibor[0];
     printf("\"\n");
     switch (vibor[1])
     {
@@ -225,17 +254,17 @@ int choiceyoursort(int count, structinf* c_file)
         break;
     case 5:
         t[0] = omp_get_wtime();
-        quicksort(count, c_file);
+        quicksort(c_file, count - 1);
         t[1] = omp_get_wtime() - t[0];
         break;
     case 6:
         t[0] = omp_get_wtime();
-        //
+        shellsort(count, c_file);
         t[1] = omp_get_wtime() - t[0];
         break;
     case 7:
         t[0] = omp_get_wtime();
-        //
+        countingsort(count, c_file);
         t[1] = omp_get_wtime() - t[0];
         break;
     default:
@@ -246,6 +275,7 @@ int choiceyoursort(int count, structinf* c_file)
     {
         vozrastanie(count, c_file);
     }
+    inf[ind - 1].timer = t[1];
     printf("\n Всего файлов: %d\n\n", count);
     if (t[1] == 0)
         printf(" Сортировка произошла слишком быстро, потому что в данной директории очень мало файлов\n");
@@ -283,9 +313,9 @@ int choiceyoursort(int count, structinf* c_file)
 /*Сортировки*/
 
 //1. Пузырьком
-void bubblesort(int count, structinf* c_file)
+void bubblesort(int count, oneinf* c_file)
 {
-    structinf dop_file; //дополнительная переменная для перестановки
+    oneinf dop_file; //дополнительная переменная для перестановки
 
     for (int i = 0; i < count; i++) //. и .. занимают 0 и 1 индексы, поэтому начинаем со второго индекса
     {
@@ -302,9 +332,9 @@ void bubblesort(int count, structinf* c_file)
 }
 
 //2. Выбором
-void selectsort(int count, structinf* c_file)
+void selectsort(int count, oneinf* c_file)
 {
-    structinf dop_file; //дополнительная переменная для перестановки
+    oneinf dop_file; //дополнительная переменная для перестановки
     int i, j; //Переменные для цикла
     int k; //дополнительная переменная для перестановки
     for (i = 0; i < count; i++)
@@ -325,9 +355,9 @@ void selectsort(int count, structinf* c_file)
 }
 
 //3. Вставками
-void insertsort(int count, structinf* c_file)
+void insertsort(int count, oneinf* c_file)
 {
-    structinf dop_file; //дополнительная переменная для перестановки
+    oneinf dop_file; //дополнительная переменная для перестановки
     int j;
     for (int i = 0; i < count; i++)
     {
@@ -341,7 +371,7 @@ void insertsort(int count, structinf* c_file)
 }
 
 //4. Слиянием
-void mergesort(int left, int right, structinf* c_file)
+void mergesort(int left, int right, oneinf* c_file)
 {
     int mid = (left + right) / 2;
     if (left == right)
@@ -353,19 +383,20 @@ void mergesort(int left, int right, structinf* c_file)
     merge(left, right, c_file);
 }
 
-void merge(int left, int right, structinf* c_file)
+void merge(int left, int right, oneinf* c_file)
 {
-    //якобы работающий код
     int mid = (left + right) / 2;
-    int i = 0, k = 0; //счётчики
+    int i = left; //счётчик
+    int k = 0; //счётчик
     int j = mid + 1; //счётчик
-    structinf* dop_file; //дополнительная переменная для перестановки
-    dop_file = (structinf*)malloc(right*sizeof(structinf));
-    for (k = left; k <= right; k++)
+    oneinf* dop_file; //дополнительная переменная для перестановки
+    right += 1;
+    dop_file = checknull(malloc((right) * sizeof(oneinf)));
+    for (k = left; k < right; k++)
     {
-        if ((i < mid) && (j < right))
+        if ((i <= mid) && (j < right))
         {
-            if (c_file[i].size <= c_file[j].size)
+            if (c_file[i].size >= c_file[j].size)
             {
                 dop_file[k] = c_file[i];
                 i++;
@@ -378,7 +409,7 @@ void merge(int left, int right, structinf* c_file)
         }
         else
         {
-            if (i == mid)
+            if (i == mid + 1)
             {
                 for (; j < right; j++, k++)
                 {
@@ -387,14 +418,14 @@ void merge(int left, int right, structinf* c_file)
             }
             else
             {
-                for (; i < mid; i++, k++)
+                for (; i < mid + 1; i++, k++)
                 {
                     dop_file[k] = c_file[i];
                 }
             }
         }
     }
-    for (k = left; k <= right; k++)
+    for (k = left; k < right; k++)
     {
         c_file[k] = dop_file[k];
     }
@@ -402,18 +433,20 @@ void merge(int left, int right, structinf* c_file)
 }
 
 //5. Хоара = быстрая сортировка
-void quicksort(structinf* c_file, int count)
+void quicksort(oneinf* c_file, int count)
 {
-    int i = 0, j = count - 1;
-    structinf dop_file, midelem; //дополнительная переменная для перестановки и элемент из середины
-    midelem = c_file[count >> 1];
+    int i = 0; //счётчик
+    int j = count; //счётчик
+    int mid = count / 2;
+    _fsize_t sizemidelem = c_file[mid].size;
+    oneinf dop_file; //дополнительная переменная для перестановки и элемент из середины
     do
     {
-        while (c_file[i].size < midelem.size)
+        while (c_file[i].size > sizemidelem)
         {
             i++;
         }
-        while (c_file[j].size > midelem.size)
+        while (c_file[j].size < sizemidelem)
         {
             j--;
         }
@@ -433,11 +466,30 @@ void quicksort(structinf* c_file, int count)
 }
 
 //6. Сортировка Шелла
-int increment(long inc[], long size, structinf* c_file)
+int shellsort(int count, oneinf* c_file)
 {
-    /*
-    int p1, p2, p3, s;
+    oneinf dop_file; //дополнительная переменная для перестановки
+    long inc, i, j, seq[40];
+    int s;
+    s = increment(seq, count); // вычисление последовательности приращений
+    while (s >= 0) 
+    {
+        inc = seq[s--]; //сортировка вставками с инкрементами inc[]
+        for (i = inc; i < count; i++) 
+        {
+            dop_file = c_file[i];
+            for ((j = i - inc); ((j >= 0) && (c_file[j].size < dop_file.size)); (j -= inc))
+            {
+                c_file[j + inc] = c_file[j];
+            }
+            c_file[j + inc] = dop_file;
+        }
+    }
+}
 
+int increment(long inc[], int count)
+{
+    int p1, p2, p3, s;
     p1 = p2 = p3 = 1;
     s = -1;
     do {
@@ -450,58 +502,37 @@ int increment(long inc[], long size, structinf* c_file)
             p3 *= 2;
         }
         p1 *= 2;
-    } while (3 * inc[s] < size);
+    } while (3 * inc[s] < count);
 
     return s > 0 ? --s : 0;
-    */
-}
-
-shellsort(long size, structinf* c_file)
-{
-    /*
-    long inc, i, j, seq[40];
-    int s;
-
-    // вычисление последовательности приращений
-    s = increment(seq, size);
-    while (s >= 0) {
-        // сортировка вставками с инкрементами inc[]
-        inc = seq[s--];
-
-        for (i = inc; i < size; i++) {
-            T temp = a[i];
-            for (j = i - inc; (j >= 0) && (a[j] > temp); j -= inc)
-                a[j + inc] = a[j];
-            a[j + inc] = temp;
-        }
-    }
-    */
 }
 
 //7. Сортировка подсчётом
-countingsort(int n, int k, structinf* c_file)
+int countingsort(int count, oneinf* c_file) //Не работает, если будет как минимум два одинаковых файла
 {
-    /*
-    int c[k + 1] = { 0 };
-    for (int i = 0; i < n; i++)
+    int k;
+    oneinf* sortedarr = checknull(malloc(count * sizeof(oneinf)));
+    for (int i = 0; i < count; i++)
     {
-        c[array[i]] = c[array[i]] + 1;
-    }
-
-    int b = 0;
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < c[i]; j++)
+        k = 0;
+        for (int j = 0; j < count; j++)
         {
-            array[b] = i;
-            b = b + 1;
+            if (c_file[i].size < c_file[j].size)
+            {
+                k++;
+            }
         }
+        sortedarr[k] = c_file[i]; 
     }
-    */
+    for (int i = 0; i < count; i++)
+    {
+        c_file[i] = sortedarr[i];
+    }
+    free(sortedarr);
 }
 
 //8. Сортировка в обратном порядке
-void vozrastanie(int count, structinf* c_file)
+void vozrastanie(int count, oneinf* c_file)
 {
     int n = count / 2; //переменная, определяющая сколько элементов в 1/2 части всего массива
     struct finddata dop_file; //дополнительная переменная для перестановки
@@ -560,7 +591,12 @@ void instruction()
 //Вывод информацию по всем сортировкам
 void fullvivod()
 {
-    printf("Скоро в программе.\n");
+    for (int i = 0; i < ind; i++)
+    {
+        printf("Метод сортировки: %hd\nВозрастание или убывание: %hd\nКоличество файлов: %d\nВремя сортировки: %.7lf\n\n",inf[i].typesort, inf[i].updown, inf[i].countoffiles, inf[i].timer);
+    }
+    printf("Скоро будет оформлено в виде таблицы с реальными названиями сортировок. Пока так\n");
+    system("pause");
 }
 
 //Рисует грани
@@ -575,7 +611,7 @@ void printgran(int type, int i)
 }
 
 //Показывает выбранную сортировку
-void polzsort(int i)
+void polzsorttype(int i)
 {
     switch (i)
     {
