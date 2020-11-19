@@ -45,8 +45,16 @@ typedef struct fullinformationaboutsorts
 
 //Объявление функций
 int menu();
+void instruction(); // Инструкция к программе
+
+void polzsorttype(int i); //Выводит на экран выбранную пользователем сортировку (для таблицы и работы во время кода)
 int getinform(); //Осуществлет получение информации по файлам
 char preobr(char* path); //Преобразовывает путь, введённый пользователем, в путь, который нужен программе
+int choiceyoursort(int count, oneinf* c_file); //Позволяет построить сортировку на любой вкус
+void printgran(int type, int i); //Рисует грани
+void fullvivod(); //Вывод информацию по всем сортировкам
+void clearscreen(int x, int y); //Очищает экран по координатам
+void gotoxy(int x, int y); //Перемещение по координатам
 void bubblesort(int count, oneinf* c_file); //Сортировка пузырьком
 void selectsort(int count, oneinf* c_file); //Сортировка выбором
 void insertsort(int count, oneinf* c_file); //Сортировка вставками
@@ -56,13 +64,8 @@ void quicksort(oneinf* c_file, int count); //Хоара=быстрая
 int shellsort(int count, oneinf* c_file); //Сортировка Шелла
 int increment(long inc[], int count); //Дополнительная функция для сортировки Шелла
 int countingsort(int count, oneinf* c_file); //Сортировка подсчётом
-
-int choiceyoursort(int count, oneinf* c_file); //Позволяет построить сортировку на любой вкус
 void vozrastanie(int count, oneinf* c_file); //Если пользователь выбрал сортировку по убыванию, то эта функция отзеркалит массив, который уже отсортирован по убыванию
-void instruction(); // Инструкция к программе
-void fullvivod(); //Вывод информацию по всем сортировкам
-void printgran(int type, int i); //Рисует грани
-void polzsorttype(int i); //Выводит на экран выбранную пользователем сортировку (для таблицы и работы во время кода)
+
 fullinf* checknull(fullinf* arr)
 {
     if (arr == 0)
@@ -211,8 +214,8 @@ int choiceyoursort(int count, oneinf* c_file)
             printf(" Данный параметр сортировки не предусмотрен программой. Введите число от 1 до 2.\n");
         }
     }
-    system("cls");
-    printf("\n Вы выбрали сортировку по ");
+    clearscreen(0, 3);
+    printf(" Вы выбрали сортировку по ");
     if (vibor[0] == 1)
     {
         printf("возрастанию\n");
@@ -230,6 +233,7 @@ int choiceyoursort(int count, oneinf* c_file)
             printf(" Данная сортировка не предусмотрена программой. Введите число от 1 до 7.\n");
         }
     }
+    clearscreen(0, 5);
     printf(" Выбранная сортировка: \"");
     polzsorttype(vibor[1]);
     inf[ind - 1].typesort = vibor[1];
@@ -289,27 +293,34 @@ int choiceyoursort(int count, oneinf* c_file)
         printf(" Время сортировки: %.7lf (сек)\n\n", t[1]);
     }
     printf(" Что нужно сделать?\n\t(1)Вывести отсортированные файлы\n\t(2)Вернуться в меню\n");
-    while ((vibor[2] < 1) || (vibor[2] > 7))
+    while ((vibor[2] < 1) || (vibor[2] > 2))
     {
         scanf_s("%d", &vibor[2]);
-        if ((vibor[2] < 1) || (vibor[2] > 7))
+        if ((vibor[2] < 1) || (vibor[2] > 2))
         {
             printf(" Данный выбор не предусмотрен программой. Введите 1 или 2.\n");
         }
     }
     if (vibor[2] == 1)
     {
-        printgran(1, 60);
+        clearscreen(0,11);
         printf("%23cСписок файлов\n", ' ');
         printgran(1, 60);
-        printf("Файл%50cРазмер\n", ' ');
+        printf("%18cФайл%26cРазмер\n", ' ', ' ');
+        gotoxy(40, 13);
         printgran(1, 60);
         for (int i = 0; i < count; i++)
         {
             printf("%-40s %14lu байт\n", c_file[i].name, c_file[i].size);
+            gotoxy(40, i + 15);
+
+
+        }
+        for (int i = 0; i < count; i++)
+        {
         }
     }
-    printf("В таблицу будет добавлен разделитель между столбцами\n");//Не забыть
+    printgran(1, 60);
     system("pause");
     free(c_file);
     system("cls");
@@ -513,7 +524,7 @@ int increment(long inc[], int count)
 }
 
 //7. Сортировка подсчётом
-int countingsort(int count, oneinf* c_file) //Не работает, если будет как минимум два одинаковых файла
+int countingsort(int count, oneinf* c_file)
 {
     int k;
     oneinf* sortedarr = checknull(malloc((count+1) * sizeof(oneinf)));
@@ -556,7 +567,7 @@ int countingsort(int count, oneinf* c_file) //Не работает, если будет как миниму
         }
         else
         {
-            if ((i != 0) && (sortedarr[i - 1].size == sortedarr[i].size))
+            if ((i != 0) && (sortedarr[i].size == sortedarr[i - 1].size))
             {
                 for (; k < count; k++)
                 {
@@ -638,12 +649,26 @@ void instruction()
 //Вывод информацию по всем сортировкам
 void fullvivod()
 {
+    //if (ind == 0)
+        //printf("Программа не обработала ни одной папки!\n");
+    printf("\n");
+    printgran(1, 89);
+    printf("  № | Метод сортировки | Возрастание или убывание | Количество файлов | Время сортировки \n");
+    printgran(1, 89);
+    for (int i = 0; i < 89; i++)
+        printf("%d", i % 10);
+    gotoxy(4, 4);
+    gotoxy(23, 4);
+    gotoxy(50, 4);
+    gotoxy(70, 4);
+    printf(" В разработке\n");
+
     for (int i = 0; i < ind; i++)
     {
         printf("Метод сортировки: %hd\nВозрастание или убывание: %hd\nКоличество файлов: %d\nВремя сортировки: %.7lf\n\n",inf[i].typesort, inf[i].updown, inf[i].countoffiles, inf[i].timer);
     }
-    printf("Скоро будет оформлено в виде таблицы с реальными названиями сортировок. Пока так\n");
     system("pause");
+    system("cls");
 }
 
 //Рисует грани
@@ -693,4 +718,45 @@ void polzsorttype(int i)
         printf("Такой сортировки нет\n");
         break;
     }
+}
+
+//https://stackoverrun.com/ru/q/1628655
+void clearscreen(int x, int y)
+{
+    HANDLE hStdOut;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    DWORD count;
+    DWORD cellCount;
+    COORD homeCoords = { x, y };
+    hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hStdOut == INVALID_HANDLE_VALUE) return;
+    if (!GetConsoleScreenBufferInfo(hStdOut, &csbi)) return;
+    cellCount = csbi.dwSize.X * csbi.dwSize.Y;
+    if (!FillConsoleOutputCharacter(
+        hStdOut,
+        (TCHAR)' ',
+        cellCount,
+        homeCoords,
+        &count
+    )) return;
+    if (!FillConsoleOutputAttribute(
+        hStdOut,
+        csbi.wAttributes,
+        cellCount,
+        homeCoords,
+        &count
+    )) return;
+    SetConsoleCursorPosition(hStdOut, homeCoords);
+}
+
+void gotoxy(int x, int y)
+{
+    HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (!Console)
+        return;
+    COORD pos;
+    pos.X = x;
+    pos.Y = y;
+    SetConsoleCursorPosition(Console, pos);
+    printf("|\n");
 }
