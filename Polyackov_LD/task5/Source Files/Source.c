@@ -56,6 +56,7 @@ void quicksort(oneinf* c_file, int count); //Хоара=быстрая
 int shellsort(int count, oneinf* c_file); //Сортировка Шелла
 int increment(long inc[], int count); //Дополнительная функция для сортировки Шелла
 int countingsort(int count, oneinf* c_file); //Сортировка подсчётом
+
 int choiceyoursort(int count, oneinf* c_file); //Позволяет построить сортировку на любой вкус
 void vozrastanie(int count, oneinf* c_file); //Если пользователь выбрал сортировку по убыванию, то эта функция отзеркалит массив, который уже отсортирован по убыванию
 void instruction(); // Инструкция к программе
@@ -189,6 +190,10 @@ int getinform()
     }
     else
     {
+        /*for (int i = 0; i < count; i++)
+        {
+            printf("%-40s %14lu байт\n", c_file[i].name, c_file[i].size);
+        }*/
         choiceyoursort(count, c_file);
     }
 }
@@ -299,7 +304,7 @@ int choiceyoursort(int count, oneinf* c_file)
         printgran(1, 60);
         printf("Файл%50cРазмер\n", ' ');
         printgran(1, 60);
-        for (int i = 0; i < count; i++) //. и .. занимают 0 и 1 индексы, поэтому начинаем со второго индекса
+        for (int i = 0; i < count; i++)
         {
             printf("%-40s %14lu байт\n", c_file[i].name, c_file[i].size);
         }
@@ -317,7 +322,7 @@ void bubblesort(int count, oneinf* c_file)
 {
     oneinf dop_file; //дополнительная переменная для перестановки
 
-    for (int i = 0; i < count; i++) //. и .. занимают 0 и 1 индексы, поэтому начинаем со второго индекса
+    for (int i = 0; i < count; i++)
     {
         for (int j = count - 1; j > i; j--)
         {
@@ -511,7 +516,9 @@ int increment(long inc[], int count)
 int countingsort(int count, oneinf* c_file) //Не работает, если будет как минимум два одинаковых файла
 {
     int k;
-    oneinf* sortedarr = checknull(malloc(count * sizeof(oneinf)));
+    oneinf* sortedarr = checknull(malloc((count+1) * sizeof(oneinf)));
+    for (int i = 0; i < count; i++)
+        sortedarr[i].size = -1;
     for (int i = 0; i < count; i++)
     {
         k = 0;
@@ -523,6 +530,46 @@ int countingsort(int count, oneinf* c_file) //Не работает, если будет как миниму
             }
         }
         sortedarr[k] = c_file[i]; 
+    }
+    k = 0;
+    for (int i = 1; i < count; i++)
+    {
+        if (sortedarr[i].size == -1)
+        {
+            sortedarr[i].size = sortedarr[i - 1].size; 
+        }
+    }
+    k = 0;
+    for (int i = 0; i < count; i++)
+    {
+        if (sortedarr[i].size == sortedarr[i + 1].size)
+        {
+            for (; k < count; k++)
+            {
+                if (sortedarr[i].size == c_file[k].size)
+                {
+                    sortedarr[i] = c_file[k];
+                    k++;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            if ((i != 0) && (sortedarr[i - 1].size == sortedarr[i].size))
+            {
+                for (; k < count; k++)
+                {
+                    if (sortedarr[i].size == c_file[k].size)
+                    {
+                        sortedarr[i] = c_file[k];
+                        k++;
+                        break;
+                    }
+                }
+            }
+            k = 0;
+        }
     }
     for (int i = 0; i < count; i++)
     {
