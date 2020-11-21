@@ -1,20 +1,16 @@
-/*Разработать прототип файлового менеджера с функцией показа файлов в заданном каталоге, упорядоченных по возрастанию/убыванию размера.
+/*  + Разработать прототип файлового менеджера с функцией показа файлов в заданном каталоге, упорядоченных по возрастанию/убыванию размера.
 Входные данные:
     + Путь до директории, в которой необходимо отсортировать содержимое.
     + Метод сортировки.
-
 Выходные данные:
     + Отсортированный список имен файлов с указанием размера.
     + Время сортировки.
-
-Программа должна предоставлять пользователю возможность сменить метод сортировки и повторно формировать выходные данные.
-Программа должна реализовывать диалог с пользователем посредством интерфейса, который включает:
+    + Программа должна предоставлять пользователю возможность сменить метод сортировки и повторно формировать выходные данные.
+    + Программа должна реализовывать диалог с пользователем посредством интерфейса, который включает:
     + возможность ввода пути до заданного каталога;
     + возможность выбора метода сортировки;
     + возможность просмотра отсортированного списка файлов с указанием размера.
-
-Cписок методов сортировки: пузырьком, выбором, вставками, слиянием, Хоара, Шелла, подсчетом
-*/
+Cписок методов сортировки: пузырьком, выбором, вставками, слиянием, Хоара, Шелла, подсчетом */
 
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -45,16 +41,15 @@ typedef struct fullinformationaboutsorts
 
 //Объявление функций
 int menu();
-void instruction(); // Инструкция к программе
-
 void polzsorttype(int i); //Выводит на экран выбранную пользователем сортировку (для таблицы и работы во время кода)
 int getinform(); //Осуществлет получение информации по файлам
 char preobr(char* path); //Преобразовывает путь, введённый пользователем, в путь, который нужен программе
 int choiceyoursort(int count, oneinf* c_file); //Позволяет построить сортировку на любой вкус
 void printgran(int type, int i); //Рисует грани
 void fullvivod(); //Вывод информацию по всем сортировкам
+void vozrandubyv(int a); //Выводит на экран информацию для сортировки: по возрастанию или убыванию
 void clearscreen(int x, int y); //Очищает экран по координатам
-void gotoxy(int x, int y); //Перемещение по координатам
+void pipetoxy(int x, int y); //Перемещение по координатам
 void bubblesort(int count, oneinf* c_file); //Сортировка пузырьком
 void selectsort(int count, oneinf* c_file); //Сортировка выбором
 void insertsort(int count, oneinf* c_file); //Сортировка вставками
@@ -65,8 +60,7 @@ int shellsort(int count, oneinf* c_file); //Сортировка Шелла
 int increment(long inc[], int count); //Дополнительная функция для сортировки Шелла
 int countingsort(int count, oneinf* c_file); //Сортировка подсчётом
 void vozrastanie(int count, oneinf* c_file); //Если пользователь выбрал сортировку по убыванию, то эта функция отзеркалит массив, который уже отсортирован по убыванию
-
-fullinf* checknull(fullinf* arr)
+void* checknull(void* arr) //Проверка на возможность выделить динамическую память
 {
     if (arr == 0)
     {
@@ -78,7 +72,7 @@ fullinf* checknull(fullinf* arr)
 
 //Объявление глобальных переменных
 fullinf* inf; //Полная информация по каждой из сортировок 
-long ind = 0; //Количество сортировок (для выделения памяти)
+long ind = 1; //Количество сортировок (для выделения памяти)
 
 void main()
 {
@@ -91,29 +85,37 @@ void main()
     {
         vixod = menu();
     }
+    system("cls");
+    printf("\n");
     printgran(1, 73);
     printf("| Мы стараемся над улучшением нашей программы, следите за обновлениями! |\n");
     printgran(1, 73);
     free(inf);
-    system("pause");
+    printf("\n Программа завершит работу самостоятельно через:");
+    for (int i = 0; i < 6; i++)
+    {
+        printf(" %d...", 5 - i);
+        Sleep(900);
+        clearscreen(48, 5);
+    }
 }
 
 int menu()
 {
     printgran(1, 61);
-    printf("  Сейчас Вы находитесь в меню. Выберите, что нужно сделать:\n\t(1) Отсортировать файлы в новой папке\n\t(2) Вывести всю информацию, полученную из сортировок\n\t(3) Получить инструкцию по работе с программой\n\t(0) Выйти из программы\n");
+    printf("  Сейчас Вы находитесь в меню. Выберите, что нужно сделать:\n\t(1) Отсортировать файлы в новой папке\n\t(2) Вывести всю информацию, полученную из сортировок\n\t(0) Выйти из программы\n");
     printgran(1, 61);
     int vibor = -1;
     char c;
-    while ((vibor < 0) || (vibor > 3))
+    while ((vibor < 0) || (vibor > 2))
     {
         scanf_s("%d", &vibor);
-        if ((vibor < 0) || (vibor > 3))
+        if ((vibor < 0) || (vibor > 2))
         {
-            printf("Данная функция не предусмотрена программой. Введите число от 0 до 3.\n");
+            printf("Данная функция не предусмотрена программой. Введите число от 0 до 2.\n");
+            while (getchar() != '\n');
         }
     }
-    c = getc(stdin); //Очистка потока ввода
     switch (vibor)
     {
     case 1:
@@ -124,10 +126,6 @@ int menu()
         system("cls");
         fullvivod();
         return 2;
-    case 3:
-        system("cls");
-        instruction();
-        return 3;
     case 0:
         return 0;
     default:
@@ -144,7 +142,6 @@ int getinform()
     char path[FILENAME_MAX]; //путь, который ввёл пользователь
     int count = 0; //подсчёт количества файлов
 
-    ind++;
     inf = checknull(realloc(inf, ind * sizeof(fullinf)));
     printf("\n Введите путь к папке с файлами:\n");
     fgets(path, FILENAME_MAX, stdin); //scanf_s в данном случае выдаёт множество ошибок
@@ -166,12 +163,7 @@ int getinform()
         _findclose(hFile); 
     }
     count -= 2;
-    c_file = (oneinf*)malloc(count * sizeof(oneinf)); //Сначала посчитал кол-во эл-тов в папке, чтобы не вызывать очень много раз realloc и проверку на != NULL
-    if (c_file == NULL)
-    {
-        printf(" Слишком много файлов в директории! Невозможно выделить нужное количество памяти для хранения информации.\n");
-        getinform();
-    }
+    c_file = checknull((oneinf*)malloc(count * sizeof(oneinf))); //Сначала посчитал кол-во эл-тов в папке, чтобы не вызывать очень много раз realloc и проверку на != NULL
     count = 0;
     hFile = _findfirst(path, &inf_file);
     do
@@ -193,10 +185,7 @@ int getinform()
     }
     else
     {
-        /*for (int i = 0; i < count; i++)
-        {
-            printf("%-40s %14lu байт\n", c_file[i].name, c_file[i].size);
-        }*/
+        ind++;
         choiceyoursort(count, c_file);
     }
 }
@@ -234,11 +223,11 @@ int choiceyoursort(int count, oneinf* c_file)
         }
     }
     clearscreen(0, 5);
-    printf(" Выбранная сортировка: \"");
+    printf(" Выбранная сортировка: ");
     polzsorttype(vibor[1]);
     inf[ind - 1].typesort = vibor[1];
     inf[ind - 1].updown = vibor[0];
-    printf("\"\n");
+    printf("\n");
     switch (vibor[1])
     {
     case 1:
@@ -304,24 +293,19 @@ int choiceyoursort(int count, oneinf* c_file)
     if (vibor[2] == 1)
     {
         clearscreen(0,11);
-        printf("%23cСписок файлов\n", ' ');
-        printgran(1, 60);
-        printf("%18cФайл%26cРазмер\n", ' ', ' ');
-        gotoxy(40, 13);
-        printgran(1, 60);
+        printf("%33cСписок файлов\n", ' ');
+        printgran(1, 80);
+        printf(" Номер |%18cФайл%38cРазмер\n", ' ', ' ');
+        pipetoxy(60, 13);
+        printgran(1, 80);
         for (int i = 0; i < count; i++)
         {
-            printf("%-40s %14lu байт\n", c_file[i].name, c_file[i].size);
-            gotoxy(40, i + 15);
-
-
+            printf("%6d | %-51s %13lu байт\n", i+1, c_file[i].name, c_file[i].size);
+            pipetoxy(60, i + 15);
         }
-        for (int i = 0; i < count; i++)
-        {
-        }
+        printgran(1, 80);
+        system("pause");
     }
-    printgran(1, 60);
-    system("pause");
     free(c_file);
     system("cls");
 }
@@ -527,7 +511,9 @@ int increment(long inc[], int count)
 int countingsort(int count, oneinf* c_file)
 {
     int k;
-    oneinf* sortedarr = checknull(malloc((count+1) * sizeof(oneinf)));
+    count++;
+    oneinf* sortedarr = checknull(malloc((count) * sizeof(oneinf)));
+    count--;
     for (int i = 0; i < count; i++)
         sortedarr[i].size = -1;
     for (int i = 0; i < count; i++)
@@ -540,14 +526,14 @@ int countingsort(int count, oneinf* c_file)
                 k++;
             }
         }
-        sortedarr[k] = c_file[i]; 
+        sortedarr[k] = c_file[i];
     }
     k = 0;
     for (int i = 1; i < count; i++)
     {
         if (sortedarr[i].size == -1)
         {
-            sortedarr[i].size = sortedarr[i - 1].size; 
+            sortedarr[i].size = sortedarr[i - 1].size;
         }
     }
     k = 0;
@@ -602,6 +588,8 @@ void vozrastanie(int count, oneinf* c_file)
     }
 }
 
+/*Дополнительные функции*/
+
 //Преобразовать путь для программы
 char preobr(char* path)
 {
@@ -640,33 +628,36 @@ char preobr(char* path)
     }
 }
 
-// Инструкция к программе
-void instruction() 
-{
-    printf("Скоро в программе.\n");
-}
-
 //Вывод информацию по всем сортировкам
 void fullvivod()
 {
-    //if (ind == 0)
-        //printf("Программа не обработала ни одной папки!\n");
-    printf("\n");
-    printgran(1, 89);
-    printf("  № | Метод сортировки | Возрастание или убывание | Количество файлов | Время сортировки \n");
-    printgran(1, 89);
-    for (int i = 0; i < 89; i++)
-        printf("%d", i % 10);
-    gotoxy(4, 4);
-    gotoxy(23, 4);
-    gotoxy(50, 4);
-    gotoxy(70, 4);
-    printf(" В разработке\n");
-
-    for (int i = 0; i < ind; i++)
+    if (ind == 1)
     {
-        printf("Метод сортировки: %hd\nВозрастание или убывание: %hd\nКоличество файлов: %d\nВремя сортировки: %.7lf\n\n",inf[i].typesort, inf[i].updown, inf[i].countoffiles, inf[i].timer);
+        printf("\n");
+        printgran(1, 42);
+        printf("| Программа не обработала ни одну папку! |\n");
+        printgran(1, 42);
+        system("pause");
+        system("cls");
+        return;
     }
+    printf("\n");
+    printgran(1, 79);
+    printf("  № | Cортировка | Возрастание/убывание | Количество файлов | Время сортировки \n");
+    printgran(1, 79);
+    for (int i = 0; i < ind - 1; i++)
+    {
+        printf("%3d%4c", i+1, ' ');
+        polzsorttype(inf[i].typesort);
+        printf("%8c", ' ');
+        vozrandubyv(inf[i].updown);
+        printf("%23d%14.7lf (сек)", inf[i].countoffiles, inf[i].timer);
+        pipetoxy(4, 4+i);
+        pipetoxy(17, 4+i);
+        pipetoxy(40, 4+i);
+        pipetoxy(60, 4+i);
+    }
+    printgran(1, 79);
     system("pause");
     system("cls");
 }
@@ -692,7 +683,7 @@ void polzsorttype(int i)
         break;
     case 2:
         //
-        printf("Выбором");
+        printf("Выбором  ");
         break;
     case 3:
         //
@@ -700,22 +691,22 @@ void polzsorttype(int i)
         break;
     case 4:
         //
-        printf("Слиянием");
+        printf("Слиянием ");
         break;
     case 5:
         //
-        printf("Хоара");
+        printf("Хоара    ");
         break;
     case 6:
         //
-        printf("Шелла");
+        printf("Шелла    ");
         break;
     case 7:
         //
         printf("Подсчётом");
         break;
     default:
-        printf("Такой сортировки нет\n");
+        printf("Ошибка   ");
         break;
     }
 }
@@ -749,7 +740,8 @@ void clearscreen(int x, int y)
     SetConsoleCursorPosition(hStdOut, homeCoords);
 }
 
-void gotoxy(int x, int y)
+//Функция, размещаюая | по заданымм координатам
+void pipetoxy(int x, int y)
 {
     HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
     if (!Console)
@@ -759,4 +751,17 @@ void gotoxy(int x, int y)
     pos.Y = y;
     SetConsoleCursorPosition(Console, pos);
     printf("|\n");
+}
+
+//Выводит информацию по возрастанию или убыванию в сортировке
+void vozrandubyv(int a)
+{
+    if (a == 1)
+    {
+        printf("Возрастание");
+    }
+    else
+    {
+        printf("Убывание   ");
+    }
 }
