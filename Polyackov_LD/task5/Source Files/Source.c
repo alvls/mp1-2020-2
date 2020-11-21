@@ -208,6 +208,7 @@ int choiceyoursort(int count, oneinf* c_file)
         if ((vibor[0] < 1) || (vibor[0] > 2))
         {
             printf(" Данный параметр сортировки не предусмотрен программой. Введите число от 1 до 2.\n");
+            while (getchar() != '\n');
         }
     }
     clearscreen(0, 3);
@@ -227,6 +228,7 @@ int choiceyoursort(int count, oneinf* c_file)
         if ((vibor[1] < 1) || (vibor[1] > 7))
         {
             printf(" Данная сортировка не предусмотрена программой. Введите число от 1 до 7.\n");
+            while (getchar() != '\n');
         }
     }
     clearscreen(0, 5);
@@ -295,6 +297,7 @@ int choiceyoursort(int count, oneinf* c_file)
         if ((vibor[2] < 1) || (vibor[2] > 2))
         {
             printf(" Данный выбор не предусмотрен программой. Введите 1 или 2.\n");
+            while (getchar() != '\n');
         }
     }
     if (vibor[2] == 1)
