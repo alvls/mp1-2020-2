@@ -72,7 +72,7 @@ void* checknull(void* arr) //Проверка на возможность выделить динамическую памят
 
 //Объявление глобальных переменных
 fullinf* inf; //Полная информация по каждой из сортировок 
-long ind = 1; //Количество сортировок (для выделения памяти)
+long ind = 0; //Количество сортировок (для выделения памяти)
 
 void main()
 {
@@ -113,13 +113,14 @@ int menu()
         if ((vibor < 0) || (vibor > 2))
         {
             printf("Данная функция не предусмотрена программой. Введите число от 0 до 2.\n");
-            while (getchar() != '\n');
         }
     }
+    c = getchar();
     switch (vibor)
     {
     case 1:
         system("cls");
+        ind++;
         getinform();
         return 1;
     case 2:
@@ -185,7 +186,6 @@ int getinform()
     }
     else
     {
-        ind++;
         choiceyoursort(count, c_file);
     }
 }
