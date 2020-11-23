@@ -520,69 +520,41 @@ int increment(long inc[], int count)
 //7. Сортировка подсчётом
 int countingsort(int count, oneinf* c_file)
 {
-    int k;
-    count++;
-    oneinf* sortedarr = checknull(malloc((count) * sizeof(oneinf)));
-    count--;
-    for (int i = 0; i < count; i++)
-        sortedarr[i].size = -1;
+    int k = count - 1;
+    _fsize_t* countequalsizes;
+    _fsize_t minsize, maxsize, size; //Минимальное и максимальное значение размера
+    minsize = maxsize = c_file[0].size;
     for (int i = 0; i < count; i++)
     {
-        k = 0;
-        for (int j = 0; j < count; j++)
+        if (c_file[i].size < minsize)
         {
-            if (c_file[i].size < c_file[j].size)
-            {
-                k++;
-            }
+            minsize = c_file[i].size;
         }
-        sortedarr[k] = c_file[i];
-    }
-    k = 0;
-    for (int i = 1; i < count; i++)
-    {
-        if (sortedarr[i].size == -1)
+        if (c_file[i].size > maxsize)
         {
-            sortedarr[i].size = sortedarr[i - 1].size;
+            maxsize = c_file[i].size;
         }
     }
-    k = 0;
-    for (int i = 0; i < count; i++)
+    size = maxsize - minsize + 1;
+    countequalsizes = checknull((_fsize_t*)malloc(size * sizeof(_fsize_t)));
+    for (int i = 0; i < size; i++)
     {
-        if (sortedarr[i].size == sortedarr[i + 1].size)
-        {
-            for (; k < count; k++)
-            {
-                if (sortedarr[i].size == c_file[k].size)
-                {
-                    sortedarr[i] = c_file[k];
-                    k++;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            if ((i != 0) && (sortedarr[i].size == sortedarr[i - 1].size))
-            {
-                for (; k < count; k++)
-                {
-                    if (sortedarr[i].size == c_file[k].size)
-                    {
-                        sortedarr[i] = c_file[k];
-                        k++;
-                        break;
-                    }
-                }
-            }
-            k = 0;
-        }
+        countequalsizes[i] = 0;
     }
     for (int i = 0; i < count; i++)
     {
-        c_file[i] = sortedarr[i];
+        countequalsizes[c_file[i].size - minsize]++;
     }
-    free(sortedarr);
+    for (int i = 0; i < size; i++)
+    {
+        while (countequalsizes[i] > 0)
+        {
+            c_file[k].size = minsize + i;
+            k--;
+            countequalsizes[i]--;
+        }
+    }
+    free(countequalsizes);
 }
 
 //8. Сортировка в обратном порядке
