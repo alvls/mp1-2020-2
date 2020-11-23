@@ -522,6 +522,7 @@ int increment(long inc[], int count)
 int countingsort(int count, oneinf* c_file)
 {
     int k = count - 1;
+    oneinf dop_file; //дополнительна€ переменна€ дл€ перестановки
     _fsize_t* countequalsizes;
     _fsize_t minsize, maxsize, size; //ћинимальное и максимальное значение размера
     minsize = maxsize = c_file[0].size;
@@ -538,7 +539,7 @@ int countingsort(int count, oneinf* c_file)
     }
     size = maxsize - minsize + 1;
     countequalsizes = checknull((_fsize_t*)malloc(size * sizeof(_fsize_t)));
-    for (int i = 0; i < size; i++)
+    for (_fsize_t  i = 0; i < size; i++)
     {
         countequalsizes[i] = 0;
     }
@@ -546,13 +547,21 @@ int countingsort(int count, oneinf* c_file)
     {
         countequalsizes[c_file[i].size - minsize]++;
     }
-    for (int i = 0; i < size; i++)
+    for (_fsize_t  i = 0; i < size; i++)
     {
         while (countequalsizes[i] > 0)
         {
-            c_file[k].size = minsize + i;
-            k--;
-            countequalsizes[i]--;
+            for (int j = k; j >= 0; j--)
+            {
+                if (c_file[j].size == minsize + i)
+                {
+                    dop_file = c_file[j];
+                    c_file[j] = c_file[k];
+                    c_file[k] = dop_file;
+                    k--;
+                    countequalsizes[i]--;
+                }
+            }
         }
     }
     free(countequalsizes);
@@ -743,3 +752,71 @@ void vozrandubyv(int a)
         printf("”бывание   ");
     }
 }
+
+/* //ƒополнительна€ сортировка
+int countingsort(int count, oneinf* c_file)
+{
+    int k;
+    count++;
+    oneinf* sortedarr = checknull(malloc((count) * sizeof(oneinf)));
+    count--;
+    for (int i = 0; i < count; i++)
+        sortedarr[i].size = -1;
+    for (int i = 0; i < count; i++)
+    {
+        k = 0;
+        for (int j = 0; j < count; j++)
+        {
+            if (c_file[i].size < c_file[j].size)
+            {
+                k++;
+            }
+        }
+        sortedarr[k] = c_file[i];
+    }
+    for (int i = 1; i < count; i++)
+    {
+        if (sortedarr[i].size == -1)
+        {
+            sortedarr[i].size = sortedarr[i - 1].size;
+        }
+    }
+    k = 0;
+    for (int i = 0; i < count; i++)
+    {
+        if (sortedarr[i].size == sortedarr[i + 1].size)
+        {
+            for (; k < count; k++)
+            {
+                if (sortedarr[i].size == c_file[k].size)
+                {
+                    sortedarr[i] = c_file[k];
+                    k++;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            if ((i != 0) && (sortedarr[i].size == sortedarr[i - 1].size))
+            {
+                for (; k < count; k++)
+                {
+                    if (sortedarr[i].size == c_file[k].size)
+                    {
+                        sortedarr[i] = c_file[k];
+                        k++;
+                        break;
+                    }
+                }
+            }
+            k = 0;
+        }
+    }
+    for (int i = 0; i < count; i++)
+    {
+        c_file[i] = sortedarr[i];
+    }
+    free(sortedarr);
+}
+*/
