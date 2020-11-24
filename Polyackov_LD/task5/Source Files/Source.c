@@ -201,7 +201,7 @@ int getinform()
 int choiceyoursort(int count, oneinf* c_file)
 {
     int vibor[3] = { 0 };
-    long double t[2] = { 0 };
+    long double t = 0;
     printf(" Вы можете выбрать параметр сортировки:\n\t(1) По возрастанию\n\t(2) По убыванию\n");
     while ((vibor[0] < 1) || (vibor[0] > 2))
     {
@@ -222,6 +222,7 @@ int choiceyoursort(int count, oneinf* c_file)
     {
         printf("убыванию\n");
     }
+    inf[ind - 1].updown = vibor[0];
     printf("\n Вы можете выбрать одну из 7 сортировок:\n\t(1) Пузырьком\n\t(2) Выбором\n\t(3) Вставками\n\t(4) Слиянием\n\t(5) Хоара\n\t(6) Шелла\n\t(7) Подсчётом\n");
     while ((vibor[1] < 1) || (vibor[1] > 7))
     {
@@ -232,48 +233,34 @@ int choiceyoursort(int count, oneinf* c_file)
             while (getchar() != '\n');
         }
     }
+    inf[ind - 1].typesort = vibor[1];
     clearscreen(0, 5);
     printf(" Выбранная сортировка: ");
     polzsorttype(vibor[1]);
-    inf[ind - 1].typesort = vibor[1];
-    inf[ind - 1].updown = vibor[0];
     printf("\n");
+    t = omp_get_wtime();
     switch (vibor[1])
     {
     case 1:
-        t[0] = omp_get_wtime();
         bubblesort(count, c_file);
-        t[1] = omp_get_wtime() - t[0];
         break;
     case 2:
-        t[0] = omp_get_wtime();
         selectsort(count, c_file);
-        t[1] = omp_get_wtime() - t[0];
         break;
     case 3:
-        t[0] = omp_get_wtime();
         insertsort(count, c_file);
-        t[1] = omp_get_wtime() - t[0];
         break;
     case 4:
-        t[0] = omp_get_wtime();
         mergesort(0, count - 1, c_file);
-        t[1] = omp_get_wtime() - t[0];
         break;
     case 5:
-        t[0] = omp_get_wtime();
         quicksort(c_file, count - 1);
-        t[1] = omp_get_wtime() - t[0];
         break;
     case 6:
-        t[0] = omp_get_wtime();
         shellsort(count, c_file);
-        t[1] = omp_get_wtime() - t[0];
         break;
     case 7:
-        t[0] = omp_get_wtime();
         countingsort(count, c_file);
-        t[1] = omp_get_wtime() - t[0];
         break;
     default:
         printf(" Ошибка, связанная с выбором в сортировки\n");
@@ -283,15 +270,8 @@ int choiceyoursort(int count, oneinf* c_file)
     {
         vozrastanie(count, c_file);
     }
-    inf[ind - 1].timer = t[1];
-    printf("\n Всего файлов: %d\n\n", count);
-    if (t[1] == 0)
-        printf(" Сортировка произошла слишком быстро, потому что в данной директории очень мало файлов\n");
-    else
-    {
-        printf(" Время сортировки: %.7lf (сек)\n\n", t[1]);
-    }
-    printf(" Что нужно сделать?\n\t(1)Вывести отсортированные файлы\n\t(2)Вернуться в меню\n");
+    inf[ind - 1].timer = omp_get_wtime() - t;;
+    printf("\n Всего файлов: %d\n\n Время сортировки: %.7lf (сек)\n\n Что нужно сделать?\n\t(1)Вывести отсортированные файлы\n\t(2)Вернуться в меню\n", count, inf[ind - 1].timer);
     while ((vibor[2] < 1) || (vibor[2] > 2))
     {
         scanf_s("%d", &vibor[2]);
@@ -753,8 +733,8 @@ void vozrandubyv(int a)
     }
 }
 
-/* //Дополнительная сортировка
-int countingsort(int count, oneinf* c_file)
+//Дополнительная сортировка
+/* int countingsort(int count, oneinf* c_file)
 {
     int k;
     count++;
