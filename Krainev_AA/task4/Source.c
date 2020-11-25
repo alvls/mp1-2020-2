@@ -37,7 +37,6 @@ struct product {
 
 struct product* res_st;
 struct product* addProduct(char* name, unsigned int price, char* barcode, int sale) {
-    free(res_st);
     struct product* res_st = malloc(sizeof(struct product));//выдыляем память для структуры
     strcpy_s(res_st->name, 30, name);//копируем получаемое название из каталога товара в структуру 
     res_st->price = price; //копируем получаемую цену
@@ -65,7 +64,6 @@ int main(void) {
     st[2] = addProduct("Груша", 129, "0003", 0);
     st[3] = addProduct("Вода", 121, "0004", 15);
     st[4] = addProduct("Лимонад", 128, "0005", 0);
-    free(res_st);
     int total_number_of_product[10] = { 0 };//в массиве будет храниться количество каждого выбранного товара: по умолчанию нули.размер массива=
     //= количество товаров в каталоге 
     while (1) {
@@ -130,6 +128,7 @@ int main(void) {
         printf("До встречи!");
         getchar();
         system("cls");//очищаем экран перед следующим покупателем
+        free(st);
     }
 }
 
