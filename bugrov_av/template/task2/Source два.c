@@ -3,8 +3,14 @@
 #include <locale.h>
 #include <stdlib.h>
 #include <time.h>
+void foo()
+{
+
+}
 void main()
 {
+	foo();
+	return;
 	int n, a, ugad, lev, i = 0, num;//n - число выбора режима; a - предполагаемое игроком число; ugad - предполагаемое программой; lev - изменение числа; i - счётчик; num - случайное число;
 	char c;// символ, считываемый при угадывании у игрока
 	setlocale(LC_ALL, "Russian");
