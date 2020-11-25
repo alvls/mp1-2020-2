@@ -201,7 +201,6 @@ void main() // здесь и производится сборка фрагментов
 		printf("%0.2f руб\n", sum);
 		printf("Спасибо за покупки в нашем магазине!\n");
 		system("pause");
-		system("CLS");
 		for (i = 0; i < strok; i++)
 		{
 			prise[i] = standprise[i];
