@@ -6,16 +6,16 @@
 #include <omp.h>
 #include <memory.h>
 #include <string.h>
+#include <limits.h>
 #define CountSorts 7
-
+char path[FILENAME_MAX];
 int mode, countofsorts;
 char temp;
-int temp1;
 char* Dialog[] = { "Please input path to catalog(format: disk:\\folders)\n","Please input method of sort\n",
 "Files sorted by size\n" };
 char* SortList[] = { "SortBubble","SortSelection",
 "SortMerge","SortShell","SortCouting","SortInput","SortQuick" };
-long float times[CountSorts];
+long double times[CountSorts];
 int activation[CountSorts] = { 0 };
 typedef
 struct _S
@@ -243,30 +243,30 @@ void SortCouting(int count, S* s) {
 }
 
 //Program
-long double StartSort(int code, S* s[], int size) {
+long double StartSort(int code, S* s, int size) {
 	long double tt1, tt2;
 	tt1 = omp_get_wtime();
 	switch (code)
 	{
-	case 1:
+	case 0:
 		SortBubble(size, s);
 		break;
-	case 2:
+	case 1:
 		SortSelection(size, s);
 		break;
-	case 3:
+	case 2:
 		SortInSert(size, s);
 		break;
-	case 4:
+	case 3:
 		SortMerge(0, size - 1, s);
 		break;
-	case 5:
+	case 4:
 		SortShell(size, s);
 		break;
-	case 6:
+	case 5:
 		SortQuick(s, size - 1);
 		break;
-	case 7:
+	case 6:
 		SortCouting(size, s);
 		break;
 	default:
@@ -275,7 +275,7 @@ long double StartSort(int code, S* s[], int size) {
 	tt2 = omp_get_wtime();
 	return(tt2 - tt1);
 }
-void Correctpath(char path[]) {
+void Correctpath() {
 	int i = 0;
 	char temp;
 	temp = path[i];
@@ -301,29 +301,66 @@ int ScanMode(int count) {
 		printf("\n");
 	}
 	scanf_s("%d", &mode);
-	return mode;
+	return (mode-1);
 }
-void StatSave(int mode,long float time) {
-	activation[mode - 1] = 1;
-	times[mode - 1] = time;
+void StatSave(int mode, long double timer) {
+	activation[mode] = 1;
+	times[mode] = timer;
 }
-void ToScreen(long double time, int count, S* s) {
+void ShowStat() {
+	long double max = 0;
+	long double min = 1000;
+	long double buf;
+	int minInd;
+	int maxInd;
+	int k = 1;
+	int temp = CountSorts;
+	printf("List of sortes on catalog %s:\n", path);
+	for (int i = 0; i < temp; i++) {
+		if (activation[i] == 1) {
+			buf = times[i];
+			if (buf <= min) {
+				min = buf;
+				minInd = i;
+			}
+			if (buf >= max) {
+				max = buf;
+				maxInd = i;
+			}
+			printf("%d:%s\t%Lf\n", k, SortList[i], buf);
+			k += 1;
+			
+		}
+	}
+	printf("\n");
+	printf("Fastest sort is %s with time %Lf\n", SortList[minInd], min);
+	printf("Slowest sort is %s with time %Lf\n", SortList[maxInd], max);
+	system("pause");
+	system("cls");
+}
+void ToScreen(long double time, int count, S* s,int mode) {
+	StatSave(mode,time);
 	for (int i = 0; i < count; i++) {
 		printf_s("%d:%s\t%d\n", i + 1, s[i].name, s[i].size);
 	}
-	printf("Time of sort is - %lf\n", time);
+	printf("Time of sort is - %Lf\n", time);
 	system("pause");
 	system("cls");
 }
 void FileScan() {
+	for (int i = 0; i < (CountSorts-1); i++) {
+		activation[i] = 0;
+		times[i] = 0.0;
+	}
+	int tmode;
+	int temp1;
 	int sel,mode;
 	long double time;
 	printf(Dialog[0]);
-	char path[FILENAME_MAX];
 	while (getchar() != '\n');
 	fgets(path, FILENAME_MAX, stdin);
 	printf_s("Your path is %s\n", path);
-	Correctpath(path);
+	Correctpath();
 	struct _finddata_t c_file;
 	intptr_t hFile;
 	int count = 0;
@@ -358,16 +395,16 @@ void FileScan() {
 	_findclose(hFile);
 	mode = ScanMode(CountSorts);
 	time = StartSort(mode, ss, count);
-	ToScreen(time, count, ss);
-	StatSave(time, mode,path);
+	ToScreen(time, count, ss,mode);
 	while (1) {
 		printf("Another sort?(1-yes,2-no)\n");
 		scanf_s("%d", &sel);
 		switch (sel)
 		{
 		case 1:
-			time = StartSort(ScanMode(CountSorts), ss, count);
-			ToScreen(time, count, ss);
+			tmode = ScanMode(CountSorts);
+			time = StartSort(tmode, ss, count);
+			ToScreen(time, count, ss,tmode);
 			break;
 		case 2:
 			free(ss);
@@ -391,8 +428,8 @@ int Menu() {
 		FileScan();
 		break;
 	case 2:
-		
-
+		ShowStat();
+		break;
 	case 0:
 		return 0;
 	}
@@ -403,8 +440,4 @@ int main(void)
 	while (out != 0) {
 		out = Menu();
 	}
-
-	//Ќјѕ»—ј“№ FREE
-
-	//‘айлы с одинаковыми размерами
 }
