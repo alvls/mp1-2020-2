@@ -9,9 +9,10 @@
 #include <limits.h>
 #define CountSorts 7
 char path[FILENAME_MAX];
+char oldpath[FILENAME_MAX];
 int mode, countofsorts;
 char temp;
-char* Dialog[] = { "Please input path to catalog(format: disk:\\folders)\n","Please input method of sort\n",
+char* Dialog[] = { "Please input path to catalog(format: disk:\\folders)\n","\t\t\t\t\tPlease input method of sort\n",
 "Files sorted by size\n" };
 char* SortList[] = { "SortBubble","SortSelection","SortInsert",
 "SortMerge","SortShell","SortQuick","SortCouting" };
@@ -129,7 +130,8 @@ void SortMerge(int lb, int ub, S* s) {
 		merge(lb, ub, s);
 	}
 }
-void SortShell(int count, S* s) {//BUG
+//BUG
+void SortShell(int count, S* s) {
 	S buffer;
 	long inc, i, j, seq[40];
 	int k;
@@ -294,7 +296,6 @@ void Correctpath() {
 }
 int ScanMode(int count) {
 	printf(Dialog[1]);
-	printf("\n");
 	printf("SortList:\n");
 	for (int i = 0; i < count; i++) {
 		printf("%d:%s", i + 1, SortList[i]);
@@ -308,6 +309,11 @@ void StatSave(int mode, long double timer) {
 	times[mode] = timer;
 }
 void ShowStat() {
+	if (strlen(path) == 0) {
+		printf_s("First need to add path\n");
+		return;
+	}
+	system("cls");
 	long double max = 0;
 	long double min = 1000;
 	long double buf;
@@ -315,7 +321,8 @@ void ShowStat() {
 	int maxInd;
 	int k = 1;
 	int temp = CountSorts;
-	printf("List of sortes on catalog %s:\n", path);
+	oldpath[strlen(oldpath)-1] = 0;
+	printf("List of sorts on catalog %s\n\n", oldpath);
 	for (int i = 0; i < temp; i++) {
 		if (activation[i] == 1) {
 			buf = times[i];
@@ -340,6 +347,8 @@ void ShowStat() {
 }
 void ToScreen(long double time, int count, S* s,int mode) {
 	StatSave(mode,time);
+	system("cls");
+	printf("Sorted files:\n");
 	for (int i = 0; i < count; i++) {
 		printf_s("%d:%s\t%d\n", i + 1, s[i].name, s[i].size);
 	}
@@ -359,13 +368,17 @@ void FileScan() {
 	printf(Dialog[0]);
 	while (getchar() != '\n');
 	fgets(path, FILENAME_MAX, stdin);
+	strcpy(oldpath, path);
 	printf_s("Your path is %s\n", path);
 	Correctpath();
 	struct _finddata_t c_file;
 	intptr_t hFile;
 	int count = 0;
-	if ((hFile = _findfirst(path, &c_file)) == -1L) //"c:/temp/*.* -1 find not found
+	if ((hFile = _findfirst(path, &c_file)) == -1L) {
 		printf("No files in current directory!\n");
+		system("pause");
+		return;
+	}
 	else
 	{
 		do {
@@ -377,8 +390,8 @@ void FileScan() {
 
 	S* ss = (S*)malloc(count * sizeof(S));
 	count = 0;
-	if ((hFile = _findfirst(path, &c_file)) == -1L) //"c:/temp/*.* -1 find not found
-		printf("No files in current directory!\n");
+	if ((hFile = _findfirst(path, &c_file)) == -1L) {
+	}//"c:/temp/*.* -1 find not found
 	else {
 		do {
 			if (c_file.attrib & _A_SUBDIR)
@@ -419,7 +432,8 @@ void FileScan() {
 int Menu() {
 	int mode;
 	while (1) {
-		printf_s("Now you in menu of program,input what you want to do:\n1:Input path to catalog\n"
+		system("cls");
+		printf_s("\t\t\t\t\t\tPROGRAM MENU\n1:Input path to catalog\n"
 			"2:Compare the sorts\n0:Exit\n");
 		scanf_s("%d", &mode);
 		switch (mode)
