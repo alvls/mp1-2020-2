@@ -410,7 +410,7 @@ void FileScan() {
 	time = StartSort(mode, ss, count);
 	ToScreen(time, count, ss,mode);
 	while (1) {
-		printf("Another sort?(1-yes,2-no)\n");
+		printf("\t\t\t\t\tSelect action:\n1-Another Sort\n2-Compare Done Sorts\n3-Exit to menu\n");
 		scanf_s("%d", &sel);
 		switch (sel)
 		{
@@ -420,6 +420,9 @@ void FileScan() {
 			ToScreen(time, count, ss,tmode);
 			break;
 		case 2:
+			ShowStat();
+			break;
+		case 3:
 			free(ss);
 			return;
 		default:
@@ -434,7 +437,7 @@ int Menu() {
 	while (1) {
 		system("cls");
 		printf_s("\t\t\t\t\t\tPROGRAM MENU\n1:Input path to catalog\n"
-			"2:Compare the sorts\n0:Exit\n");
+			"2:Compare the sorts,done with last location\n0:Exit\n");
 		scanf_s("%d", &mode);
 		switch (mode)
 		{
