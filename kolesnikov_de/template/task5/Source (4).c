@@ -13,8 +13,8 @@ int mode, countofsorts;
 char temp;
 char* Dialog[] = { "Please input path to catalog(format: disk:\\folders)\n","Please input method of sort\n",
 "Files sorted by size\n" };
-char* SortList[] = { "SortBubble","SortSelection",
-"SortMerge","SortShell","SortCouting","SortInput","SortQuick" };
+char* SortList[] = { "SortBubble","SortSelection","SortInsert",
+"SortMerge","SortShell","SortQuick","SortCouting" };
 long double times[CountSorts];
 int activation[CountSorts] = { 0 };
 typedef
@@ -129,7 +129,7 @@ void SortMerge(int lb, int ub, S* s) {
 		merge(lb, ub, s);
 	}
 }
-void SortShell(int count, S* s) {
+void SortShell(int count, S* s) {//BUG
 	S buffer;
 	long inc, i, j, seq[40];
 	int k;
@@ -408,30 +408,31 @@ void FileScan() {
 			break;
 		case 2:
 			free(ss);
-			break;
+			return;
 		default:
 			free(ss);
-			break;
+			return;
 		}
-		break;
 	}
 
 }
 int Menu() {
 	int mode;
-	printf_s("Now you in menu of program,input what you want to do:\n1:Input path to catalog\n"
-		"2:Compare the sorts\n0:Exit\n");
-	scanf_s("%d", &mode);
-	switch (mode)
-	{
-	case 1:
-		FileScan();
-		break;
-	case 2:
-		ShowStat();
-		break;
-	case 0:
-		return 0;
+	while (1) {
+		printf_s("Now you in menu of program,input what you want to do:\n1:Input path to catalog\n"
+			"2:Compare the sorts\n0:Exit\n");
+		scanf_s("%d", &mode);
+		switch (mode)
+		{
+		case 1:
+			FileScan();
+			break;
+		case 2:
+			ShowStat();
+			break;
+		case 0:
+			return 0;
+		}
 	}
 }
 int main(void)
