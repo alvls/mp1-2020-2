@@ -128,7 +128,9 @@ int main(void) {
         printf("До встречи!");
         getchar();
         system("cls");//очищаем экран перед следующим покупателем
-        free(st);
+        for (int k = 0; k < product_counter; k++) {
+            free(st[k]);
+        }
     }
 }
 
