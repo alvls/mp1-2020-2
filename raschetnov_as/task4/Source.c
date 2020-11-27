@@ -7,7 +7,7 @@ int weekday = 0;
 int q, c;
 double shopSum = 0;
 int number = INT_MIN;
-int i; //  по кнопке вывод таблицы с продуктами и штрих-кодами, проверка ввода.
+int i;
 void checkWeekdays()
 {
 	printf("\t\t\t\t\t\t\tWrong symbol or number is out of range, try again\n");
@@ -32,14 +32,9 @@ void checkBarcodes()
 
 void weekdaysList(int days[])
 {
-	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[0], weekDays[0]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[1], weekDays[1]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[2], weekDays[2]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[3], weekDays[3]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[4], weekDays[4]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[5], weekDays[5]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[6], weekDays[6]);
-	printf("\n");
+	int i;
+	for(i = 0; i < 7; i++)
+	  printf("\t\t\t\t\t\t\t%d stands for %s\n ", days[i], weekDays[i]);
 }
 
 void weekdaysFunction(int days[])
@@ -111,6 +106,7 @@ void discountsList()
 
 void productsList(int productsArray[], int priceArray[] )
 {
+	int i;
 	printf("\t\t\t\t\t\t\tThere is a list of products we own in our shop.\n");
 	printf("\t\t\t\t\t\t\tAlso, theres is a list of discounts for today:\n");
 	printf("\n");
@@ -119,17 +115,8 @@ void productsList(int productsArray[], int priceArray[] )
 	printf("\n");
 	printf("\t\t\t\t\t\t\tChoose products by entering their barcodes using a table below:\n");
 	printf("\n");
-	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[0], shopProducts[0], priceArray[0]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[1], shopProducts[1], priceArray[1]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[2], shopProducts[2], priceArray[2]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[3], shopProducts[3], priceArray[3]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[4], shopProducts[4], priceArray[4]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[5], shopProducts[5], priceArray[5]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[6], shopProducts[6], priceArray[6]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[7], shopProducts[7], priceArray[7]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[8], shopProducts[8], priceArray[8]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[9], shopProducts[9], priceArray[9]);
-	printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[10], shopProducts[10], priceArray[10]);
+	for(i = 0; i < 10; i++)
+	  printf("\t\t\t\t\t\t\t%d stands for %s\t\t%d$\n", productsArray[i], shopProducts[i], priceArray[i]);
 }
 
 
@@ -225,12 +212,15 @@ void printFunction(int countArray[], int priceArray[])
 }
 void main()
 {
-
+	int exitProgram = 1;
 	int days[] = { 0, 1, 2, 3, 4, 5, 6 };
 	int productsArray[] = { 1235, 3452, 6782, 3257, 9945, 2140, 3360, 5429, 1239, 9510, 4285 };
 	int priceArray[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 	int countArray[11];
-	//int number = INT_MIN;
+while(exitProgram != 0)
+{
+	shopSum = 0;
+	number = 1;
 	weekdaysFunction(days);
 	productsList(productsArray, priceArray);
 	for (i = 0; i < 11; i++)
@@ -263,4 +253,7 @@ void main()
 	}
 	discounts(countArray, priceArray);
 	printFunction(countArray, priceArray);
+	printf("\t\t\t\t\t\t\tPress 1 to work with program or 0 to exit");
+	scanf("%d", &exitProgram);
+}
 }
