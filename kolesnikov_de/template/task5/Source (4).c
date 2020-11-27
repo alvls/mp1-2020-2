@@ -11,7 +11,7 @@
 //DATA
 char path[FILENAME_MAX];
 char oldpath[FILENAME_MAX];
-int mode, countofsorts,flag = 1;
+int mode, countofsorts,flag = 1,alarm=1;
 char temp;
 char* Dialog[] = { "Please input path to catalog(format: disk:\\folders)\n","\t\t\t\t\tPlease input method of sort\n",
 "Files sorted by size\n" };
@@ -309,8 +309,9 @@ void StatSave(int mode, long double timer) {
 	times[mode] = timer;
 }
 void ShowStat() {
-	if (strlen(path) == 0) {
-		printf_s("First need to add path\n");
+	if (alarm == 1) {
+		printf_s("First need to add correct path\n");
+		system("pause");
 		return;
 	}
 	system("cls");
@@ -380,6 +381,12 @@ void FileScan() {
 	printf(Dialog[0]);
 	while (getchar() != '\n');
 	fgets(path, FILENAME_MAX, stdin);
+	if (strlen(path)<4) {
+		alarm = 1;
+		printf("The path is empty!\n");
+		system("pause");
+		return;
+	}
 	strcpy(oldpath, path);
 	printf_s("Your path is %s\n", path);
 	Correctpath();
@@ -388,11 +395,13 @@ void FileScan() {
 	int count = 0;
 	if ((hFile = _findfirst(path, &c_file)) == -1L) {
 		printf("No files in current directory!\n");
+		alarm = 1;
 		system("pause");
 		return;
 	}
 	else
 	{
+		alarm = 0;
 		do {
 			if (c_file.attrib & _A_SUBDIR)
 				continue;
@@ -449,7 +458,8 @@ int Menu() {
 	while (1) {
 		system("cls");
 		if (flag == 1) {
-			printf_s("\t\t\t\t\t\tPROGRAM MENU\n1:Input path to catalog\n"
+			printf_s("\t\t\t\t\t\t ------------\n");
+			printf_s("\t\t\t\t\t\t|PROGRAM MENU|\n\t\t\t\t\t\t ------------\n1:Input path to catalog\n"
 				"2:Compare the sorts,done with last location\n3:Sort in direct order(click to edit)\n0:Exit\n");
 		}
 		if (flag == -1) {
