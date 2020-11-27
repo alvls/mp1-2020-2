@@ -132,13 +132,13 @@ void SortMerge(int lb, int ub, S* s) {
 	}
 }
 void SortShell(int count, S* s) {
-	S buffer; //дополнительная переменная для перестановки
+	S buffer;
 	long inc, i, j, seq[40];
 	int k;
-	k = increment(seq, count); // вычисление последовательности приращений
+	k = increment(seq, count);
 	while (k >= 0)
 	{
-		inc = seq[k--]; //сортировка вставками с инкрементами inc[]
+		inc = seq[k--];
 		for (i = inc; i < count; i++)
 		{
 			buffer = s[i];
@@ -199,9 +199,9 @@ void SortQuick(S* s, int count) { //Hoara sort
 }
 void SortCouting(int count, S* s) {
 	int k = count - 1;
-	S buffer; //дополнительная переменная для перестановки
+	S buffer;
 	unsigned long* countequalsizes;
-	unsigned long minsize, maxsize, size; //Минимальное и максимальное значение размера
+	unsigned long minsize, maxsize, size;
 	minsize = maxsize = s[0].size;
 	for (int i = 0; i < count; i++)
 	{
