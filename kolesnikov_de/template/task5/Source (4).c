@@ -8,9 +8,10 @@
 #include <string.h>
 #include <limits.h>
 #define CountSorts 7
+//DATA
 char path[FILENAME_MAX];
 char oldpath[FILENAME_MAX];
-int mode, countofsorts;
+int mode, countofsorts,flag = 1;
 char temp;
 char* Dialog[] = { "Please input path to catalog(format: disk:\\folders)\n","\t\t\t\t\tPlease input method of sort\n",
 "Files sorted by size\n" };
@@ -24,8 +25,8 @@ struct _S
 	int size;
 	char* name;
 }S;
-//Sorts
 
+//Sorts
 void merge(int lb, int ub, S* s) { //need memory fix 
 	int split = (ub + lb) / 2;
 	S* buffer;
@@ -130,15 +131,14 @@ void SortMerge(int lb, int ub, S* s) {
 		merge(lb, ub, s);
 	}
 }
-//BUG
 void SortShell(int count, S* s) {
-	S buffer;
+	S buffer; //дополнительная переменная для перестановки
 	long inc, i, j, seq[40];
 	int k;
-	k = increment(seq, count);
-	while (s >= 0)
+	k = increment(seq, count); // вычисление последовательности приращений
+	while (k >= 0)
 	{
-		inc = seq[k--];
+		inc = seq[k--]; //сортировка вставками с инкрементами inc[]
 		for (i = inc; i < count; i++)
 		{
 			buffer = s[i];
@@ -348,11 +348,23 @@ void ShowStat() {
 void ToScreen(long double time, int count, S* s,int mode) {
 	StatSave(mode,time);
 	system("cls");
-	printf("Sorted files:\n");
-	for (int i = 0; i < count; i++) {
-		printf_s("%d:%s\t%d\n", i + 1, s[i].name, s[i].size);
+	printf("\t\t\t\tSorted files\n");
+	printf("NAME\r\t\t\t\t\t\tSIZE\n");
+	if (flag == 1) {
+		for (int i = 0; i < count; i++) {
+			printf_s("%d:%0.44s\r\t\t\t\t\t\t%d\n", i + 1, s[i].name, s[i].size);
+		}
 	}
-	printf("Time of sort is - %Lf\n", time);
+	if (flag == -1) {
+		for (int i = count -1; i>-1; i--) {
+			printf_s("%d:%0.44s\r\t\t\t\t\t\t%d\n", count - i, s[i].name, s[i].size);
+		}
+	}
+	for (int i = 0; i < 26; i++) {
+		printf_s("-");
+	}
+	printf_s("\n");
+	printf("Time of sort is - %Lf\nFiles count - %d\n", time,count);
 	system("pause");
 	system("cls");
 }
@@ -436,8 +448,14 @@ int Menu() {
 	int mode;
 	while (1) {
 		system("cls");
-		printf_s("\t\t\t\t\t\tPROGRAM MENU\n1:Input path to catalog\n"
-			"2:Compare the sorts,done with last location\n0:Exit\n");
+		if (flag == 1) {
+			printf_s("\t\t\t\t\t\tPROGRAM MENU\n1:Input path to catalog\n"
+				"2:Compare the sorts,done with last location\n3:Sort in direct order(click to edit)\n0:Exit\n");
+		}
+		if (flag == -1) {
+			printf_s("\t\t\t\t\t\tPROGRAM MENU\n1:Input path to catalog\n"
+				"2:Compare the sorts,done with last location\n3:Sort in the reverse order(click to edit)\n0:Exit\n");
+		}
 		scanf_s("%d", &mode);
 		switch (mode)
 		{
@@ -447,8 +465,20 @@ int Menu() {
 		case 2:
 			ShowStat();
 			break;
+		case 3:
+			if (flag == 1) {
+				flag = -1;
+			}
+			else if (flag == -1) {
+				flag = 1;
+			}
+			break;
 		case 0:
 			return 0;
+		default:
+			printf_s("Try to input correct option\n");
+			system("pause");
+			break;
 		}
 	}
 }
