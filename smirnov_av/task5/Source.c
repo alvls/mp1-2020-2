@@ -485,7 +485,7 @@ void main(void)
 			free(sorts);
 			free(copy_files);
 			free(files);
-			break;
+			return;
 		case 2:
 			print_sorts();
 			printf("Для возвращения в главное меню введите 0\n");
