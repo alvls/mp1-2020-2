@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <locale.h>
 #include <time.h>
@@ -9,7 +9,7 @@
 
 char path[256]; 
 
-struct info //структура для хранения информации по каждой сортировке
+struct info //СЃС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РёРЅС„РѕСЂРјР°С†РёРё РїРѕ РєР°Р¶РґРѕР№ СЃРѕСЂС‚РёСЂРѕРІРєРµ
 {
 	char* name;
 	double time;
@@ -17,13 +17,13 @@ struct info //структура для хранения информации по каждой сортировке
 
 void print_main_menu() 
 {
-	printf("1.Ввести путь до директории\n");
-	printf("2.Виды сортировок\n");
-	printf("3.Гайд по использованию\n");
-	printf("0.Выход\n");
+	printf("1.Р’РІРµСЃС‚Рё РїСѓС‚СЊ РґРѕ РґРёСЂРµРєС‚РѕСЂРёРё\n");
+	printf("2.Р’РёРґС‹ СЃРѕСЂС‚РёСЂРѕРІРѕРє\n");
+	printf("3.Р“Р°Р№Рґ РїРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЋ\n");
+	printf("0.Р’С‹С…РѕРґ\n");
 }
 
-void create_copy(struct _finddata_t* copy_files, struct _finddata_t* files,int count) //копирует в copy_files files
+void create_copy(struct _finddata_t* copy_files, struct _finddata_t* files,int count) //РєРѕРїРёСЂСѓРµС‚ РІ copy_files files
 {
 	int i = 0;
 	for (i = 0; i < count; i++)
@@ -34,7 +34,7 @@ void get_path()
 {
 	int i = 0;
 	while ((getchar()) != '\n');
-	printf("Введите путь до директории:");
+	printf("Р’РІРµРґРёС‚Рµ РїСѓС‚СЊ РґРѕ РґРёСЂРµРєС‚РѕСЂРёРё:");
 	gets_s(path, 256);
 	for (i = 0; i < 255; i++)
 		if (path[i] == "\\")
@@ -45,27 +45,27 @@ void get_path()
 
 void print_sorts()
 {
-	printf("Программа предоставляет следующие виды сортировок:\n");
-	printf("1.Пузырьком\n");
-	printf("2.Выбором\n");
-	printf("3.Вставками\n");
-	printf("4.Слиянием\n");
-	printf("5.Хоара\n");
-	printf("6.Шелла\n");
-	printf("7.Подсчетом\n");
+	printf("РџСЂРѕРіСЂР°РјРјР° РїСЂРµРґРѕСЃС‚Р°РІР»СЏРµС‚ СЃР»РµРґСѓСЋС‰РёРµ РІРёРґС‹ СЃРѕСЂС‚РёСЂРѕРІРѕРє:\n");
+	printf("1.РџСѓР·С‹СЂСЊРєРѕРј\n");
+	printf("2.Р’С‹Р±РѕСЂРѕРј\n");
+	printf("3.Р’СЃС‚Р°РІРєР°РјРё\n");
+	printf("4.РЎР»РёСЏРЅРёРµРј\n");
+	printf("5.РҐРѕР°СЂР°\n");
+	printf("6.РЁРµР»Р»Р°\n");
+	printf("7.РџРѕРґСЃС‡РµС‚РѕРј\n");
 }
 
 void guid()
 {
-	printf("Основные функции:\n");
-	printf("1.В главном меню введите \"1\"\n");
-	printf("2.Введите путь до директории в виде:\"диск:\\название папки\\название папки\\...\\конечная папка\"\n");
-	printf("3.Выберите сортировку и вывод файлов по возрастанию или убыванию размера\n");
-	printf("Дополнительные функции:\n");
-	printf("В конце программа выведет таблицу с результатами измерений\n");
+	printf("РћСЃРЅРѕРІРЅС‹Рµ С„СѓРЅРєС†РёРё:\n");
+	printf("1.Р’ РіР»Р°РІРЅРѕРј РјРµРЅСЋ РІРІРµРґРёС‚Рµ \"1\"\n");
+	printf("2.Р’РІРµРґРёС‚Рµ РїСѓС‚СЊ РґРѕ РґРёСЂРµРєС‚РѕСЂРёРё РІ РІРёРґРµ:\"РґРёСЃРє:\\РЅР°Р·РІР°РЅРёРµ РїР°РїРєРё\\РЅР°Р·РІР°РЅРёРµ РїР°РїРєРё\\...\\РєРѕРЅРµС‡РЅР°СЏ РїР°РїРєР°\"\n");
+	printf("3.Р’С‹Р±РµСЂРёС‚Рµ СЃРѕСЂС‚РёСЂРѕРІРєСѓ Рё РІС‹РІРѕРґ С„Р°Р№Р»РѕРІ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ РёР»Рё СѓР±С‹РІР°РЅРёСЋ СЂР°Р·РјРµСЂР°\n");
+	printf("Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё:\n");
+	printf("Р’ РєРѕРЅС†Рµ РїСЂРѕРіСЂР°РјРјР° РІС‹РІРµРґРµС‚ С‚Р°Р±Р»РёС†Сѓ СЃ СЂРµР·СѓР»СЊС‚Р°С‚Р°РјРё РёР·РјРµСЂРµРЅРёР№\n");
 }
 
-int count_files(char* path)//считает кол-во файлов
+int count_files(char* path)//СЃС‡РёС‚Р°РµС‚ РєРѕР»-РІРѕ С„Р°Р№Р»РѕРІ
 {
 	int count = 0;
 	struct _finddata_t c_file;
@@ -298,19 +298,19 @@ void CountingSort(struct _finddata_t* copy_files,int count)
 
 void main(void)
 {
-	int count_of_sorts = 0; //кол-во использованныъ сортировок(для заполнения структуры sorts) 
-	int choice = 0;//выбор сортировки
-	int ch1 = 0; //используется для запроса смены сортировки
-	int pm1 =0;//выбор в меню
-	int type = 0;//вид сортировки по позрастанию или убыванию
+	int count_of_sorts = 0; //РєРѕР»-РІРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРЅС‹СЉ СЃРѕСЂС‚РёСЂРѕРІРѕРє(РґР»СЏ Р·Р°РїРѕР»РЅРµРЅРёСЏ СЃС‚СЂСѓРєС‚СѓСЂС‹ sorts) 
+	int choice = 0;//РІС‹Р±РѕСЂ СЃРѕСЂС‚РёСЂРѕРІРєРё
+	int ch1 = 0; //РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ Р·Р°РїСЂРѕСЃР° СЃРјРµРЅС‹ СЃРѕСЂС‚РёСЂРѕРІРєРё
+	int pm1 =0;//РІС‹Р±РѕСЂ РІ РјРµРЅСЋ
+	int type = 0;//РІРёРґ СЃРѕСЂС‚РёСЂРѕРІРєРё РїРѕ РїРѕР·СЂР°СЃС‚Р°РЅРёСЋ РёР»Рё СѓР±С‹РІР°РЅРёСЋ
 	int count_of_files = 0;
 	int i = 0;
 	int j = 0;
-	struct info* sorts = (struct info*)malloc(sizeof(struct info) * 14); // 14 потому что вряд ли кто-то будет использовать каждую сортировку по 2 раза
-	int count = -1; //используется для проверки на наличие файлов в директории и правильности указанного пути
+	struct info* sorts = (struct info*)malloc(sizeof(struct info) * 14); // 14 РїРѕС‚РѕРјСѓ С‡С‚Рѕ РІСЂСЏРґ Р»Рё РєС‚Рѕ-С‚Рѕ Р±СѓРґРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РєР°Р¶РґСѓСЋ СЃРѕСЂС‚РёСЂРѕРІРєСѓ РїРѕ 2 СЂР°Р·Р°
+	int count = -1; //РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РїСЂРѕРІРµСЂРєРё РЅР° РЅР°Р»РёС‡РёРµ С„Р°Р№Р»РѕРІ РІ РґРёСЂРµРєС‚РѕСЂРёРё Рё РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё СѓРєР°Р·Р°РЅРЅРѕРіРѕ РїСѓС‚Рё
 	double t1, t2;
-	struct _finddata_t* files; //основная структура, куда считываются все данные с файлов
-	struct _finddata_t* copy_files;//структура, которая используется в сортировках(копия files)
+	struct _finddata_t* files; //РѕСЃРЅРѕРІРЅР°СЏ СЃС‚СЂСѓРєС‚СѓСЂР°, РєСѓРґР° СЃС‡РёС‚С‹РІР°СЋС‚СЃСЏ РІСЃРµ РґР°РЅРЅС‹Рµ СЃ С„Р°Р№Р»РѕРІ
+	struct _finddata_t* copy_files;//СЃС‚СЂСѓРєС‚СѓСЂР°, РєРѕС‚РѕСЂР°СЏ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ СЃРѕСЂС‚РёСЂРѕРІРєР°С…(РєРѕРїРёСЏ files)
 	intptr_t hFile;
 	setlocale(LC_ALL, "Russian");	
 	print_main_menu();
@@ -327,7 +327,7 @@ void main(void)
 				count = count_files(path);
 				if (count == -1)
 				{
-					printf("Ошибка ввода пути или в директории отсутствуют файлы, попробуйте еще раз, для ввода пути нажмите Enter");
+					printf("РћС€РёР±РєР° РІРІРѕРґР° РїСѓС‚Рё РёР»Рё РІ РґРёСЂРµРєС‚РѕСЂРёРё РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‚ С„Р°Р№Р»С‹, РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·, РґР»СЏ РІРІРѕРґР° РїСѓС‚Рё РЅР°Р¶РјРёС‚Рµ Enter");
 					path[0] = '\0';
 				}
 			}
@@ -346,95 +346,95 @@ void main(void)
 				count_of_files++;
 			} while (_findnext(hFile, &files[i]) == 0);
 			_findclose(hFile);
-			copy_files = (struct _finddata_t*)malloc(count * sizeof(struct _finddata_t));//выделяем память для клона структур файлов
+			copy_files = (struct _finddata_t*)malloc(count * sizeof(struct _finddata_t));//РІС‹РґРµР»СЏРµРј РїР°РјСЏС‚СЊ РґР»СЏ РєР»РѕРЅР° СЃС‚СЂСѓРєС‚СѓСЂ С„Р°Р№Р»РѕРІ
 			do {
 				create_copy(copy_files, files, count);
-				printf("Выберите сортировку:\n");
-				printf("1-Пузырьком\n");
-				printf("2-Выбором\n");
-				printf("3-Вставками\n");
-				printf("4-Слиянием\n");
-				printf("5-Хоара\n");
-				printf("6-Шелла\n");
-				printf("7-Подсчетом\n");
+				printf("Р’С‹Р±РµСЂРёС‚Рµ СЃРѕСЂС‚РёСЂРѕРІРєСѓ:\n");
+				printf("1-РџСѓР·С‹СЂСЊРєРѕРј\n");
+				printf("2-Р’С‹Р±РѕСЂРѕРј\n");
+				printf("3-Р’СЃС‚Р°РІРєР°РјРё\n");
+				printf("4-РЎР»РёСЏРЅРёРµРј\n");
+				printf("5-РҐРѕР°СЂР°\n");
+				printf("6-РЁРµР»Р»Р°\n");
+				printf("7-РџРѕРґСЃС‡РµС‚РѕРј\n");
 				scanf_s("%d", &choice);
 				while ((choice > 7) || (choice < 1))
 				{
-					printf("Ошбика выбора сортировки, попробуйте еще раз: ");
+					printf("РћС€Р±РёРєР° РІС‹Р±РѕСЂР° СЃРѕСЂС‚РёСЂРѕРІРєРё, РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·: ");
 					scanf_s("%d", &choice);
 				}
 				system("cls");
 				switch (choice)
 				{
 				case 1:
-					printf("Вы выбрали сортировку \"Пузырьком\"\n");
+					printf("Р’С‹ РІС‹Р±СЂР°Р»Рё СЃРѕСЂС‚РёСЂРѕРІРєСѓ \"РџСѓР·С‹СЂСЊРєРѕРј\"\n");
 					t1 = omp_get_wtime();
 					BubbleSort(copy_files, count);
 					t2 = omp_get_wtime();
 					sorts[count_of_sorts].name = (char*)malloc(sizeof(char) * 15);
-					sorts[count_of_sorts].name = "Пузырьком";
+					sorts[count_of_sorts].name = "РџСѓР·С‹СЂСЊРєРѕРј";
 					sorts[count_of_sorts].time = t2-t1;
 					break;
 				case 2:
-					printf("Вы выбрали сортировку \"Выбором\"\n");
+					printf("Р’С‹ РІС‹Р±СЂР°Р»Рё СЃРѕСЂС‚РёСЂРѕРІРєСѓ \"Р’С‹Р±РѕСЂРѕРј\"\n");
 					t1 = omp_get_wtime();
 					SelectSort(copy_files, count);
 					t2 = omp_get_wtime();
 					sorts[count_of_sorts].name = (char*)malloc(sizeof(char) * 15);
-					sorts[count_of_sorts].name = "Выбором";
+					sorts[count_of_sorts].name = "Р’С‹Р±РѕСЂРѕРј";
 					sorts[count_of_sorts].time = t2 - t1;
 					break;
 				case 3:
-					printf("Вы выбрали сортировку \"Вставками\"\n");
+					printf("Р’С‹ РІС‹Р±СЂР°Р»Рё СЃРѕСЂС‚РёСЂРѕРІРєСѓ \"Р’СЃС‚Р°РІРєР°РјРё\"\n");
 					t1 = omp_get_wtime();
 					InsertSort(copy_files, count);
 					t2 = omp_get_wtime();
 					sorts[count_of_sorts].name = (char*)malloc(sizeof(char) * 15);
-					sorts[count_of_sorts].name = "Вставками";
+					sorts[count_of_sorts].name = "Р’СЃС‚Р°РІРєР°РјРё";
 					sorts[count_of_sorts].time = t2 - t1;
 					break;
 				case 4:
-					printf("Вы выбрали сортировку \"Слиянием\"\n");
+					printf("Р’С‹ РІС‹Р±СЂР°Р»Рё СЃРѕСЂС‚РёСЂРѕРІРєСѓ \"РЎР»РёСЏРЅРёРµРј\"\n");
 					t1 = omp_get_wtime();
 					MergeSort(copy_files, 0, count - 1);
 					t2 = omp_get_wtime();
 					sorts[count_of_sorts].name = (char*)malloc(sizeof(char) * 15);
-					sorts[count_of_sorts].name = "Слиянинем";
+					sorts[count_of_sorts].name = "РЎР»РёСЏРЅРёРЅРµРј";
 					sorts[count_of_sorts].time = t2 - t1;
 					break;
 				case 5:
-					printf("Вы выбрали сортировку \"Хоара\"\n");
+					printf("Р’С‹ РІС‹Р±СЂР°Р»Рё СЃРѕСЂС‚РёСЂРѕРІРєСѓ \"РҐРѕР°СЂР°\"\n");
 					t1 = omp_get_wtime();
 					QuickSort(copy_files, count);
 					t2 = omp_get_wtime();
 					sorts[count_of_sorts].name = (char*)malloc(sizeof(char) * 15);
-					sorts[count_of_sorts].name = "Хоара";
+					sorts[count_of_sorts].name = "РҐРѕР°СЂР°";
 					sorts[count_of_sorts].time = t2 - t1;
 					break;
 				case 6:
-					printf("Вы выбрали сортировку \"Шелла\"\n");
+					printf("Р’С‹ РІС‹Р±СЂР°Р»Рё СЃРѕСЂС‚РёСЂРѕРІРєСѓ \"РЁРµР»Р»Р°\"\n");
 					t1 = omp_get_wtime();
 					ShellSort(copy_files, count);
 					t2 = omp_get_wtime();
 					sorts[count_of_sorts].name = (char*)malloc(sizeof(char) * 15);
-					sorts[count_of_sorts].name = "Шелла";
+					sorts[count_of_sorts].name = "РЁРµР»Р»Р°";
 					sorts[count_of_sorts].time = t2 - t1;
 					break;
 				case 7:
-					printf("Вы выбрали сортировку \"Подсчетом\"\n");
+					printf("Р’С‹ РІС‹Р±СЂР°Р»Рё СЃРѕСЂС‚РёСЂРѕРІРєСѓ \"РџРѕРґСЃС‡РµС‚РѕРј\"\n");
 					t1 = omp_get_wtime();
 					CountingSort(copy_files, count);
 					t2 = omp_get_wtime();
 					sorts[count_of_sorts].name = (char*)malloc(sizeof(char) * 15);
-					sorts[count_of_sorts].name = "Подсчетом";
+					sorts[count_of_sorts].name = "РџРѕРґСЃС‡РµС‚РѕРј";
 					sorts[count_of_sorts].time = t2 - t1;
 					break;
 				}
-				printf("Выберите тип сортировки:1-По возрастанию 2-По убыванию\n");
+				printf("Р’С‹Р±РµСЂРёС‚Рµ С‚РёРї СЃРѕСЂС‚РёСЂРѕРІРєРё:1-РџРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ 2-РџРѕ СѓР±С‹РІР°РЅРёСЋ\n");
 				scanf_s("%d", &type);
 				while (type != 1 && type != 2)
 				{
-					printf("Ошибка выбора типа сортировки, попробуйте еще раз: ");
+					printf("РћС€РёР±РєР° РІС‹Р±РѕСЂР° С‚РёРїР° СЃРѕСЂС‚РёСЂРѕРІРєРё, РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·: ");
 					scanf_s("%d", &type);
 				}
 				printf("Listing of .c files\n\n");
@@ -450,31 +450,31 @@ void main(void)
 					for (i = count - 1; i >= 0; i--)
 						printf("%-12.12s %15ld\n", copy_files[i].name, copy_files[i].size);
 				}
-				printf("Время сортировки составило:%lf (сек)\n", (t2 - t1));
-				printf("Количество файлов:%d\n", count_of_files);
-				printf("Хотите изменить сортировку?1-Да 2-Нет\n");
+				printf("Р’СЂРµРјСЏ СЃРѕСЂС‚РёСЂРѕРІРєРё СЃРѕСЃС‚Р°РІРёР»Рѕ:%lf (СЃРµРє)\n", (t2 - t1));
+				printf("РљРѕР»РёС‡РµСЃС‚РІРѕ С„Р°Р№Р»РѕРІ:%d\n", count_of_files);
+				printf("РҐРѕС‚РёС‚Рµ РёР·РјРµРЅРёС‚СЊ СЃРѕСЂС‚РёСЂРѕРІРєСѓ?1-Р”Р° 2-РќРµС‚\n");
 				scanf_s("%d", &ch1);
 				while (ch1 != 1 && ch1 != 2)
 				{
-					printf("Ошибка ввода попробуйте еще раз\n");
+					printf("РћС€РёР±РєР° РІРІРѕРґР° РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·\n");
 					scanf_s("%d", &ch1);
 				}
 				count_of_sorts++;
 			} while (ch1 != 2);
-			printf("Сортировка:   Время(сек):\n");
+			printf("РЎРѕСЂС‚РёСЂРѕРІРєР°:   Р’СЂРµРјСЏ(СЃРµРє):\n");
 			for (i = 0; i < count_of_sorts; i++)
 				printf("%-12.12s  %lf\n", sorts[i].name, sorts[i].time);
-			printf("Для завершения работы программы введите 0\n");
+			printf("Р”Р»СЏ Р·Р°РІРµСЂС€РµРЅРёСЏ СЂР°Р±РѕС‚С‹ РїСЂРѕРіСЂР°РјРјС‹ РІРІРµРґРёС‚Рµ 0\n");
 			scanf_s("%d", &pm1);
 			while (pm1 != 0)
 			{
-				printf("Ошибка, введите 0");
+				printf("РћС€РёР±РєР°, РІРІРµРґРёС‚Рµ 0");
 				scanf_s("%d", &pm1);
 			}
 			break;
 		case 2:
 			print_sorts();
-			printf("Для возвращения в главное меню введите 0\n");
+			printf("Р”Р»СЏ РІРѕР·РІСЂР°С‰РµРЅРёСЏ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ РІРІРµРґРёС‚Рµ 0\n");
 			scanf_s("%d", &pm1);
 			system("cls");
 			if (pm1 == 0)
@@ -485,7 +485,7 @@ void main(void)
 			break;
 		case 3:
 			guid();
-			printf("Для возвращения в главное меню введите 0\n");
+			printf("Р”Р»СЏ РІРѕР·РІСЂР°С‰РµРЅРёСЏ РІ РіР»Р°РІРЅРѕРµ РјРµРЅСЋ РІРІРµРґРёС‚Рµ 0\n");
 			scanf_s("%d", &pm1);
 			if (pm1 == 0)
 			{
@@ -496,7 +496,7 @@ void main(void)
 		case 0:
 			return;
 		default:
-			printf("Ошибка выбора в меню, попробуйте еще раз\n");
+			printf("РћС€РёР±РєР° РІС‹Р±РѕСЂР° РІ РјРµРЅСЋ, РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·\n");
 			print_main_menu();
 			scanf_s("%d", &pm1);
 			system("cls");
