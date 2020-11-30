@@ -1,4 +1,4 @@
-#include <stdio.h>
+/*#include <stdio.h>
 #define SIZE 4
 
 int codes[SIZE] = { 1234, 4321, 234, 1515};
@@ -45,3 +45,4 @@ void main() {
 	printf("Total: full price: %.2lf  discount: %.2lf  to pay: %.2lf", bill, discount, bill-discount);
 	scanf_s("%d", &code);
 }
+*/
