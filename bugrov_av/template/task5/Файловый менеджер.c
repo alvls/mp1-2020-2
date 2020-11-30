@@ -80,12 +80,13 @@ void menu()
     printf("");
     list = manager();
     printf("\n");
+    do
     {
         if (flag == 2)
             printf("Вы можете снова выбрать метод сортировки: \n");
         else
             printf("Введите цифру - метод сортировки:\n");
-        printf("1) Cортировка пузырьком\n2) Сортировка выбором\n3) Сортировка вставками\n4) Сортировка слиянием\n5) Сортировка Хоара\n6) Сортировка Шеллa\n7) Сортировка подсчётом\n");
+        printf("1) Cортировка пузырьком\n2) Сортировка выбором\n3) Сортировка вставками\n4) Сортировка слиянием\n5) Сортировка Хоара\n6) Сортировка Шеллa\n7) Сортировка подсчётом\n 8)сменить способ сортировки\n");
         printf("Или выберите 0 для выхода\n");
         do
         {
@@ -94,7 +95,6 @@ void menu()
         }
         while (a_clean == EOF && a_clean == '\n');
         a -= '0';
-        //printf("a=%d\n", a);
         if (a > 0 && a < 8)
             switch (a)
             {
@@ -118,7 +118,6 @@ void menu()
                 break;
             case 4:
                 printf("\n");
-                //merge(list, 0, count - 1);
                 merge(list, count);
                 printer(list, count);
                 flag = 2;
@@ -140,6 +139,10 @@ void menu()
                 counting(list, count);
                 printer(list, count);
                 flag = 2;
+                break;
+            case 8:
+                printf("\n");
+                menu();
                 break;
             }
         else
@@ -236,7 +239,7 @@ void bubble(fileinf* a, int size) // работает
             break;
     }
     t2 = omp_get_wtime();// финиш
-    worktime += t2 - t1;// получение разности
+    worktime = t2 - t1;// получение разности
 }
 void choice(fileinf* a, int size) // работает
 {
@@ -259,7 +262,7 @@ void choice(fileinf* a, int size) // работает
         a[i] = k;
     }
     t2 = omp_get_wtime();// финиш
-    worktime += t2 - t1;// получение разности    
+    worktime = t2 - t1;// получение разности    
 }
 void insert(fileinf* a, int size) // работает
 {
@@ -281,7 +284,7 @@ void insert(fileinf* a, int size) // работает
         a[j - 1] = a[j];
     a[j - 1] = tmp; // вставка нулевого элемента на отсортированное место
     t2 = omp_get_wtime(); // финиш
-    worktime += t2 - t1;// получение разности
+    worktime = t2 - t1;// получение разности
 }
 fileinf min_finder(fileinf* a, int size) // работает
 {
@@ -377,7 +380,7 @@ void Hoar(fileinf* a, int left, int right) // работает
     if (left < j)
         Hoar(a, left, j);
     t2 = omp_get_wtime();// финиш
-    worktime += t2 - t1;// получение разности
+    worktime = t2 - t1;// получение разности
 }
 int increment(int inc[], int size) // работает
 {
@@ -419,71 +422,34 @@ void Shell(fileinf* a, int size) // работает
         }
     }
     t2 = omp_get_wtime();// финиш
-    worktime += t2 - t1;// получение разности
+    worktime = t2 - t1;// получение разности
 }
 void counting(fileinf* a, int size) 
 {
-    int i, j;//j пригодится только для случая, когда есть одинаковые размеры
-    int size_of_tmp; //размер массива для почти стандартного метода или даже для конкретного нестандартного метода
-    int* count; //счётчик массивов, если размеры файлов совпадут с точностью до байта
-    fileinf** count_tmp;//массив массивов, в котором будут храниться структуры, если будет совпадение размера файлов
-    fileinf nul;//аналог нуля для типа структура
-    int max = a[0].size, min = a[0].size, k=0;
     double t1, t2;//время
     t1 = omp_get_wtime();
-    nul.size = -1;
-    for (i = 0; i < size; i++)
-        if (max < a[i].size)//находим максимальный элемент
-        {
+    int min, max, i, k = 0, c;
+    fileinf* buff;
+    int* count;
+    min = max = a[0].size;
+    for (i = 1; i < size; i++) {
+        if (a[i].size < min)
+            min = a[i].size;
+        if (a[i].size > max)
             max = a[i].size;
-        }
-        else
-            if (min > a[i].size)//находим минимальный элемент
-                min = a[i].size; 
-    size_of_tmp = max - min + 1;
-    printf("size_of_tmp=%d\n", size_of_tmp);
-    count = (int*)malloc(sizeof(int) * size_of_tmp);// массив для подсчёта
-    for (i = 0; i < size; i++)
-        count[i] = 0;
-    for (i = 0; i < size_of_tmp; i++)
-    {    
-        count[a[i].size - min]++; // получаем количество структур каждого размера
-        printf("count[%d]=%d", i, count[i]);
-    }     
-    count_tmp = (fileinf**)malloc(sizeof(fileinf*) * size_of_tmp);//массив массивов структур
-    for (i = 0; i < size_of_tmp; i++)
-        count_tmp[i] = (fileinf*)malloc(sizeof(fileinf) * count[i]);//для каждого временного массива структур пишем размер
-    for (i = 0; i < size_of_tmp; i++)///////////////////////////////////////////////////////////////////////////// тут нужно присвоить все значения значению nul
-        for (j = 0; j < count[i]; j++)
-        {
-            count_tmp[i][j] = nul;
-        }
-    for (i = 0; i < size_of_tmp; i++)
-    {
-        j = 0;
-        while (count_tmp[i][j].size != nul.size&&j<count[i])//ищем обнулённый элемент, сравнение по размерам производится потому, что нельзя сравнивать типы fileinf
-        {
-            j++;
-        }
-        if(j<count[i])
-        count_tmp[a[i].size - min][j] = a[i];//заменяем обнулённый элемент на обычный
     }
-                //Я не знаю, как у меня получилось создать штуки снизу, но я их оставлю на память. Кстати, каждый такой тройной слэш можно копировать через Shift+Enter
-                /// <summary>
-                /// 
-                /// </summary>
-                /// <param name="a"></param>
-                /// <param name="size"></param>
-    k = 0;
-    for (i = 0; i < size_of_tmp; i++)//перевод массива из временного хранилища в постоянное
-        for (j = 0; j < count[i]; j++)//изменение до момента, когда всё заполнено
-        {
-            a[k] = count_tmp[i][j];
-            k++;
-        }
-    for (i = 0; i < size_of_tmp; i++)
-        free(count_tmp[i]);
-    free(count);  
+    c = max - min + 1;          
+    buff = (struct fileinf*)malloc(sizeof (fileinf) * c * size);
+    count = (int*)malloc(sizeof(int) * c);
+    for (i = 0; i < c; i++)
+        count[i] = 0;
+    for (i = 0; i <size; i++)
+        buff[size * (a[i].size - min) + count[a[i].size - min]++] = a[i];
+    for (i = 0; i < c; i++)
+        for(int j = 0; j < count[i] ; j++)
+            a[k++] = buff[size * i + j];            
+    free(count);
+    free(buff);
     t2 = omp_get_wtime();// финиш
-    worktime += t2 - t1;// получение разности
+    worktime = t2 - t1;// получение разности
 }
