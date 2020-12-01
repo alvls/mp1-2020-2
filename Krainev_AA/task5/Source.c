@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>  
 #include <stdlib.h>  
@@ -30,7 +30,7 @@ void printAllSort(struct informationAboutSoarting* soartingInformation, const in
 
 
 struct informationAboutSoarting {
-    float timeOfSoarting; //время сортировки
+    float timeOfSoarting; //РІСЂРµРјСЏ СЃРѕСЂС‚РёСЂРѕРІРєРё
 }soartingInformation[7];
 
 typedef struct oneFileInformation { //https://www.rpi.edu/dept/cis/software/g77-mingw32/include/io.h
@@ -43,12 +43,12 @@ typedef struct oneFileInformation { //https://www.rpi.edu/dept/cis/software/g77-
     char		name[FILENAME_MAX];	/* may include spaces. */
 } informationAboutOneFile;
 
-struct { // без дескриптора так как используем шаблон структуры один раз
+struct { // Р±РµР· РґРµСЃРєСЂРёРїС‚РѕСЂР° С‚Р°Рє РєР°Рє РёСЃРїРѕР»СЊР·СѓРµРј С€Р°Р±Р»РѕРЅ СЃС‚СЂСѓРєС‚СѓСЂС‹ РѕРґРёРЅ СЂР°Р·
     long int NumberOfFiles;
 } informationAboutDirectory;
 
 
-int counter(char* directoryPath) //счетчик количества файлов
+int counter(char* directoryPath) //СЃС‡РµС‚С‡РёРє РєРѕР»РёС‡РµСЃС‚РІР° С„Р°Р№Р»РѕРІ
 {
     informationAboutDirectory.NumberOfFiles = 0;
     struct _finddata_t sortableFile;
@@ -63,31 +63,31 @@ int counter(char* directoryPath) //счетчик количества файлов
         } while (_findnext(hFile, &sortableFile) == 0);
         _findclose(hFile);
     }
-    return informationAboutDirectory.NumberOfFiles; //кол-во файлов
+    return informationAboutDirectory.NumberOfFiles; //РєРѕР»-РІРѕ С„Р°Р№Р»РѕРІ
 }
 
-struct informationAboutOneFile* gettingInformationFromADirectory() { //крч функция отвечает за получение информации от директории и всякое такое
-    intptr_t hFile; //memsize тип intptr_t хранит в себе  hFile
-    struct _finddata_t sortableFile; //сортируемый sortableFile.name sortableFile.size sortableFile.time
+struct informationAboutOneFile* gettingInformationFromADirectory() { //РєСЂС‡ С„СѓРЅРєС†РёСЏ РѕС‚РІРµС‡Р°РµС‚ Р·Р° РїРѕР»СѓС‡РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё РѕС‚ РґРёСЂРµРєС‚РѕСЂРёРё Рё РІСЃСЏРєРѕРµ С‚Р°РєРѕРµ
+    intptr_t hFile; //memsize С‚РёРї intptr_t С…СЂР°РЅРёС‚ РІ СЃРµР±Рµ  hFile
+    struct _finddata_t sortableFile; //СЃРѕСЂС‚РёСЂСѓРµРјС‹Р№ sortableFile.name sortableFile.size sortableFile.time
 
-    printf("Введите путь до  директория (например : C:\\\\temp\\\\*.*) : \n");
+    printf("Р’РІРµРґРёС‚Рµ РїСѓС‚СЊ РґРѕ  РґРёСЂРµРєС‚РѕСЂРёСЏ (РЅР°РїСЂРёРјРµСЂ : C:\\\\temp\\\\*.*) : \n");
     gets_s(directoryPath, FILENAME_MAX);
 
-    printf("Выбранный каталог %s\n", directoryPath);
-    strcat(directoryPath, "*");//приклеим в конец адреса звездочку
-    printf("Выбранный каталог со звездочкой %s\n", directoryPath);
+    printf("Р’С‹Р±СЂР°РЅРЅС‹Р№ РєР°С‚Р°Р»РѕРі %s\n", directoryPath);
+    strcat(directoryPath, "*");//РїСЂРёРєР»РµРёРј РІ РєРѕРЅРµС† Р°РґСЂРµСЃР° Р·РІРµР·РґРѕС‡РєСѓ
+    printf("Р’С‹Р±СЂР°РЅРЅС‹Р№ РєР°С‚Р°Р»РѕРі СЃРѕ Р·РІРµР·РґРѕС‡РєРѕР№ %s\n", directoryPath);
 
     if ((hFile = _findfirst(directoryPath, &sortableFile)) == -1L) {
-        printf("Ввели неверный адрес для директории!\n");
-        gettingInformationFromADirectory();//вызываем пока не получим верный адресс
+        printf("Р’РІРµР»Рё РЅРµРІРµСЂРЅС‹Р№ Р°РґСЂРµСЃ РґР»СЏ РґРёСЂРµРєС‚РѕСЂРёРё!\n");
+        gettingInformationFromADirectory();//РІС‹Р·С‹РІР°РµРј РїРѕРєР° РЅРµ РїРѕР»СѓС‡РёРј РІРµСЂРЅС‹Р№ Р°РґСЂРµСЃСЃ
         return;
     }
-    //иначе подсчитаем сколько там файлов и позже учтем: 2 файла нужно вычесть, так как они содержатся в каждой папочке
+    //РёРЅР°С‡Рµ РїРѕРґСЃС‡РёС‚Р°РµРј СЃРєРѕР»СЊРєРѕ С‚Р°Рј С„Р°Р№Р»РѕРІ Рё РїРѕР·Р¶Рµ СѓС‡С‚РµРј: 2 С„Р°Р№Р»Р° РЅСѓР¶РЅРѕ РІС‹С‡РµСЃС‚СЊ, С‚Р°Рє РєР°Рє РѕРЅРё СЃРѕРґРµСЂР¶Р°С‚СЃСЏ РІ РєР°Р¶РґРѕР№ РїР°РїРѕС‡РєРµ
     else {
         printf("-------------------------------------------------------\n");
-        printf("|  Список файлов в указанной папке (без сортировки)   |\n");
+        printf("|  РЎРїРёСЃРѕРє С„Р°Р№Р»РѕРІ РІ СѓРєР°Р·Р°РЅРЅРѕР№ РїР°РїРєРµ (Р±РµР· СЃРѕСЂС‚РёСЂРѕРІРєРё)   |\n");
         printf("-------------------------------------------------------\n");
-        printf("Имя файла         Дата и время создания %16c   Размер\n", ' ');
+        printf("РРјСЏ С„Р°Р№Р»Р°         Р”Р°С‚Р° Рё РІСЂРµРјСЏ СЃРѕР·РґР°РЅРёСЏ %16c   Р Р°Р·РјРµСЂ\n", ' ');
         printf("----         ---- %24c   ----\n", ' ');
         int getfromcounter = counter(directoryPath);
         do {
@@ -99,7 +99,7 @@ struct informationAboutOneFile* gettingInformationFromADirectory() { //крч функц
             count++;
         } while (_findnext(hFile, &sortableFile) == 0);
     }
-    //пока не закрываем 
+    //РїРѕРєР° РЅРµ Р·Р°РєСЂС‹РІР°РµРј 
     informationAboutOneFile* FileInformation_one;
 
     FileInformation_one = (informationAboutOneFile*)malloc(informationAboutDirectory.NumberOfFiles * sizeof(informationAboutOneFile));
@@ -107,37 +107,38 @@ struct informationAboutOneFile* gettingInformationFromADirectory() { //крч функц
     hFile = _findfirst(directoryPath, &FileInformation_one[0]);
     for (int i = 1; i < informationAboutDirectory.NumberOfFiles; i++)
         _findnext(hFile, &FileInformation_one[i]);
-    printf("\nЧисло файлов в выбранном каталоге: %d\n", informationAboutDirectory.NumberOfFiles);
+    printf("\nР§РёСЃР»Рѕ С„Р°Р№Р»РѕРІ РІ РІС‹Р±СЂР°РЅРЅРѕРј РєР°С‚Р°Р»РѕРіРµ: %d\n", informationAboutDirectory.NumberOfFiles);
     return FileInformation_one;
 }
 
 void main() {
-    setlocale(LC_ALL, "Rus"); //подключаем русский язык
-    printf("Добро пожаловать в программу для сортировки файлов Файловый менеджер!\n");
-    printf("Вам будет предложено ввести путь к директории, выбрать метод и способ сортировки.\n");
-    printf("Программа выведет время сортировки и список отсортированных файлов по размеру.\n");
-    printf("Также вы сможете поменять метод сортировки и вывести информацию по всем сортировкам.\n");
-    printf("Если вы отсортируете 2 или более раза файлы одной сортировой: будет сохранено последнее время.\n");
+    setlocale(LC_ALL, "Rus"); //РїРѕРґРєР»СЋС‡Р°РµРј СЂСѓСЃСЃРєРёР№ СЏР·С‹Рє
+    printf("Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ РІ РїСЂРѕРіСЂР°РјРјСѓ РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С„Р°Р№Р»РѕРІ Р¤Р°Р№Р»РѕРІС‹Р№ РјРµРЅРµРґР¶РµСЂ!\n");
+    printf("Р’Р°Рј Р±СѓРґРµС‚ РїСЂРµРґР»РѕР¶РµРЅРѕ РІРІРµСЃС‚Рё РїСѓС‚СЊ Рє РґРёСЂРµРєС‚РѕСЂРёРё, РІС‹Р±СЂР°С‚СЊ РјРµС‚РѕРґ Рё СЃРїРѕСЃРѕР± СЃРѕСЂС‚РёСЂРѕРІРєРё.\n");
+    printf("РџСЂРѕРіСЂР°РјРјР° РІС‹РІРµРґРµС‚ РІСЂРµРјСЏ СЃРѕСЂС‚РёСЂРѕРІРєРё Рё СЃРїРёСЃРѕРє РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅС‹С… С„Р°Р№Р»РѕРІ РїРѕ СЂР°Р·РјРµСЂСѓ.\n");
+    printf("РўР°РєР¶Рµ РІС‹ СЃРјРѕР¶РµС‚Рµ РїРѕРјРµРЅСЏС‚СЊ РјРµС‚РѕРґ СЃРѕСЂС‚РёСЂРѕРІРєРё Рё РІС‹РІРµСЃС‚Рё РёРЅС„РѕСЂРјР°С†РёСЋ РїРѕ РІСЃРµРј СЃРѕСЂС‚РёСЂРѕРІРєР°Рј.\n");
+    printf("Р•СЃР»Рё РІС‹ РѕС‚СЃРѕСЂС‚РёСЂСѓРµС‚Рµ 2 РёР»Рё Р±РѕР»РµРµ СЂР°Р·Р° С„Р°Р№Р»С‹ РѕРґРЅРѕР№ СЃРѕСЂС‚РёСЂРѕРІРѕР№: Р±СѓРґРµС‚ СЃРѕС…СЂР°РЅРµРЅРѕ РїРѕСЃР»РµРґРЅРµРµ РІСЂРµРјСЏ.\n");
     printf("----------------------------------------------------------------------------------------\n");
     if (userInterface() == 5) {
-        printf("До свидания!\n");
+        printf("Р”Рѕ СЃРІРёРґР°РЅРёСЏ!\n");
         return;
     }
     printAllSort(soartingInformation, counter(directoryPath));
-    printf("До свидания!\n");
+    printf("Р”Рѕ СЃРІРёРґР°РЅРёСЏ!\n");
+    getchar();
 }
 
 char* menu[] = {
-    "1. Сортировка пузырьком",
-    "2. Сортировка выбором",
-    "3. Сортировка вставками",
-    "4. Сортировка слиянием",
-    "5. Сортировка Хоара",
-    "6. Сортировка Шелла",
-    "7. Сортировка подсчетом",
-    "8. Выход из программы",
+    "1. РЎРѕСЂС‚РёСЂРѕРІРєР° РїСѓР·С‹СЂСЊРєРѕРј",
+    "2. РЎРѕСЂС‚РёСЂРѕРІРєР° РІС‹Р±РѕСЂРѕРј",
+    "3. РЎРѕСЂС‚РёСЂРѕРІРєР° РІСЃС‚Р°РІРєР°РјРё",
+    "4. РЎРѕСЂС‚РёСЂРѕРІРєР° СЃР»РёСЏРЅРёРµРј",
+    "5. РЎРѕСЂС‚РёСЂРѕРІРєР° РҐРѕР°СЂР°",
+    "6. РЎРѕСЂС‚РёСЂРѕРІРєР° РЁРµР»Р»Р°",
+    "7. РЎРѕСЂС‚РёСЂРѕРІРєР° РїРѕРґСЃС‡РµС‚РѕРј",
+    "8. Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹",
 };
-const int numberOfItemsInTheMenu = sizeof(menu) / sizeof(char*);//количество пунктов в меню
+const int numberOfItemsInTheMenu = sizeof(menu) / sizeof(char*);//РєРѕР»РёС‡РµСЃС‚РІРѕ РїСѓРЅРєС‚РѕРІ РІ РјРµРЅСЋ
 void retrievingInformationAboutFiles(hFile);
 
 int increase, decrease;
@@ -163,45 +164,45 @@ int userInterface() {
             timeOne = omp_get_wtime();
             bubbleSort(FileInformation_one_user, getCountFromCounter);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки пузырьком: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Р’СЂРµРјСЏ СЃРѕСЂС‚РёСЂРѕРІРєРё РїСѓР·С‹СЂСЊРєРѕРј: %f СЃРµРє.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
 
         case 2:
             timeOne = omp_get_wtime();
             selectionSort(FileInformation_one_user, getCountFromCounter);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки выбором: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Р’СЂРµРјСЏ СЃРѕСЂС‚РёСЂРѕРІРєРё РІС‹Р±РѕСЂРѕРј: %f СЃРµРє.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
 
         case 3:
             timeOne = omp_get_wtime();
             insertSort(FileInformation_one_user, getCountFromCounter);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки выбором: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Р’СЂРµРјСЏ СЃРѕСЂС‚РёСЂРѕРІРєРё РІС‹Р±РѕСЂРѕРј: %f СЃРµРє.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
         case 4:
             timeOne = omp_get_wtime();
             mergeSort(FileInformation_one_user, 0, getCountFromCounter - 1);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки выбором: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Р’СЂРµРјСЏ СЃРѕСЂС‚РёСЂРѕРІРєРё РІС‹Р±РѕСЂРѕРј: %f СЃРµРє.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
         case 5:
             timeOne = omp_get_wtime();
             quickSort(FileInformation_one_user, getCountFromCounter);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки выбором: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Р’СЂРµРјСЏ СЃРѕСЂС‚РёСЂРѕРІРєРё РІС‹Р±РѕСЂРѕРј: %f СЃРµРє.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
         case 6:
             timeOne = omp_get_wtime();
             shellSort(FileInformation_one_user, getCountFromCounter);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки выбором: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Р’СЂРµРјСЏ СЃРѕСЂС‚РёСЂРѕРІРєРё РІС‹Р±РѕСЂРѕРј: %f СЃРµРє.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
         case 7:
             timeOne = omp_get_wtime();
             countingSort(FileInformation_one_user, getCountFromCounter);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки выбором: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Р’СЂРµРјСЏ СЃРѕСЂС‚РёСЂРѕРІРєРё РІС‹Р±РѕСЂРѕРј: %f СЃРµРє.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
 
         case 8:
@@ -209,13 +210,13 @@ int userInterface() {
         }
         if (sortByMethod == 1) {
             for (int i = 0; i < counter(directoryPath); i++)
-                printf("%-12.12s %10i байт\n", FileInformation_one_user[i].name, FileInformation_one_user[i].size);
+                printf("%-12.12s %10i Р±Р°Р№С‚\n", FileInformation_one_user[i].name, FileInformation_one_user[i].size);
         }
         if (sortByMethod == 2) {
             for (int i = counter(directoryPath) - 1; i >= 0; i--)
-                printf("%-12.12s %10i байт\n", FileInformation_one_user[i].name, FileInformation_one_user[i].size);
+                printf("%-12.12s %10i Р±Р°Р№С‚\n", FileInformation_one_user[i].name, FileInformation_one_user[i].size);
         }
-        printf("Желаете отсортировать данную папку другим методом?\n 1 - Да.\n 2-Нет.\n");
+        printf("Р–РµР»Р°РµС‚Рµ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ РґР°РЅРЅСѓСЋ РїР°РїРєСѓ РґСЂСѓРіРёРј РјРµС‚РѕРґРѕРј?\n 1 - Р”Р°.\n 2-РќРµС‚.\n");
         scanf_s("%d", &continueORstop);
         if (continueORstop == 2) {
             int stop = 0;
@@ -226,17 +227,17 @@ int userInterface() {
 }
 
 void printAllSort(struct informationAboutSoarting* soartingInformation, const int getCountFromCounter) {
-    printf("Перед вами данные о всех сортировках: если время 0 сек., то сортировка данным методом не производилась \n");
-    printf("Название  сортировки      |Время \n");
-    printf("пузырьком                  %f\n", soartingInformation[1].timeOfSoarting);
-    printf("Выбором                    %f\n", soartingInformation[2].timeOfSoarting);
-    printf("Сортировка вставками       %f\n", soartingInformation[3].timeOfSoarting);
-    printf("Слиянием                   %f\n", soartingInformation[4].timeOfSoarting);
-    printf("Хоара                      %f\n", soartingInformation[5].timeOfSoarting);
-    printf("Шелла                      %f\n", soartingInformation[6].timeOfSoarting);
-    printf("Подсчетом                  %f\n", soartingInformation[7].timeOfSoarting);
+    printf("РџРµСЂРµРґ РІР°РјРё РґР°РЅРЅС‹Рµ Рѕ РІСЃРµС… СЃРѕСЂС‚РёСЂРѕРІРєР°С…: РµСЃР»Рё РІСЂРµРјСЏ 0 СЃРµРє., С‚Рѕ СЃРѕСЂС‚РёСЂРѕРІРєР° РґР°РЅРЅС‹Рј РјРµС‚РѕРґРѕРј РЅРµ РїСЂРѕРёР·РІРѕРґРёР»Р°СЃСЊ \n");
+    printf("РќР°Р·РІР°РЅРёРµ  СЃРѕСЂС‚РёСЂРѕРІРєРё      |Р’СЂРµРјСЏ \n");
+    printf("РїСѓР·С‹СЂСЊРєРѕРј                  %f\n", soartingInformation[1].timeOfSoarting);
+    printf("Р’С‹Р±РѕСЂРѕРј                    %f\n", soartingInformation[2].timeOfSoarting);
+    printf("РЎРѕСЂС‚РёСЂРѕРІРєР° РІСЃС‚Р°РІРєР°РјРё       %f\n", soartingInformation[3].timeOfSoarting);
+    printf("РЎР»РёСЏРЅРёРµРј                   %f\n", soartingInformation[4].timeOfSoarting);
+    printf("РҐРѕР°СЂР°                      %f\n", soartingInformation[5].timeOfSoarting);
+    printf("РЁРµР»Р»Р°                      %f\n", soartingInformation[6].timeOfSoarting);
+    printf("РџРѕРґСЃС‡РµС‚РѕРј                  %f\n", soartingInformation[7].timeOfSoarting);
 }
-int sortingMethod() { //где increase - возрастание,  decrease - убывание
+int sortingMethod() { //РіРґРµ increase - РІРѕР·СЂР°СЃС‚Р°РЅРёРµ,  decrease - СѓР±С‹РІР°РЅРёРµ
 
     showMenuSoarting();
     int increase = 1;
@@ -248,7 +249,7 @@ int sortingMethod() { //где increase - возрастание,  decrease - убывание
     if (method == 2)
         return decrease;
 }
-//далее крч сортировок куча
+//РґР°Р»РµРµ РєСЂС‡ СЃРѕСЂС‚РёСЂРѕРІРѕРє РєСѓС‡Р°
 ////////////////////////////////////////////////////////////////////////////////////////////////
 void bubbleSort(informationAboutOneFile* FileInformation_one, long int numberOfFiles) {
     long int i, j;
@@ -373,13 +374,13 @@ void quickSort(informationAboutOneFile* FileInformation_one, long int numberOfFi
 }
 void shellSort(informationAboutOneFile* FileInformation_one, long int numberOfFiles)
 {
-    informationAboutOneFile dop; // дополнительная переменная для перестановки
+    informationAboutOneFile dop; // РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ РїРµСЂРµСЃС‚Р°РЅРѕРІРєРё
     long inc, i, j, seq[40];
     int s;
-    s = incrementS(seq, numberOfFiles); // вычисление последовательности приращений
+    s = incrementS(seq, numberOfFiles); // РІС‹С‡РёСЃР»РµРЅРёРµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё РїСЂРёСЂР°С‰РµРЅРёР№
     while (s >= 0)
     {
-        inc = seq[s--]; //сортировка вставками с инкрементами inc[]
+        inc = seq[s--]; //СЃРѕСЂС‚РёСЂРѕРІРєР° РІСЃС‚Р°РІРєР°РјРё СЃ РёРЅРєСЂРµРјРµРЅС‚Р°РјРё inc[]
         for (i = inc; i < numberOfFiles; i++)
         {
             dop = FileInformation_one[i];
@@ -455,8 +456,8 @@ void countingSort(informationAboutOneFile* FileInformation_one, long int numberO
     free(sizes);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
-void showMenu() { //выводит меню в консоль
-    printf("\n \t Меню\n");
+void showMenu() { //РІС‹РІРѕРґРёС‚ РјРµРЅСЋ РІ РєРѕРЅСЃРѕР»СЊ
+    printf("\n \t РњРµРЅСЋ\n");
     for (int i = 0; i < numberOfItemsInTheMenu; i++) {
         printf("%s\n", menu[i]);
     }
@@ -466,17 +467,17 @@ int getNumberOfMenu(const int numberOfItemsInTheMenu) {
     int userEnteredTheNumber;
     scanf_s("%d", &selectedMenuItem);
     while (selectedMenuItem<1 || selectedMenuItem>numberOfItemsInTheMenu) {
-        printf("Такого пункта нет в меню: повторите ввод заново!\n"); // выводим сообщение об ошибке
-        scanf_s("%d", selectedMenuItem); // считываем строку повторно
+        printf("РўР°РєРѕРіРѕ РїСѓРЅРєС‚Р° РЅРµС‚ РІ РјРµРЅСЋ: РїРѕРІС‚РѕСЂРёС‚Рµ РІРІРѕРґ Р·Р°РЅРѕРІРѕ!\n"); // РІС‹РІРѕРґРёРј СЃРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ
+        scanf_s("%d", selectedMenuItem); // СЃС‡РёС‚С‹РІР°РµРј СЃС‚СЂРѕРєСѓ РїРѕРІС‚РѕСЂРЅРѕ
     }
-    return selectedMenuItem;//возвращаем выбранный пункт в меню
+    return selectedMenuItem;//РІРѕР·РІСЂР°С‰Р°РµРј РІС‹Р±СЂР°РЅРЅС‹Р№ РїСѓРЅРєС‚ РІ РјРµРЅСЋ
 }
 void showMenuSoarting() {
-    printf("\n1.По возрастанию \n2.По убыванию\n");
-    printf("Каким способом желаете отсортировать?\n");
+    printf("\n1.РџРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ \n2.РџРѕ СѓР±С‹РІР°РЅРёСЋ\n");
+    printf("РљР°РєРёРј СЃРїРѕСЃРѕР±РѕРј Р¶РµР»Р°РµС‚Рµ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ?\n");
 }
 float getTime(double  timeOne, double  timeTwo, int selectMenuItem) {
     float sortingTime = timeTwo - timeOne;
-    soartingInformation[selectMenuItem].timeOfSoarting = sortingTime;//СОХРАНИМ В СТРУКТУРУ О СОРТИРОВКАХ ЗА СКОЛЬКО ВРЕМЯ ВЫБРАННАЯ СОРТИРОВКА ОТСОРТИРОВАЛА ФАЙЛ
+    soartingInformation[selectMenuItem].timeOfSoarting = sortingTime;//РЎРћРҐР РђРќРРњ Р’ РЎРўР РЈРљРўРЈР РЈ Рћ РЎРћР РўРР РћР’РљРђРҐ Р—Рђ РЎРљРћР›Р¬РљРћ Р’Р Р•РњРЇ Р’Р«Р‘Р РђРќРќРђРЇ РЎРћР РўРР РћР’РљРђ РћРўРЎРћР РўРР РћР’РђР›Рђ Р¤РђР™Р›
     return sortingTime;
 }
