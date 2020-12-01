@@ -75,14 +75,13 @@ struct informationAboutOneFile* gettingInformationFromADirectory() { //крч ф
 
     printf("Выбранный каталог %s\n", directoryPath);
     strcat(directoryPath, "*");//приклеим в конец адреса звездочку
-    printf("Выбранный каталог со звездочкой %s\n", directoryPath);
+   // printf("Выбранный каталог со звездочкой %s\n", directoryPath);
 
     if ((hFile = _findfirst(directoryPath, &sortableFile)) == -1L) {
         printf("Ввели неверный адрес для директории!\n");
         gettingInformationFromADirectory();//вызываем пока не получим верный адресс
         return;
     }
-    //иначе подсчитаем сколько там файлов и позже учтем: 2 файла нужно вычесть, так как они содержатся в каждой папочке
     else {
         printf("-------------------------------------------------------\n");
         printf("|  Список файлов в указанной папке (без сортировки)   |\n");
@@ -125,7 +124,7 @@ void main() {
     }
     printAllSort(soartingInformation, counter(directoryPath));
     printf("До свидания!\n");
-    getchar();
+    system("pause");
 }
 
 char* menu[] = {
@@ -249,7 +248,7 @@ int sortingMethod() { //где increase - возрастание,  decrease - у
     if (method == 2)
         return decrease;
 }
-//далее крч сортировок куча
+//далее  сортировок куча
 ////////////////////////////////////////////////////////////////////////////////////////////////
 void bubbleSort(informationAboutOneFile* FileInformation_one, long int numberOfFiles) {
     long int i, j;
@@ -380,7 +379,7 @@ void shellSort(informationAboutOneFile* FileInformation_one, long int numberOfFi
     s = incrementS(seq, numberOfFiles); // вычисление последовательности приращений
     while (s >= 0)
     {
-        inc = seq[s--]; //сортировка вставками с инкрементами inc[]
+        inc = seq[s--]; 
         for (i = inc; i < numberOfFiles; i++)
         {
             dop = FileInformation_one[i];
@@ -468,7 +467,7 @@ int getNumberOfMenu(const int numberOfItemsInTheMenu) {
     scanf_s("%d", &selectedMenuItem);
     while (selectedMenuItem<1 || selectedMenuItem>numberOfItemsInTheMenu) {
         printf("Такого пункта нет в меню: повторите ввод заново!\n"); // выводим сообщение об ошибке
-        scanf_s("%d", selectedMenuItem); // считываем строку повторно
+        scanf_s("%d", selectedMenuItem); // считываем  повторно
     }
     return selectedMenuItem;//возвращаем выбранный пункт в меню
 }
