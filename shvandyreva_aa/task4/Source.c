@@ -83,7 +83,6 @@ void chek()
 int main()
 {
 	setlocale(LC_ALL, "rus");
-	
 	while (1)
 	{
 		system("cls");
@@ -98,5 +97,4 @@ int main()
 		}
 		chek();	system("pause");
 	}	
-
 }
