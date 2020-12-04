@@ -11,6 +11,11 @@ struct _finddata_t file;
 intptr_t hFile;
 int count = 0;
 
+int history[22];    // FOR HISTORY LOG
+int hsize = 0;
+double timers[22];
+int reverses[22];
+
 void swap(struct  _finddata_t* a, struct  _finddata_t* b) { //SWAP
     struct _finddata_t c = *a;
     *a = *b;
@@ -27,6 +32,40 @@ void print_time(double time) {
             printf("%d sec %d ms\n", (int)time / 1000, (int)(time) % 1000);
         else
             printf("%d ms\n", (int)time);
+}
+
+void Hystory() {
+    for (int i = 0; i < hsize; i++) {
+        switch (history[i]) {
+        case 1:
+            printf("Bubble     ");
+            break;
+        case 2:
+            printf("Selection  ");
+            break;
+        case 3:
+            printf("Insertion  ");
+            break;
+        case 4:
+            printf("Merge      ");
+            break;
+        case 5:
+            printf("Quick      ");
+            break;
+        case 6:
+            printf("Shell      ");
+            break;
+        case 7:
+            printf("Counting   ");
+            break;
+        }
+        if(reverses[i] == 0)
+            printf("(123)  ");
+        else
+            printf("(321)  ");
+        print_time(timers[i]);
+        printf("\n");
+    }
 }
 
 void Bubble(struct _finddata_t* files, int n) {   //BUBBLE
@@ -174,7 +213,8 @@ void Shell(struct _finddata_t* files, int n) {    // SHELL
 
 Counting(struct _finddata_t* files, int n) {     // COUNTING
     int min, max, i, k = 0, c;
-    struct _finddata_t* buff;
+    struct _finddata_t** buff;
+    struct _finddata_t* copy;
     int* count;
     min = max = files[0].size;
     for (i = 1; i < n; i++) {
@@ -184,27 +224,31 @@ Counting(struct _finddata_t* files, int n) {     // COUNTING
             max = files[i].size;
     }
     c = max - min + 1;          // POINTER TO FILES MATRIX 
-    buff = (struct _finddata_t*)malloc(sizeof(struct _finddata_t) * c * n);
+    copy = (struct _finddata_t*)malloc(sizeof(struct _finddata_t) * n);
+    buff = (struct _finddata_t**)malloc(sizeof(struct _finddata_t*) * c * n);
     count = (int*)malloc(sizeof(int) * c);
-
+    
+    for (i = 0; i < n; i++)
+        copy[i] = files[i];
     for (i = 0; i < c; i++)
         count[i] = 0;
 
     for (i = 0; i < n; i++)
-        buff[n * (files[i].size - min) + count[files[i].size - min]++] = files[i];
-
+        buff[n * (copy[i].size - min) + count[copy[i].size - min]++] = copy + i;
+    
     for (i = 0; i < c; i++)
         for(int j = 0; j < count[i] ; j++)
-            files[k++] = buff[n * i + j];
-            
+            files[k++] = *buff[n * i + j];
+    free(copy);
     free(count);
     free(buff);
 }
 
 void main() {
     struct _finddata_t *files, *copy;
-    int sort = 0, reverse = 0, next = 0, hsize = 0;
+    int sort = 0, reverse = 0, next = 0;
     double timer;
+
     printf("Enter path to directory: \n");
     fgets(path, 100, stdin);    //path processing
     path[strlen(path)-1] = 0;
@@ -215,7 +259,6 @@ void main() {
         i++;
     }
     strcat(path, "/*.*");
-
 
     if ((hFile = _findfirst(path, &file)) == -1L)
         printf("No files in current directory!\n"); //counting files
@@ -238,7 +281,7 @@ void main() {
 
             printf("FILE  %28c  SIZE\n", ' ');
             for (int i = 0; i < count; i++) {
-                printf("%-26.26s  %12d\n", file.name, file.size);
+                //printf("%-26.26s  %12d\n", file.name, file.size);
                 files[i] = file;
                 _findnext(hFile, &file);
             }
@@ -253,9 +296,14 @@ void main() {
         do {
             if (hsize > 0) {
                 system("cls");
+
+                printf("History: \n");  // HISTORY PRINT
+                Hystory();
+                printf("\n");
+
                 printf("FILE  %28c  SIZE\n", ' ');
                 for (int i = 0; i < count; i++) { // LOAD COPY
-                    files[i] = copy[i];
+                    //files[i] = copy[i];
                     printf("%-26.26s  %12d\n", files[i].name, files[i].size);
                 }
                 printf("\n");
@@ -274,8 +322,12 @@ void main() {
                 next = 0;
                 continue;
             }
+            history[hsize] = sort;  //  history
+
             printf("Order 123 (0) or 321(any other number): ");
-            scanf_s("%d", &reverse);
+            scanf_s("%d", &reverse);            // ORDER
+            reverses[hsize] = reverse;
+
             timer = omp_get_wtime();     // start timer
 
             switch (sort) { // SORT
@@ -303,18 +355,19 @@ void main() {
             }
             system("cls");
             timer = omp_get_wtime() - timer;    // DETECT TIME
+            timers[hsize] = timer;
+            hsize++;
 
             printf("FILE  %28c  SIZE\n", ' ');
-            if (reverse)
+            /*if (reverse)
                 for (int i = count - 1; i >= 0; i--)
                     printf("%-26.26s  %12d\n", files[i].name, files[i].size);
             else
                 for (int i = 0; i < count; i++)
-                    printf("%-26.26s  %12d\n", files[i].name, files[i].size);
+                    printf("%-26.26s  %12d\n", files[i].name, files[i].size);*/
 
             printf("\nTime spend: ");
             print_time(timer);
-            hsize++;
 
             printf("\nExit - 0\nAgain - any other number\n");
             scanf_s("%d", &next);
