@@ -281,7 +281,7 @@ void main() {
 
             printf("FILE  %28c  SIZE\n", ' ');
             for (int i = 0; i < count; i++) {
-                //printf("%-26.26s  %12d\n", file.name, file.size);
+                printf("%-26.26s  %12d\n", file.name, file.size);
                 files[i] = file;
                 _findnext(hFile, &file);
             }
@@ -303,7 +303,7 @@ void main() {
 
                 printf("FILE  %28c  SIZE\n", ' ');
                 for (int i = 0; i < count; i++) { // LOAD COPY
-                    //files[i] = copy[i];
+                    files[i] = copy[i];
                     printf("%-26.26s  %12d\n", files[i].name, files[i].size);
                 }
                 printf("\n");
@@ -359,12 +359,12 @@ void main() {
             hsize++;
 
             printf("FILE  %28c  SIZE\n", ' ');
-            /*if (reverse)
+            if (reverse)
                 for (int i = count - 1; i >= 0; i--)
                     printf("%-26.26s  %12d\n", files[i].name, files[i].size);
             else
                 for (int i = 0; i < count; i++)
-                    printf("%-26.26s  %12d\n", files[i].name, files[i].size);*/
+                    printf("%-26.26s  %12d\n", files[i].name, files[i].size);
 
             printf("\nTime spend: ");
             print_time(timer);
