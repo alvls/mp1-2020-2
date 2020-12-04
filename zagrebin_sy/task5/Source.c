@@ -353,8 +353,8 @@ void main() {
                 Counting(files, count);
                 break;
             }
-            system("cls");
             timer = omp_get_wtime() - timer;    // DETECT TIME
+            system("cls");
             timers[hsize] = timer;
             hsize++;
 
