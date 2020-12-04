@@ -66,27 +66,27 @@ int counter(char* directoryPath) //счетчик количества файл�
     return informationAboutDirectory.NumberOfFiles; //кол-во файлов
 }
 
-struct informationAboutOneFile* gettingInformationFromADirectory() { //крч функция отвечает за получение информации от директории и всякое такое
+struct informationAboutOneFile* gettingInformationFromADirectory() { // функция отвечает за получение информации от папки
     intptr_t hFile; //memsize тип intptr_t хранит в себе  hFile
     struct _finddata_t sortableFile; //сортируемый sortableFile.name sortableFile.size sortableFile.time
 
-    printf("Введите путь до  директория (например : C:\\\\temp\\\\*.*) : \n");
+    printf("Введите путь до  папки (например : C:\\\\temp\\\\*), звездочка будет добавлена автоматически: \n");
     gets_s(directoryPath, FILENAME_MAX);
 
-    printf("Выбранный каталог %s\n", directoryPath);
+    printf("Выбранная папка %s\n", directoryPath);
     strcat(directoryPath, "*");//приклеим в конец адреса звездочку
    // printf("Выбранный каталог со звездочкой %s\n", directoryPath);
 
     if ((hFile = _findfirst(directoryPath, &sortableFile)) == -1L) {
-        printf("Ввели неверный адрес для директории!\n");
-        gettingInformationFromADirectory();//вызываем пока не получим верный адресс
+        printf("Ввели неверный путь до папки!\n");
+        gettingInformationFromADirectory();//вызываем сами себя  пока не получим верный адрес для папки
         return;
     }
     else {
         printf("-------------------------------------------------------\n");
         printf("|  Список файлов в указанной папке (без сортировки)   |\n");
         printf("-------------------------------------------------------\n");
-        printf("Имя файла         Дата и время создания %16c   Размер\n", ' ');
+        printf("Имя файла         Дата и время создания %16c   Размер \n", ' ');
         printf("----         ---- %24c   ----\n", ' ');
         int getfromcounter = counter(directoryPath);
         do {
@@ -94,7 +94,7 @@ struct informationAboutOneFile* gettingInformationFromADirectory() { //крч ф
             ctime_s(buffer, _countof(buffer), &sortableFile.time_write);
             int count = 0;
             if (count <= getfromcounter)
-                printf("%-14.14s %-5.22s      %16ld\n", sortableFile.name, buffer, sortableFile.size);
+                printf("%-14.14s %-5.22s      %16ld байт\n", sortableFile.name, buffer, sortableFile.size);
             count++;
         } while (_findnext(hFile, &sortableFile) == 0);
     }
@@ -106,38 +106,39 @@ struct informationAboutOneFile* gettingInformationFromADirectory() { //крч ф
     hFile = _findfirst(directoryPath, &FileInformation_one[0]);
     for (int i = 1; i < informationAboutDirectory.NumberOfFiles; i++)
         _findnext(hFile, &FileInformation_one[i]);
-    printf("\nЧисло файлов в выбранном каталоге: %d\n", informationAboutDirectory.NumberOfFiles);
+    printf("\nЧисло файлов в выбранной папке: %d\n", informationAboutDirectory.NumberOfFiles);
     return FileInformation_one;
 }
 
 void main() {
     setlocale(LC_ALL, "Rus"); //подключаем русский язык
-    printf("Добро пожаловать в программу для сортировки файлов Файловый менеджер!\n");
-    printf("Вам будет предложено ввести путь к директории, выбрать метод и способ сортировки.\n");
+    printf("Добро пожаловать в программу для сортировки файлов 'Файловый менеджер'!\n");
+    printf("Вам будет предложено ввести путь к папке, выбрать метод и способ сортировки (возрастание/убывание).\n");
     printf("Программа выведет время сортировки и список отсортированных файлов по размеру.\n");
-    printf("Также вы сможете поменять метод сортировки и вывести информацию по всем сортировкам.\n");
-    printf("Если вы отсортируете 2 или более раза файлы одной сортировой: будет сохранено последнее время.\n");
-    printf("----------------------------------------------------------------------------------------\n");
+    printf("Также вы сможете поменять метод или способ сортировки и вывести информацию по всем сортировкам.\n");
+    printf("Если вы отсортируете 2 или более раза файлы одним методом или способом: будет сохранено последнее время.\n");
+    printf("-------------------------------------------------------------------------------------------------------------\n");
     if (userInterface() == 5) {
         printf("До свидания!\n");
         return;
     }
     printAllSort(soartingInformation, counter(directoryPath));
     printf("До свидания!\n");
+    
     system("pause");
 }
 
 char* menu[] = {
-    "1. Сортировка пузырьком",
-    "2. Сортировка выбором",
-    "3. Сортировка вставками",
-    "4. Сортировка слиянием",
-    "5. Сортировка Хоара",
-    "6. Сортировка Шелла",
-    "7. Сортировка подсчетом",
-    "8. Выход из программы",
+    "1. Сортировка пузырьком.",
+    "2. Сортировка выбором.",
+    "3. Сортировка вставками.",
+    "4. Сортировка слиянием.",
+    "5. Сортировка Хоара.",
+    "6. Сортировка Шелла.",
+    "7. Сортировка подсчетом.",
+    "8. Выход из программы.",
 };
-const int numberOfItemsInTheMenu = sizeof(menu) / sizeof(char*);//количество пунктов в меню
+const int numberOfItemsInTheMenu = sizeof(menu) / sizeof(char*); //количество пунктов в меню
 void retrievingInformationAboutFiles(hFile);
 
 int increase, decrease;
@@ -177,31 +178,31 @@ int userInterface() {
             timeOne = omp_get_wtime();
             insertSort(FileInformation_one_user, getCountFromCounter);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки выбором: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Время сортировки вставками: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
         case 4:
             timeOne = omp_get_wtime();
             mergeSort(FileInformation_one_user, 0, getCountFromCounter - 1);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки выбором: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Время сортировки слиянием : %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
         case 5:
             timeOne = omp_get_wtime();
             quickSort(FileInformation_one_user, getCountFromCounter);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки выбором: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Время сортировки Хоара: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
         case 6:
             timeOne = omp_get_wtime();
             shellSort(FileInformation_one_user, getCountFromCounter);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки выбором: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Время сортировки Шелла: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
         case 7:
             timeOne = omp_get_wtime();
             countingSort(FileInformation_one_user, getCountFromCounter);
             timeTwo = omp_get_wtime();
-            printf("Время сортировки выбором: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
+            printf("Время сортировки подсчетом: %f сек.\n", getTime(timeOne, timeTwo, choiceMenu));
             break;
 
         case 8:
@@ -215,13 +216,14 @@ int userInterface() {
             for (int i = counter(directoryPath) - 1; i >= 0; i--)
                 printf("%-12.12s %10i байт\n", FileInformation_one_user[i].name, FileInformation_one_user[i].size);
         }
-        printf("Желаете отсортировать данную папку другим методом?\n 1 - Да.\n 2-Нет.\n");
+        printf("Желаете отсортировать данную папку другим методом?\n 1 - Да.\n 2 - Нет.\n");
         scanf_s("%d", &continueORstop);
         if (continueORstop == 2) {
             int stop = 0;
             return stop;
         }
     }
+    free(FileInformation_one_user);
 
 }
 
