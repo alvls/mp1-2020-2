@@ -133,7 +133,8 @@ void SortMerge(int lb, int ub, S* s) {
 }
 void SortShell(int count, S* s) {
 	S buffer;
-	long inc, i, j, seq[40];
+	long inc, i, j;
+	long* seq = (long*)malloc(40 * sizeof(long));
 	int k;
 	k = increment(seq, count);
 	while (k >= 0)
@@ -149,6 +150,7 @@ void SortShell(int count, S* s) {
 			s[j + inc] = buffer;
 		}
 	}
+	free(seq);
 }
 int increment(int inc[], int count) {
 	int p1, p2, p3, s;
