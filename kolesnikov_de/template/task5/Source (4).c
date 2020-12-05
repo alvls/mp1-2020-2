@@ -275,6 +275,9 @@ long double StartSort(int code, S* s, int size) {
 		SortCouting(size, s);
 		break;
 	default:
+		printf("Start default sort-Bubble Sort\n");
+		SortBubble(size, s);
+		system("pause");
 		break;
 	}
 	tt2 = omp_get_wtime();
