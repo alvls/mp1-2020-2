@@ -7,6 +7,7 @@
 #include <memory.h>
 #include <string.h>
 #include <limits.h>
+#include <Windows.h>
 #define CountSorts 7
 //DATA
 char path[FILENAME_MAX];
@@ -465,7 +466,8 @@ int Menu() {
 				"2:Compare the sorts,done with last location\n3:Sort in direct order(click to edit)\n0:Exit\n");
 		}
 		if (flag == -1) {
-			printf_s("\t\t\t\t\t\tPROGRAM MENU\n1:Input path to catalog\n"
+			printf_s("\t\t\t\t\t\t ------------\n");
+			printf_s("\t\t\t\t\t\t|PROGRAM MENU|\n\t\t\t\t\t\t ------------\n1:Input path to catalog\n"
 				"2:Compare the sorts,done with last location\n3:Sort in the reverse order(click to edit)\n0:Exit\n");
 		}
 		scanf_s("%d", &mode);
@@ -494,8 +496,9 @@ int Menu() {
 		}
 	}
 }
-int main(void)
-{
+int main(void){
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
 	int out = 1;
 	while (out != 0) {
 		out = Menu();
