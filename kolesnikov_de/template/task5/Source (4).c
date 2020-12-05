@@ -328,7 +328,6 @@ void ShowStat() {
 	int maxInd;
 	int k = 1;
 	int temp = CountSorts;
-	oldpath[strlen(oldpath)-1] = 0;
 	printf("List of sorts on catalog %s\n\n", oldpath);
 	for (int i = 0; i < temp; i++) {
 		if (activation[i] == 1) {
@@ -394,6 +393,7 @@ void FileScan() {
 		return;
 	}
 	strcpy(oldpath, path);
+	oldpath[strlen(oldpath) - 1] = 0;
 	printf_s("Your path is %s\n", path);
 	Correctpath();
 	struct _finddata_t c_file;
