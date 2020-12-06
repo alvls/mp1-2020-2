@@ -58,18 +58,45 @@ int main(void)
     menu();
     system("pause");
 }
-void printer(fileinf* list, int size)//48 символы
+void printer(fileinf* list, int size)
 {
-    int i;
-    printf("ИМЯ ФАЙЛА");
-    for (i = 0; i < 40; i++)
-        printf(" ");
-    printf("РАЗМЕР\n");
-    for (i = 0; i < size; i++)
-    {
-        printf("%-48s %d байт\n", list[i].name, list[i].size);
-    }
-    printf("\nВремя сортировки: %lf\n\n", worktime);
+    int i, a, a_clean, flag = 0;
+    printf("Массив отсортирован. Как вы хотите его вывести:\n1. По возрастанию\n2. По убыванию\n");
+    do {
+        do
+        {
+            scanf("%d", &a);
+        } while (getchar() != '\n');
+        switch (a)
+        {
+        case 1:
+            printf("ИМЯ ФАЙЛА");
+            for (i = 0; i < 69; i++)
+                printf(" ");
+            printf("РАЗМЕР\n");
+            for (i = 0; i < size; i++)
+            {
+                printf("%-77s %d байт\n", list[i].name, list[i].size);
+            }
+            printf("\nВремя сортировки: %lf\n\n", worktime);
+            break;
+        case 2:
+            printf("ИМЯ ФАЙЛА");
+            for (i = 0; i < 69; i++)
+                printf(" ");
+            printf("РАЗМЕР\n");
+            for (i = size - 1; i >= 0; i--)
+            {
+                printf("%-77s %d байт\n", list[i].name, list[i].size);
+            }
+            printf("\nВремя сортировки: %lf\n\n", worktime);
+            break;
+        default:
+            printf("Вы выбрали не тот символ, напишите заново\n");
+            printf("Напоминание:\n1. По возрастанию\n2. По убыванию\n");
+            flag = 1;
+        }
+    } while (flag);
 }
 void menu()
 {
@@ -86,18 +113,26 @@ void menu()
             printf("Вы можете снова выбрать метод сортировки: \n");
         else
             printf("Введите цифру - метод сортировки:\n");
-        printf("1) Cортировка пузырьком\n2) Сортировка выбором\n3) Сортировка вставками\n4) Сортировка слиянием\n5) Сортировка Хоара\n6) Сортировка Шеллa\n7) Сортировка подсчётом \n8)сменить способ сортировки\n");
+        printf("1) Cортировка пузырьком\n2) Сортировка выбором\n3) Сортировка вставками\n4) Сортировка слиянием\n5) Сортировка Хоара\n6) Сортировка Шеллa\n7) Сортировка подсчётом \n8)Сменить сортируемый каталог\n");
         printf("Или выберите 0 для выхода\n");
         do
         {
-            a = getchar();
-            a_clean = getchar();
-        }
-        while (a_clean == EOF && a_clean == '\n');
-        a -= '0';
-        if (a > 0 && a < 8)
+            a_clean = scanf("%i", &a);
+        } while (getchar() != '\n'&& a_clean);
+        if (a >= 0 && a <= 8)
             switch (a)
             {
+            case 0:
+                printf("Вы уверены, что хотите выйти? y (английская раскладка) - да, любой другой символ - нет\n");
+                scanf("%c", &answer);
+                if (answer == 'y')
+                {
+                    printf("До свидания! Надеюсь, вы остались довольны!\n");
+                    flag = 0;
+                }
+                else
+                    flag = 2;
+                break;
             case 1:
                 printf("\n");
                 bubble(list, count);
@@ -146,19 +181,11 @@ void menu()
                 break;
             }
         else
-            if (!a)
-            {
-                printf("Вы уверены, что хотите выйти? y (английская раскладка) - да, любой другой символ - нет\n");
-                scanf("%c", &answer);
-                if (answer == 'y')
-                {
-                    printf("До свидания! Надеюсь, вы остались довольны!\n");
-                    flag = 0;
-                }
-                else
-                    flag = 2;
-            }
-    } while (flag);
+        {
+            printf("Ошибка ввода, введите ещё раз, пожалуйста\n");
+            flag = 2;
+        }
+    } while (flag!=0);
 }
 fileinf* manager()// занимается нахождением файлов с заданной пользователем маской в каталоге, заданном пользователем
 {
@@ -198,7 +225,7 @@ fileinf* manager()// занимается нахождением файлов с заданной пользователем маск
             tmp_count = 0;
             hFile = _findfirst(path, &c_file);
             printf("ИМЯ ФАЙЛА");
-            for (i = 0; i < 40; i++)
+            for (i = 0; i < 69; i++)
                 printf(" ");
             printf("РАЗМЕР\n");
             do
@@ -207,7 +234,7 @@ fileinf* manager()// занимается нахождением файлов с заданной пользователем маск
                 {
                     strcpy(list[tmp_count - 2].name, c_file.name);
                     list[tmp_count - 2].size = c_file.size;
-                    printf("%-48s", list[tmp_count - 2].name);////////////////////////////////////////////////////////////////////////////////////////////////можно украсить, если время будет. Ха, время будет))
+                    printf("%-77s", list[tmp_count - 2].name);////////////////////////////////////////////////////////////////////////////////////////////////можно украсить, если время будет. Ха, время будет))
                     printf(" %d\n", list[tmp_count - 2].size);
                 }
                 tmp_count++;
@@ -427,17 +454,16 @@ void Shell(fileinf* a, int size) // работает
 void counting(fileinf* a, int size) 
 {
     double t1, t2;//время
+   // могу доказать, что подобие сортировки внизу было написано 30 ноября (я отправил себе её вконтакте на всякий случай). Просто оказалось, что я перепутал
+    int i, j;//счётчики
+    int size_of_tmp; //количество массивов (для первого счётчика)
+    int* count; //массив размеров массивов
+    //int* counter;//счётчик массива размеров массивов (где остановились в данном месте), для оптимизации
+    fileinf** _tmp;//массив массивов, в котором будут храниться структуры
+    const int nul = -1;//для того, чтобы можно было бы заменять
+    int max = a[0].size, min = a[0].size, k = 0;// k для обычного массива
     t1 = omp_get_wtime();
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////добавляю свой вариант сортировки, который каждый раз вызывает исключение. Я над ним очень долго бился, но не понял ошибку
-   // могу доказать, что сортировка в комментарии была написана вчера (я отправил себе её вконтакте на всякий случай. Просто сортировка, данная на проверку рпботает не всегда
-    /*int i, j;//j пригодится только для случая, когда есть одинаковые размеры
-    int size_of_tmp; //размер массива для почти стандартного метода или даже для конкретного нестандартного метода
-    int* count; //счётчик массивов, если размеры файлов совпадут с точностью до байта
-    fileinf** count_tmp;//массив массивов, в котором будут храниться структуры, если будет совпадение размера файлов
-    fileinf nul;//аналог нуля для типа структура
-    int max = a[0].size, min = a[0].size, k = 0;
-
-    nul.size = -1;
+    //nul.name = a[0].name;
     for (i = 0; i < size; i++)
         if (max < a[i].size)//находим максимальный элемент
         {
@@ -447,32 +473,29 @@ void counting(fileinf* a, int size)
             if (min > a[i].size)//находим минимальный элемент
                 min = a[i].size;
     size_of_tmp = max - min + 1;
-    printf("size_of_tmp=%d\n", size_of_tmp);
     count = (int*)malloc(sizeof(int) * size_of_tmp);// массив для подсчёта
-    for (i = 0; i < size; i++)
-        count[i] = 0;
     for (i = 0; i < size_of_tmp; i++)
+    {
+        count[i] = 0;
+    }
+    for (i = 0; i < size; i++)
     {
         count[a[i].size - min]++; // получаем количество структур каждого размера
-        printf("count[%d]=%d", i, count[i]);
     }
-    count_tmp = (fileinf**)malloc(sizeof(fileinf*) * size_of_tmp);//массив массивов структур
+    _tmp = (fileinf**)malloc(sizeof(fileinf*) * size_of_tmp);//массив массивов структур получает память
     for (i = 0; i < size_of_tmp; i++)
-        count_tmp[i] = (fileinf*)malloc(sizeof(fileinf) * count[i]);//для каждого временного массива структур пишем размер
-    for (i = 0; i < size_of_tmp; i++)///////////////////////////////////////////////////////////////////////////// тут нужно присвоить все значения значению nul
+        _tmp[i] = (fileinf*)malloc(sizeof(fileinf) * count[i]);//для каждого временного массива структур пишем размер
+    for (i = 0; i < size_of_tmp; i++)
         for (j = 0; j < count[i]; j++)
         {
-            count_tmp[i][j] = nul;
+            _tmp[i][j].size = nul; //обнуление
         }
-    for (i = 0; i < size_of_tmp; i++)
+    for (i = 0; i < size; i++)//до size, т.к. переносим все элементы из а
     {
         j = 0;
-        while (count_tmp[i][j].size != nul.size && j < count[i])//ищем обнулённый элемент, сравнение по размерам производится потому, что нельзя сравнивать типы fileinf
-        {
+        while (_tmp[a[i].size - min][j].size != nul)
             j++;
-        }
-        if (j < count[i])
-            count_tmp[a[i].size - min][j] = a[i];//заменяем обнулённый элемент на обычный
+        _tmp[a[i].size - min][j] = a[i];//заменяем обнулённый элемент на обычный
     }
     //Я не знаю, как у меня получилось создать штуки снизу, но я их оставлю на память. Кстати, каждый такой тройной слэш можно копировать через Shift+Enter
     /// <summary>
@@ -484,13 +507,13 @@ void counting(fileinf* a, int size)
     for (i = 0; i < size_of_tmp; i++)//перевод массива из временного хранилища в постоянное
         for (j = 0; j < count[i]; j++)//изменение до момента, когда всё заполнено
         {
-            a[k] = count_tmp[i][j];
+            a[k] = _tmp[i][j];
             k++;
         }
     for (i = 0; i < size_of_tmp; i++)
-        free(count_tmp[i]);
-    free(count); */
-    int min, max, i, k = 0, c;
+        free(_tmp[i]);
+    free(count); 
+    /*int min, max, i, k = 0, c;
     fileinf* buff;
     int* count;
     min = max = a[0].size;
@@ -501,7 +524,7 @@ void counting(fileinf* a, int size)
             max = a[i].size;
     }
     c = max - min + 1;          
-    buff = (struct fileinf*)malloc(sizeof (fileinf) * c * size);
+    buff = (fileinf*)malloc(sizeof (fileinf) * c * size);
     count = (int*)malloc(sizeof(int) * c);
     for (i = 0; i < c; i++)
         count[i] = 0;
@@ -511,7 +534,7 @@ void counting(fileinf* a, int size)
         for(int j = 0; j < count[i] ; j++)
             a[k++] = buff[size * i + j];            
     free(count);
-    free(buff);
+    free(buff);*/
     t2 = omp_get_wtime();// финиш
     worktime = t2 - t1;// получение разности
 }
