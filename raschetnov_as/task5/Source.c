@@ -19,7 +19,7 @@ struct filesInformation* information;
 double tt1, tt2;
 int c = 0, q = 0;
 
-int programMenu();
+void programMenu();
 void mainMenuChoiceInfo();
 void programAbilities();
 void sortingMethods();
@@ -38,7 +38,7 @@ void mergeSort(int l, int AmountOfFiles);
 void merge(int l, int m, int AmountOfFiles);
 void quickSort(int low, int AmountOfFiles);
 int partition(int low, int AmountOfFiles);
-void userControl();	
+void userControl();
 void selectionControl();
 void CountingSort();
 
@@ -337,53 +337,55 @@ void sortingMethodChoice(int AmountOfFiles)
     q = 0;
     switch (choice)
     {
-    case 1:
-    {
+      case 1:
+      {
         tt1 = omp_get_wtime();
         bubbleSort(AmountOfFiles);
         tt2 = omp_get_wtime();
         break;
-    }
-    case 2:
-    {
+      }
+      case 2:
+      {
         tt1 = omp_get_wtime();
         insertionSort(AmountOfFiles);
         tt2 = omp_get_wtime();
         break;
-    }
-    case 3:
-    {
+      }
+      case 3:
+      {
         tt1 = omp_get_wtime();
         selectionSort(AmountOfFiles);
         tt2 = omp_get_wtime();
         break;
-    }
-    case 4:
-    {
+      }
+      case 4:
+      {
         tt1 = omp_get_wtime();
         mergeSort(0, AmountOfFiles - 1);
         tt2 = omp_get_wtime();
         break;
-    }
-    case 5:
-    {
+      }
+      case 5:
+      {
         tt1 = omp_get_wtime();
         quickSort(0, AmountOfFiles);
         tt2 = omp_get_wtime();
         break;
-    }
-    case 6:
-    {
+      }
+      case 6:
+      {
         tt1 = omp_get_wtime();
         shellSort(AmountOfFiles);
         tt2 = omp_get_wtime();
         break;
-    }
-    case 7:
-    {
+      }
+      case 7:
+      {
+        tt1 = omp_get_wtime();
         countingSort(AmountOfFiles);
         break;
-    }
+        tt2 = omp_get_wtime();
+      }
     }
 }
 
@@ -413,7 +415,7 @@ void programAbilities()
     programMenu();
 }
 
-int programMenu()
+void programMenu()
 {
     mainMenuChoiceInfo();
     q = scanf("%d", &choice);
@@ -437,7 +439,6 @@ int programMenu()
         break;
     }
     }
-    return choice;
 }
 
 void stringEditor(char* string, char* stringcopy, int stringcopylen)
