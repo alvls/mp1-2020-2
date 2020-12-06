@@ -383,6 +383,7 @@ void sortingMethodChoice(int AmountOfFiles)
       {
         tt1 = omp_get_wtime();
         countingSort(AmountOfFiles);
+        tt2 = omp_get_wtime();
         break;
       }
     }
