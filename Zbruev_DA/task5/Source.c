@@ -1,16 +1,3 @@
-//Разработать прототип файлового менеджера с функцией показа файлов в заданном каталоге, упорядоченных по возрастанию / убыванию размера.
-
-//Входные данные :
-//Путь до директории, в которой необходимо отсортировать содержимое.
-//Метод сортировки.
-//Выходные данные :
-//Отсортированный список имен файлов с указанием размера.
-//Время сортировки.
-//Программа должна предоставлять пользователю возможность сменить метод сортировки и повторно формировать выходные данные.
-//Программа должна реализовывать диалог с пользователем посредством интерфейса, который включает :
-//возможность ввода пути до заданного каталога;
-//возможность выбора метода сортировки;
-//возможность просмотра отсортированного списка файлов с указанием размера.
 #include <stdio.h>  
 #include <stdlib.h>  
 #include <io.h>  
@@ -21,11 +8,11 @@
 #include <omp.h>
 
 
-#define N 8  //количество товара
+#define N 8  //количество элементов в меню
 struct File
 {
-    char* File_Name;
-    int File_long;
+    char* File_Name;//имя файла
+    int File_long;//размер файла
 };
 
 void clean(void)//очищает поток ввода
@@ -37,10 +24,9 @@ void clean(void)//очищает поток ввода
     } while (c != '\n' && c != EOF);
 }
 
-int setmin(struct File* arr, int size)//рабочий поиск минимума. не удалять, нужно для сортировки!
+int setmin(struct File* arr, int size)//поиск минимума
 {
     int tmp = INT_MAX, i;
-
     for (i = 0; i < size; i++)
     {
         if (arr[i].File_long < tmp)
@@ -49,19 +35,19 @@ int setmin(struct File* arr, int size)//рабочий поиск минимума. не удалять, нужн
     return tmp;
 }
 
-int setmax(int* arr, int size)//рабочий поиск максимума
+int setmax(struct File* arr, int size)//поиск максимума
 {
     int tmp = INT_MIN, i;
-
     for (i = 0; i < size; i++)
     {
-        if (arr[i] > tmp)
-            tmp = arr[i];
+        if (arr[i].File_long > tmp)
+            tmp = arr[i].File_long;
     }
     return tmp;
 }
 
-int increment(int inc[], int size) {
+int increment(int inc[], int size) //вычисляем последовательность приращений (расстояний между елементами) для сортировки Шелла, используя формулу Сэджвика
+{
     int p1, p2, p3, s;
     p1 = p2 = p3 = 1;
     s = -1;
@@ -81,7 +67,7 @@ int increment(int inc[], int size) {
     return (s > 0 ? --s : 0);
 }
 
-struct File* bubbleSort(struct File* arr, int size)//в итоге замерим чисто время выполнения функции прямо в switch. Сортировка пузырьком
+struct File* bubbleSort(struct File* arr, int size)//Сортировка пузырьком
 {
     int i, j;
     struct File tmp;
@@ -100,7 +86,7 @@ struct File* bubbleSort(struct File* arr, int size)//в итоге замерим чисто время
     return arr;
 }
 
-struct File* selectSort(struct File* arr, int size)//в итоге замерим чисто время выполнения функции прямо в switch. выбором
+struct File* selectSort(struct File* arr, int size)//Сортировка выбором
 {
     int i, j, k;
     struct File tmp;
@@ -112,14 +98,13 @@ struct File* selectSort(struct File* arr, int size)//в итоге замерим чисто время
                 k = j;
                 tmp = arr[j];	        // k - индекс наименьшего элемента
             }
-
         arr[k] = arr[i];
-        arr[i] = tmp;   	// меняем местами наименьший с a[i]
+        arr[i] = tmp;   	// меняем местами элемент (с наименьшим размером файла) с элементом a[i]
     }
     return arr;
 }
 
-struct File* insertSortGuarded(struct File* arr, int size)//в итоге замерим чисто время выполнения функции прямо в switch//вставками
+struct File* insertSortGuarded(struct File* arr, int size)//Сортировка вставками
 {
     int i, j;
     struct File tmp_st;
@@ -134,13 +119,13 @@ struct File* insertSortGuarded(struct File* arr, int size)//в итоге замерим чист
 
         arr[j + 1] = tmp_st;
     }
-    for (j = 1; j < size && arr[j].File_long < backup; j++)// вставить backup на правильное место
+    for (j = 1; j < size && arr[j].File_long < backup; j++)// 
         arr[j - 1] = arr[j];
     arr[j - 1].File_long = backup;// вставка элемента 
     return arr;
 }
 
-struct File* mergeSort(struct File* arr, int size)
+struct File* mergeSort(struct File* arr, int size)//сортировка слиянием без рекурсии
 {
     int step = 1;  // шаг разбиения последовательности
     struct File* temp;
@@ -184,7 +169,7 @@ struct File* mergeSort(struct File* arr, int size)
     return (arr);
 }
 
-struct File* quickSort(struct File* arr, int left, int right)//в итоге замерим чисто время выполнения функции прямо в switch
+struct File* quickSort(struct File* arr, int left, int right)//Сортировка Хоара
 {
     int l_hold = left; //левая граница
     int r_hold = right; // правая граница
@@ -217,7 +202,7 @@ struct File* quickSort(struct File* arr, int left, int right)//в итоге замерим ч
     return(arr);
 }
 
-struct File* shellSort(struct File* arr, int size)//в итоге замерим чисто время выполнения функции прямо в switch работает
+struct File* shellSort(struct File* arr, int size)//сортировка шелла
 {
     struct File temp;
     int inc, i, j, seq[40];
@@ -225,9 +210,7 @@ struct File* shellSort(struct File* arr, int size)//в итоге замерим чисто время 
     s = increment(seq, size);// вычисление последовательности приращений
     while (s >= 0)
     {
-        // сортировка вставками с инкрементами inc[] 
         inc = seq[s--];
-
         for (i = inc; i < size; i++)
         {
             temp = arr[i];
@@ -239,52 +222,40 @@ struct File* shellSort(struct File* arr, int size)//в итоге замерим чисто время 
     return (arr);
 }
 
-struct File* countSort(struct File* osnova, int size)
-{
+
+
+struct File* countSort(struct File* arr, int size)//сортировка подсчетом
+{     
+    int min, max, i, j, pos = 0;
+    struct File* sett;
     int* count;
-    int i, j, pos = 0;
-    struct File tmp;
-    int* arr;
-    int max;
-    int min;
-    arr = (int*)malloc(sizeof(int) * size);
-    for (i = 0; i < size; i++)
-        arr[i] = osnova[i].File_long;//инициализация массива длин файлов
-    max = setmax(arr, size);
-    min = setmin(osnova, size);
-    count = (int*)malloc(sizeof(int) * (max - min + 2));
+    min = setmin(arr, size);//ищем минимальный размер файла
+    max = setmax(arr, size);//ищем максимальный размер файла
+    sett = (struct File*)malloc(sizeof(struct File) * (max - min + 1) * size);//массив для финальной сортировки массива структур arr
+    count = (int*)malloc(sizeof(int) * (max - min + 1));//массив в котором хранится количество каждого числа из диапазона (max-min+1)
+
     for (i = 0; i < (max - min + 1); i++)
         count[i] = 0;
-    for (i = min; i < (max + 1); i++)
-        for (j = 0; j < size; j++)
-        {
-            if (arr[j] == i)
-                count[i - min]++;
-        }
+
+    for (i = 0; i < size; i++)
+        sett[(count[arr[i].File_long - min]++) + size * (arr[i].File_long - min)] = arr[i];
+
     for (i = 0; i < (max - min + 1); i++)
         for (j = 0; j < count[i]; j++)
         {
-            arr[pos] = min + i;
+            arr[pos] = sett[size * i + j];
             pos++;
         }
-    pos = 0;
-    for (i = 0; i < size; i++)
-        for (j = 0; j < size; j++)
-            if (osnova[j].File_long == arr[i])//сортируем структуры с информацией о файлах
-            {
-                tmp = osnova[pos];
-                osnova[pos] = osnova[j];
-                osnova[j] = tmp;
-                pos++;
-            }
-    free(arr);
     free(count);
-    return(osnova);
+    free(sett);
+    return arr;
+    
 }
+
 void showmenu()
 {
-    char* menu[N] = { "Сортировка пузырьком", "Сортировка выбором", "Сортировка вставками", "Сортировка слиянием", "Сортировка Хоара", "Сортировка Шелла", "Сортировка подсчетом", "Выход" };//массив с названиями сортировок
-    short int menu_number[N] = { 1, 2, 3, 4, 5, 6, 7, 0 };//массив с кодами каждого товара
+    char* menu[N] = { "Сортировка Хоара", "Сортировка пузырьком", "Сортировка вставками", "Сортировка слиянием", "Сортировка выбором", "Сортировка Шелла", "Сортировка подсчетом", "Выход" };//массив с названиями сортировок
+    short int menu_number[N] = { 1, 2, 3, 4, 5, 6, 7, 0 };//массив с номерами каждого пункта меню
     int i, n = 8;
     for (i = 0; i < n; i++)
     {
@@ -298,39 +269,30 @@ void showmenu()
 void main()
 
 {
-    int num, flag = 1, j = 0, k;
+    int num, j = 0, k, flag=1;//num - номер пункта из меню
     struct _finddata_t c_file;
     struct File* Filearr;
     intptr_t hFile;
-    char path[260];
-    int count = 0;
-    int size, i = 0;
-    double t1, t2;
+    char path[260];//путь, введенный пользователем
+    int count = 0;//количество файлов в заданной папке
+    int size, i = 0;//size - длина строки, введенной пользователем
+    double t1, t2;//переменные для измерения времени работы функции
     char way[265] = { 0 };//итоговая строка
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);
-    while (flag == 1)
+    while (flag==1)
     {
-        if (j == 0)
+        if (j == 0)//только в первый раз выводится это сообщение
             printf("введите путь до директории: ");
         else
-            printf("Хотите сменить путь до дериктории? Если нет, введите 0: ");
+            printf("Хотите сменить путь до дериктории? Если нет, введите 0: ");//выводится в дальнейшем
         j++;
         gets(path);
-        showmenu();
-        scanf_s("%d", &num);
-        while ((num < 0) || (num > 7))
-        {
-            clean();
-            printf("Введено некорректное значение, попытайтесь заново: ");
-            scanf_s("%d", &num);
-        }
-        if (num == 0)
-            break;
+        
         size = strlen(path);
         if (size != 1)
         {
-            for (i = 0; i < size; i++)
+            for (i = 0; i < size; i++)//меняем в строке символ \ на /
             {
                 if (path[i] == '\\')
                     path[i] = '/';
@@ -339,16 +301,29 @@ void main()
             {
                 way[i] = path[i];
             }
-            way[size] = '/';//эти 4 строчки - добавление к итоговой строке выражения "/*.*"
+            way[size] = '/';//эти 5 строчек - добавление к итоговой строке выражения "/*.*" и символа конца строки
             way[size + 1] = '*';
             way[size + 2] = '.';
             way[size + 3] = '*';
             way[size + 4] = '\0';
         }
         if ((hFile = _findfirst(way, &c_file)) == -1L)
-            printf("No files in current directory!\n");
+            printf("Файлов не обнаружено! Попытайтесь ввести заново, сначала нажав Enter\n");
         else
         {
+            showmenu();
+            scanf_s("%d", &num);
+            while ((num < 0) || (num > 7))//проверка на корректность введенного номера из меню
+            {
+                clean();
+                printf("Введено некорректное значение, попытайтесь заново: ");
+                scanf_s("%d", &num);
+            }
+            if (num == 0)
+            {
+                flag = 0;
+                break;
+            }
             count = 0;
             printf("Listing of .c files\n\n");
             printf("FILE SIZE\n", ' ');//
@@ -360,13 +335,11 @@ void main()
             Filearr = (struct File*)malloc(sizeof(struct File) * count);//выделяем динамическую память
             hFile = _findfirst(way, &c_file);
             i = 0;
-
             do {//проходим по папке второй раз, перезаписывая информацию о файле в массив структур Filearr
                 Filearr[i].File_long = c_file.size;
                 Filearr[i].File_Name = (char*)malloc(sizeof(char) * 265);
                 for (k = 0; k < 265; k++)
                     Filearr[i].File_Name[k] = c_file.name[k];//записываем имя файла в строку Filearr[i].File_Name посимвольно
-                //printf("%-12.12s %d\n", Filearr[i].File_Name, Filearr[i].File_long);//печатаем информацию о файле
                 i++;
             } while (_findnext(hFile, &c_file) == 0);
             _findclose(hFile);
@@ -374,49 +347,57 @@ void main()
             switch (num)
             {
             case 1:
+                printf("Сортировка Хоара\n");
+                t1 = omp_get_wtime();
+                Filearr = quickSort(Filearr, 0, count);
+                t2 = omp_get_wtime();
+                break;
+            case 2:  
+                printf("Сортировка пузырьком\n");
                 t1 = omp_get_wtime();
                 Filearr = bubbleSort(Filearr, count);
                 t2 = omp_get_wtime();
                 break;
-            case 2:
-                t1 = omp_get_wtime();
-                Filearr=selectSort(Filearr, count);
-                t2 = omp_get_wtime();
-                break;
             case 3:
+                printf("Сортировка вставками\n");
                 t1 = omp_get_wtime();
                 Filearr = insertSortGuarded(Filearr, count);
                 t2 = omp_get_wtime();
                 break;
             case 4:
+                printf("Сортировка слиянием\n");
                 t1 = omp_get_wtime();
                 Filearr = mergeSort(Filearr, count);
                 t2 = omp_get_wtime();
                 break;
             case 5:
+                printf("Сортировка выбором\n");
                 t1 = omp_get_wtime();
-                Filearr = quickSort(Filearr, 0, count);
+                Filearr = selectSort(Filearr, count);
                 t2 = omp_get_wtime();
                 break;
             case 6:
+                printf("Сортировка Шелла\n");
                 t1 = omp_get_wtime();
                 Filearr = shellSort(Filearr, count);
                 t2 = omp_get_wtime();
                 break;
             case 7:
+                printf("Сортировка подсчетом\n");
                 t1 = omp_get_wtime();
                 Filearr = countSort(Filearr, count);
                 t2 = omp_get_wtime();
                 break;
             }
-            for(i=0; i<count; i++)//?
-                printf("%-12.12s %d\n", Filearr[i].File_Name, Filearr[i].File_long);
-            printf("Время сортировки: %lf\n", (t2 - t1));
+            for(i=2; i<count; i++)//i=2, чтобы не печчатались файлы . и ..
+                printf("%-12.12s %d байт\n", Filearr[i].File_Name, Filearr[i].File_long);
+            printf("Время сортировки: %lf ", (t2 - t1));
+            printf("секунд\n");
             for (i = 0; i < count; i++)
                 free(Filearr[i].File_Name);
             free(Filearr);
-            clean();//снова чистим поток ввода, так как если цикл не завершится, необходимо будет считать путь до директории
         }
+        clean();//снова чистим поток ввода, так как если цикл не завершится, необходимо будет считать путь до директории
     }
     system("pause");
 }
