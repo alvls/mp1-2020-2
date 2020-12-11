@@ -227,7 +227,7 @@ int userInterface() {
 
 }
 
-void printAllSort(struct informationAboutSoarting* soartingInformation, const int getCountFromCounter) {
+void printAllSort(struct informationAboutSoarting* soartingInformation) {
     printf("Перед вами данные о всех сортировках: если время 0 сек., то сортировка данным методом не производилась \n");
     printf("Название  сортировки      |Время \n");
     printf("пузырьком                  %f\n", soartingInformation[1].timeOfSoarting);
