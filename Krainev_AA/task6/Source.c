@@ -3,7 +3,6 @@
 #include <math.h>
 #include <locale.h>
 
-
 float degreesToRadians(long float degrees);
 int choiceOfFunctionForDecomposition();
 int choiceOfMode();
@@ -88,27 +87,25 @@ main() {
 void modeOne(void(*functionPointer)(double, double, long int), double rV, float etalon) {
 	printf_s("Введите точность вычисления (эпсилон): ");
 	scanf_s("%f", &calculationAccuracy);
-	printf_s("Введите количество слагаемых: n");
+	printf_s("Введите количество слагаемых: ");
 	scanf_s("%li", &numberOfElements);
 	printf_s("Эталонное значение (полученное с использованием встроенных математических функций языка программирования): %f\n", etalon);
 	printf_s("Вычисленная оценка функции   Разница между оценкой и эталоном    Вычисленное число слагаемых\n");
 	functionPointer(rV, calculationAccuracy, numberOfElements);
 	printf("До встречи!\n");
 	getchar();
-
-
 }
 void modeTwo(void(*functionPointer)(double, double, long int), double rV, double etalon) {
 	long int i;
 	int numberOfExperement;
-
 	double cA = -0.000001;
 	printf("Введите количество экспериментов от 1 до 25?\n");
 	scanf_s("%i", &numberOfExperement);
 	printf_s("Эталонное значение (полученное с использованием встроенных математических функций языка программирования): %f\n", etalon);
-	printf("Вычисленная оценка функции   Разница между оценкой и эталоном    Вычисленное число слагаемых\n ");
-	for (i = 0; i < numberOfExperement; i++)
+	printf("Вычисленная оценка функции   Разница между оценкой и эталоном    Вычисленное число слагаемых\n");
+	for (i = 0; i < numberOfExperement; i++) {
 		functionPointer(rV, calculationAccuracy, i + 1);
+	}
 	printf("До встречи!\n");
 	getchar();
 }
@@ -118,8 +115,7 @@ void sinX(double rV, double cA, long int nOF) {
 	double function = rV;
 	double delta = fabs(sinInX - function);
 	double term = rV;
-	for (i = 2; (i <= nOF) && (delta >= cA); i++)
-	{
+	for (i = 2; (i <= nOF) && (delta >= cA); i++){
 		term = (-1) * term * rV * rV / ((2 * i - 1) * (2 * i - 2));
 		function = function + term;
 		delta = fabs(sinInX - function);
@@ -133,8 +129,7 @@ void cosX(double rV, double cA, long int nOF) {
 	double function = 1;
 	double delta = fabs(cosInX - function);
 	double term = 1;
-	for (i = 2; (i <= nOF) && (delta >= cA); i++)
-	{
+	for (i = 2; (i <= nOF) && (delta >= cA); i++){
 		term = (-1) * term * rV * rV / ((2 * i - 2) * (2 * i - 3));
 		function = function + term;
 		delta = fabs(cosInX - function);
@@ -147,8 +142,7 @@ void expX(double rV, double cA, long int nOF) {
 	double function = 1;
 	double delta = fabs(expInX - function);
 	double term = 1;
-	for (i = 2; (i <= nOF) && (delta >= cA); i++)
-	{
+	for (i = 2; (i <= nOF) && (delta >= cA); i++){
 		term = term * rV / (i - 1);
 		function = function + term;
 		delta = fabs(expInX - function);
@@ -161,15 +155,13 @@ void arcsinX(double rV, double cA, long int nOF) {
 	double function = rV;
 	double delta = fabs(arcsinInX - function);
 	double term = rV;
-	for (i = 1; (i <= nOF) && (delta >= cA); i += 1)
-	{
+	for (i = 1; (i <= nOF) && (delta >= cA); i += 1){
 		//term = term * ((rV * rV * (2 * i + 1) * (2 * i + 1)) / (2 * (i + 1) * (2 * i + 3)));
 		term *= ((rV * rV) * (2 * i - 1) * (2 * i - 1)) / ((2 * i) * (2 * i + 1));
 		function = function + term;
 		delta = fabs(arcsinInX - function);
 	}
-	printf("%-30lf %-40lf  %-40d\n\n", function, delta, i - 1);
-
+	printf("%-30lf %-40lf  %-40d\n", function, delta, i - 1);
 }
 float degreesToRadians(long float degrees) { //преобразует градусы в радианы и возвращает значание икс в них
 	float radians;
@@ -215,5 +207,4 @@ int choiceOfMode() { //возвращает номер режима и делает проверку на ввод
 		}
 	}
 	return choice;
-
 }
