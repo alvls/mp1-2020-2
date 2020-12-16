@@ -219,7 +219,7 @@ void SortCouting(int count, S* s) {
 	}
 	size = maxsize - minsize + 1;
 	countequalsizes = (unsigned long*)malloc(size * sizeof(unsigned long));
-	for (_fsize_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 	{
 		countequalsizes[i] = 0;
 	}
@@ -227,7 +227,7 @@ void SortCouting(int count, S* s) {
 	{
 		countequalsizes[s[i].size - minsize]++;
 	}
-	for (_fsize_t i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 	{
 		while (countequalsizes[i] > 0)
 		{
