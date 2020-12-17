@@ -108,7 +108,7 @@ int PrCont(int mode) {
 	int ans;
 	Calculator(mode, i);
 	while (1) {
-		printf_s("Want to do another experiment?(1-Yes,0-No)");
+		printf_s("Want to do another experiment?(1-Yes,0-No)\n");
 		scanf_s("%d", &ans);
 		if (ans == 1) {
 			if (i != NumberOfSavedFunc) {
@@ -141,7 +141,7 @@ void ShowInfo(double etalon, double x, int N,char name[],double Result[],int mod
 	printf_s("In point %lf\n", x);
 }
 int Calculator(int mode) {
-	char* name[FuncNameLen];
+	char name[FuncNameLen];
 	int flag = 0, temp2;
 	int code,N;
 	double x, etalon, calculated,accuracy,difference;
@@ -149,8 +149,14 @@ int Calculator(int mode) {
 		printf_s("You need to input name of function\n");
 		while (getchar() != '\n');
 		fgets(name, sizeof(name), stdin);
+		for (int i = 0; i < FuncNameLen; i++) {
+			if (name[i] == '\n') {
+				name[i] = 0;
+				break;
+			}
+		}
 		for (int d = 0; d < CountOfFunc; d++) {
-			if (strcmp(coder[d], name)) {
+			if (strcmp(coder[d], name)==0) {
 				code = d;
 				flag = 1;
 				break;
