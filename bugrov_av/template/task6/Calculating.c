@@ -1,122 +1,84 @@
 #include<stdio.h>
 #include<math.h>
-typedef double db;
-int proverka(db acc, db x, db Teilor, db(*etalon)(db))
+#define pi 3.14159265358979323846
+#define T 2*pi
+#include "Types.h"
+int proverka(db acc, db x, db Teilor, operation etalon)
 {
-	db x1 = x;
-	if (etalon != sqrt)
-		x1 = etalon(x);
-	else
-		x1 = etalon(x + 1.0);
-	x1 -= Teilor;
-	if (x1 < 0.0)
-		x1 *= -1.0;
-	//printf("x1=%lf\n", x1);
-	return (x1 > acc) ? 1 : 0;
+	if (acc < 0.000001)
+		return 1;
+	x = etalon(x);
+	x -= Teilor;
+	if (x < 0.0)
+		x *= -1.0;
+	return (x > acc) ? 1 : 0;
 }
-db polinom(db acc, int count, db x, db(*etalon)(db))
+sum polinom(db acc, int count, db x, operation etalon)
 {
 	long long int i;
 	long long fact = 1;//факториал
-	long double Teilor;//значение ряда Тейлора
+	sum Teilor;//значение ряда Тейлора
 	int (*do_it)(db, db, db, db(*etalon)(db)) = proverka;
-	db* elem;
-	elem = (db*)malloc(sizeof(db) * (count + 1));
-	elem[0] = 1;
+	db n;//для факториала (чтобы использовать факториал некого числа)
+	db a;//слагаемое в формуле Тейлора
+	Teilor.count = 0;
 	if (etalon == cos || etalon == sin)
 	{
-		const db x2 = x * x;//для умножения икс^k на икс во второй
-		long long n;//для факториала
+		db sec;//второе значение икс для использования в проверке
+		if (x < 0.0)
+		{
+			db pix = x * (-1.0);
+			while (pix > T)
+				pix -= T;
+			x = pix * (-1.0);
+		}
+		else
+		{
+			while (x > T)
+				x -= T;
+		}
 		if (etalon == cos)
 		{
-			x = 1;
-			n = 0;
+			a = 1;
+			n = 0.0;
 		}
 		else
 		{
 			n = 1;
+			a = x;
 		}
-		Teilor = x;
-		if (acc != 0.0)
-			for (i = 1; i < count && proverka(acc, x, Teilor, etalon); i++, n += 2)
-			{
-				x *= x2;
-				fact = fact * (n + 1) * (n + 2);
-				fact *= -1;
-				Teilor = Teilor + x / (long double)fact;
-			}
-		else
-			for (i = 1; i < count; i++, n += 2)
-			{
-				x *= x2;
-				fact = fact * (n + 1) * (n + 2);
-				fact *= -1;
-				Teilor = Teilor + x / (db)fact;
-			}
+		Teilor.s = a;
+		sec = x;
+		for (i = 1, n; i <= count && do_it(acc, sec, Teilor.s, etalon); i++, n += 2.0)
+		{
+			Teilor.count++;
+			a *= ((-1.0) * x * x) / ((n + 1) * (n + 2));
+			Teilor.s += a;
+		}
 	}
 	else
 	{
-		Teilor = 1.0;
-		const db x1 = x;
+		Teilor.s = 1.0;
+		a = 1.0;
 		if (etalon == exp)
 		{
-			if (acc != 0.0)
-				for (i = 1; i < count && do_it(acc, x, Teilor, etalon); i++)
-				{
-					fact *= i;
-					x *= x1;
-					Teilor = Teilor + x / (long double)fact;
-					//Teilor = Teilor + x / fact;
-					printf("Teilor=%lf\n", Teilor);/////////////////////////////////////////////////////////////////////////
-				}
-			else
-				for (i = 1; i <= count; i++)
-				{
-					//fact *= i;
-					// x *= x1;
-					elem[i] = (elem[i - 1] * x) / (i + 1);
-					//Teilor = Teilor + elem[i];//x / (long double)fact;
-				}
-			for (i = 0; i <= count; i++)
-				Teilor = Teilor + elem[i];
-			free(elem);
+			const db sec = x;//второе значение икс для использования в проверке
+			for (i = 1; i <= count && do_it(acc, sec, Teilor.s, etalon); i++)
+			{
+				Teilor.count++;
+				a *= x / i;
+				Teilor.s += a;
+			}
 		}
 		else
 		{
-			long long difact = -1;//факториал удвоенного числа
-			long long chet = 1;//идёт в знаменатель в виде 4 i-той степени
-			long long znam;//штука, идущая в знаменатель
-			long long fact2 = 1;//квадрат факториала
-			long long n = 2;//для факториала
-			//Full формула: ((-1)^i * (2i)! * x^i) / ((1-2i) * (i!)^2 * (4^i)), 0<=i<=n
-//Small формула: (difact * x) / (znam * fact2 * chet);
-			if (acc != 0.0)
-				for (i = 1; i < count && do_it(acc, x, Teilor, etalon); i++, n += 2)
-				{
-					x *= x1;
-					difact = difact * n * (n - 1);
-					znam = (-2) * i + 1;
-					fact2 *= i;
-					fact2 *= fact2;
-					chet *= 4;
-					Teilor += (x * (long double)difact) / ((long double)znam * (long double)fact2 * (long double)chet);
-					//Teilor += (x * difact) / (znam * fact2 * chet);
-					Teilor = Teilor + (x * difact) / (znam * fact2 * chet);
-					difact *= -1;
-				}
-			else
-				for (i = 1; i < count; i++, n += 2)
-				{
-					x *= x1;
-					difact = difact * n * (n - 1);
-					znam = (-2) * i + 1;
-					fact2 *= i;
-					fact2 *= fact2;
-					chet *= 4;
-					//Teilor += (x * (long double)difact) / ((long double)znam * (long double)fact2 * (long double)chet);
-					Teilor = Teilor + (x * difact) / (znam * fact2 * chet);
-					difact *= -1;
-				}
+			const db sec = x + 1.0;//второе значение икс для использования в проверке
+			for (i = 0; i <= count && do_it(acc, sec, Teilor.s, etalon); i++)
+			{
+				a *= x * (0.5 - i) / (i + 1);
+				Teilor.s += a;
+				Teilor.count++;
+			}
 		}
 	}
 	return Teilor;

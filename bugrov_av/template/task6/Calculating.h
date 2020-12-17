@@ -1,6 +1,9 @@
 #ifndef __CALCULATING_H__
 #define __CALCULATING_H__
-typedef double db;
-db polinom(db acc, int count, db x, db(*etalon)(db));
-int proverka(db acc, db x, db Teilor, db(*etalon)(db));
+#define _CRT_SECURE_NO_WARNINGS
+#define pi 3.14159265358979323846
+#define T 2*pi
+#include "Types.h"
+int proverka(db acc, db x, db Teilor, operation etalon);
+sum polinom(db acc, int count, db x, db(*etalon)(db));
 #endif
