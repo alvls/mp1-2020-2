@@ -1,12 +1,12 @@
 #define NumberOfSavedFunc 5
 #define CountOfFunc 4
+#include <conio.h>
 #include <stdio.h>
-#include <memory.h>
+#include <stdlib.h>
 #include <math.h>
 #include <string.h>
 #define FuncNameLen 6
 int countT = 1;
-
 
 char* coder[] = { "sin","cos","exp" };
 double SinInit(double x) {
@@ -65,31 +65,42 @@ double Etalon(int code, double x) {
 }
 
 
-double TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int N, double accuracy,double etalon) {
+void TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int N, double accuracy,double etalon,int mode,double CalcT2[]) {
 	double sum = Init(x);
 	double pr=sum;
 	double temp1;
 	int i = 2;
+	if (mode == 2) {
+		CalcT2[0] = sum;
+	}
 	while (fabs(sum - etalon) > accuracy) {
 		temp1= TlrC(x, i, pr);
 		sum += temp1;
 		pr = temp1;
+		if (mode == 2) {
+			CalcT2[(i-1)] = sum;
+		}
 		i += 1;
 		if (i >= N) {
 			break;
 		}
 	}
 	countT = i;
-	return sum;
+	if (mode == 1) {
+		CalcT2[0] = sum;
+	}
 }
-double TeylorCh(double x, int N, int code,double accuracy,double etalon) {
+void TeylorCh(double x, int N, int code,double accuracy,double etalon,int mode,double CalcT2[]) {
 	switch (code) {
 	case(0):
-		return TeylorCl(SinInit, SinTlr, x, N,accuracy,etalon);
+		TeylorCl(SinInit, SinTlr, x, N,accuracy,etalon,mode,CalcT2);
+		break;
 	case(1):
-		return TeylorCl(CosInit, CosTlr, x, N, accuracy,etalon);
+		TeylorCl(CosInit, CosTlr, x, N, accuracy,etalon,mode,CalcT2);
+		break;
 	case(2):
-		return TeylorCl(expInit, expTlr, x, N, accuracy,etalon);
+		 TeylorCl(expInit, expTlr, x, N, accuracy,etalon,mode,CalcT2);
+		 break;
 	}
 }
 int PrCont(int mode) {
@@ -106,21 +117,30 @@ int PrCont(int mode) {
 			else {
 				i = 0;
 			}
-			Calculator(mode, i);
+			Calculator(mode);
 		}
 		if (ans == 0) {
 			break;
 		}
 	}
 }
-void ShowInfo(double etalon, double calculated, double difference, double x, int N,char name[]) {
+void ShowInfo(double etalon, double x, int N,char name[],double Result[],int mode) {
 	printf_s("Name of your func is = %s\n", name);
 	printf_s("Etalon value is %lf\n", etalon);
-	printf_s("Calculated value is %lf\n", calculated);
-	printf_s("For calculating used %d elements in Teylor form\n", countT);
+	if (mode == 1) {
+		printf_s("Calculated value is %lf\n", Result[0]);
+		printf_s("For calculating used %d elements in Teylor form\n", countT);
+	}
+	if (mode == 2) {
+		printf_s("Count of Teylor form elsements\r\t\t\t\tResult\n");
+		for (int i = 1; i < countT; i++) {
+			printf_s("%d\r\t\t\t\t\t %lf\n",i, Result[i-1]);
+		}
+		
+	}
 	printf_s("In point %lf\n", x);
 }
-int Calculator(int mode,int i) {
+int Calculator(int mode) {
 	char* name[FuncNameLen];
 	int flag = 0, temp2;
 	int code,N;
@@ -148,9 +168,18 @@ int Calculator(int mode,int i) {
 	scanf_s("%lf", &accuracy);
 	scanf_s("%d", &N);
 	etalon = Etalon(code, x);
-	calculated = TeylorCh(x,N, code,accuracy,etalon);
-	difference = etalon - calculated;
-	ShowInfo(etalon, calculated,difference, x, N,name);
+	if (mode == 2) {
+		double* CalcT2 = (double*)malloc(sizeof(double) * N);
+		TeylorCh(x, N, code, accuracy, etalon, mode, CalcT2);
+		ShowInfo(etalon, x, N, name, CalcT2,mode);
+		free(CalcT2);
+	}
+	if (mode == 1) {
+		double* CalcT2 = (double*)malloc(sizeof(double));
+		TeylorCh(x, N, code, accuracy, etalon, mode, CalcT2);
+		ShowInfo(etalon,x, N, name, CalcT2,mode);
+		free(CalcT2);
+	}
 	return 1;
 }
 int Menu() {
