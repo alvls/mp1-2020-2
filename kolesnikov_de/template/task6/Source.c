@@ -4,11 +4,17 @@
 #include <memory.h>
 #include <math.h>
 #include <string.h>
+#define FuncNameLen 6
 
-int factorial(int n)
-{
-	return (n < 2) ? 1 : n * factorial(n - 1);
-}
+//long int factorial(int n){
+//	int c, f = 1;
+//	for (c = 1; c <= n; c++)
+//		f = f * c;
+//
+//	printf("Factorial of %d = %d\n", n, f);
+//
+//	return f;
+//}
 
 char* coder[] = { "sin","cos","exp" };
 double SinInit(double x) {
@@ -21,29 +27,34 @@ double expInit(double x) {
 	return 1;
 }
 
-double SinTlr(double x, int N) {
-	if (N % 2 != 0) {
-		return ((double)pow(x, N + 2) / factorial(N + 2) * (-1));
+double SinTlr(double x, int N,double pr) {
+	double temp1 = pr * x * x;
+	int ran = 2 * N;
+	double temp2 = temp1 / (ran - 2);
+	double temp3 = (temp2 / (ran-1));
+	if ((2*N+1) % 2 != 0) {
+		return -temp3;
 	}
 	else {
-		return ((double)pow(x, N + 2) / factorial(N + 2));
+		return temp3;
 	}
 }
-double CosTlr(double x, int N) {
-	if (N % 2 != 0) {
-		return ((double)pow(x, N + 2) / factorial(N + 2) * (-1));
+double CosTlr(double x, int N, double pr) {
+	double temp1 = pr * x * x;
+	int ran = 2 * N;
+	double temp2 = temp1 / (ran - 2);
+	double temp3 = (temp2 / (ran - 3));
+	if ((2 * N + 1) % 2 == 0) {
+		return -temp3;
 	}
 	else {
-		return ((double)pow(x, N + 2) / factorial(N + 2));
+		return temp3;
 	}
 }
-double expTlr(double x, int N) {
-	if (N % 2 != 0) {
-		return ((double)pow(x, N + 2) / factorial(N + 2) * (-1));
-	}
-	else {
-		return ((double)pow(x, N + 2) / factorial(N + 2));
-	}
+double expTlr(double x, int N, double pr) {
+	double temp1 = pr * x;
+	double temp3 = (temp1 / (N-1));
+	return temp3;
 }
 
 int(*Init)(double);
@@ -63,27 +74,40 @@ double Etalon(int code, double x) {
 
 
 
-double TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int N) {
-	double init = Init(x);
-	double sum = init;
-	for (int i = 1; i <= N; i++) {
-		init + TlrC(x, i);
+double TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int N, double accuracy,double etalon) {
+	double sum = Init(x);
+	double pr=sum;
+	double temp1;
+	int i = 2;
+	double as = abs(sum - etalon);
+	while (as > accuracy) {
+		if (i >= N) {
+			break;
+		}
+		printf_s("%lf  %d\n", sum, i);
+		temp1= TlrC(x, i, pr);
+		sum += temp1;
+		pr = temp1;
+		i += 1;
 	}
+
+	return sum;
 }
-double TeylorCh(double x, int N, int code) {
+double TeylorCh(double x, int N, int code,double accuracy,double etalon) {
 	switch (code) {
 	case(0):
-		return TeylorCl(SinInit, SinTlr, x, N);
+		return TeylorCl(SinInit, SinTlr, x, N,accuracy,etalon);
 	case(1):
-		return TeylorCl(CosInit, CosTlr, x, N);
+		return TeylorCl(CosInit, CosTlr, x, N, accuracy,etalon);
 	case(2):
-		return TeylorCl(expInit, expTlr, x, N);
+		return TeylorCl(expInit, expTlr, x, N, accuracy,etalon);
 	}
 }
 int PrCont(int mode) {
 	int i = 0;
 	int ans;
 	Calculator(mode, i);
+
 	while (1) {
 		printf_s("Want to do another experiment?(1-Yes,0-No)");
 		scanf_s("%d", &ans);
@@ -101,9 +125,14 @@ int PrCont(int mode) {
 		}
 	}
 }
-
+void ShowInfo(double etalon, double calculated, double difference, double x, int N,char name[]) {
+	printf_s("Name of your func is = %s\n", name);
+	printf_s("Etalon value is %lf\n", etalon);
+	printf_s("Calculated value is %lf\n", calculated);
+	printf_s("In point %lf\n", x);
+}
 int Calculator(int mode,int i) {
-	char* name[6];
+	char* name[FuncNameLen];
 	int flag = 0, temp2;
 	int code,N;
 	double x, etalon, calculated,accuracy,difference;
@@ -130,8 +159,9 @@ int Calculator(int mode,int i) {
 	scanf_s("%lf", &accuracy);
 	scanf_s("%d", &N);
 	etalon = Etalon(code, x);
-	calculated = TeylorCh(x,N, code);
+	calculated = TeylorCh(x,N, code,accuracy,etalon);
 	difference = etalon - calculated;
+	ShowInfo(etalon, calculated,difference, x, N,name);
 	return 1;
 }
 int Menu() {
