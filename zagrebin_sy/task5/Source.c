@@ -303,8 +303,8 @@ void main() {
 
                 printf("FILE  %28c  SIZE\n", ' ');
                 for (int i = 0; i < count; i++) { // LOAD COPY
-                    //files[i] = copy[i];
-                    printf("%-26.26s  %12d\n", files[i].name, files[i].size);
+                    files[i] = copy[i];
+                    //printf("%-26.26s  %12d\n", files[i].name, files[i].size);
                 }
                 printf("\n");
             }
@@ -353,8 +353,8 @@ void main() {
                 Counting(files, count);
                 break;
             }
-            system("cls");
             timer = omp_get_wtime() - timer;    // DETECT TIME
+            system("cls");
             timers[hsize] = timer;
             hsize++;
 
