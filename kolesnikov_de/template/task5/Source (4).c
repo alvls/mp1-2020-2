@@ -1,4 +1,3 @@
-#define NumberOfSavedFunc 5
 #define CountOfFunc 4
 #include <conio.h>
 #include <stdio.h>
@@ -81,7 +80,7 @@ void TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int
 			CalcT2[(i - 1)] = sum;
 		}
 		i += 1;
-		if (i >= N) {
+		if ((i >= N)&&(mode==1)) {
 			break;
 		}
 	}
@@ -108,15 +107,9 @@ int PrCont(int mode) {
 	int ans;
 	Calculator(mode, i);
 	while (1) {
-		printf_s("Want to do another experiment?(1-Yes,0-No)");
+		printf_s("Want to do another experiment?(1-Yes,0-No)\n");
 		scanf_s("%d", &ans);
 		if (ans == 1) {
-			if (i != NumberOfSavedFunc) {
-				i += 1;
-			}
-			else {
-				i = 0;
-			}
 			Calculator(mode);
 		}
 		if (ans == 0) {
@@ -132,7 +125,7 @@ void ShowInfo(double etalon, double x, int N, char name[], double Result[], int 
 		printf_s("For calculating used %d elements in Teylor form\n", countT);
 	}
 	if (mode == 2) {
-		printf_s("Count of Teylor form elsements\r\t\t\t\tResult\n");
+		printf_s("Count of Teylor form elsements\r\t\t\t\t\t\tResult\n");
 		for (int i = 1; i < countT; i++) {
 			printf_s("%d\r\t\t\t\t\t %lf\n", i, Result[i - 1]);
 		}
