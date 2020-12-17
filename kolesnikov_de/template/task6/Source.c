@@ -5,16 +5,8 @@
 #include <math.h>
 #include <string.h>
 #define FuncNameLen 6
+int countT = 1;
 
-//long int factorial(int n){
-//	int c, f = 1;
-//	for (c = 1; c <= n; c++)
-//		f = f * c;
-//
-//	printf("Factorial of %d = %d\n", n, f);
-//
-//	return f;
-//}
 
 char* coder[] = { "sin","cos","exp" };
 double SinInit(double x) {
@@ -73,24 +65,21 @@ double Etalon(int code, double x) {
 }
 
 
-
 double TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int N, double accuracy,double etalon) {
 	double sum = Init(x);
 	double pr=sum;
 	double temp1;
 	int i = 2;
-	double as = abs(sum - etalon);
-	while (as > accuracy) {
-		if (i >= N) {
-			break;
-		}
-		printf_s("%lf  %d\n", sum, i);
+	while (fabs(sum - etalon) > accuracy) {
 		temp1= TlrC(x, i, pr);
 		sum += temp1;
 		pr = temp1;
 		i += 1;
+		if (i >= N) {
+			break;
+		}
 	}
-
+	countT = i;
 	return sum;
 }
 double TeylorCh(double x, int N, int code,double accuracy,double etalon) {
@@ -107,7 +96,6 @@ int PrCont(int mode) {
 	int i = 0;
 	int ans;
 	Calculator(mode, i);
-
 	while (1) {
 		printf_s("Want to do another experiment?(1-Yes,0-No)");
 		scanf_s("%d", &ans);
@@ -129,6 +117,7 @@ void ShowInfo(double etalon, double calculated, double difference, double x, int
 	printf_s("Name of your func is = %s\n", name);
 	printf_s("Etalon value is %lf\n", etalon);
 	printf_s("Calculated value is %lf\n", calculated);
+	printf_s("For calculating used %d elements in Teylor form\n", countT);
 	printf_s("In point %lf\n", x);
 }
 int Calculator(int mode,int i) {
