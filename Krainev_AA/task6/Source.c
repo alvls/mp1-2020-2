@@ -3,7 +3,7 @@
 #include <math.h>
 #include <locale.h>
 
-float degreesToRadians(long float degrees);
+float degreesToRadians(float degrees);
 int choiceOfFunctionForDecomposition();
 int choiceOfMode();
 double getRealVariable();
@@ -161,9 +161,9 @@ void arcsinX(double rV, double cA, long int nOF) {
 		function = function + term;
 		delta = fabs(arcsinInX - function);
 	}
-	printf("%-30lf %-40lf  %-40d\n", function, delta, i - 1);
+	printf("%-30lf %-40lf  %-40d\n", function, delta, i + 1);
 }
-float degreesToRadians(long float degrees) { //преобразует градусы в радианы и возвращает значание икс в них
+float degreesToRadians(float degrees) { //преобразует градусы в радианы и возвращает значание икс в них
 	float radians;
 	radians = ((degrees * M_PI) / 180);
 	return radians;
