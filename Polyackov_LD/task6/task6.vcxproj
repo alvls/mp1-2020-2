@@ -111,6 +111,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="0 main.c" />
+    <ClCompile Include="1 data processing.c" />
+    <ClCompile Include="2 taylor series.c" />
+    <ClCompile Include="3 secondary functions.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="1 data processing.h" />
+    <ClInclude Include="0 main.h" />
+    <ClInclude Include="3 secondary functions.h" />
+    <ClInclude Include="2 taylor series.h" />
+    <ClInclude Include="all.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
