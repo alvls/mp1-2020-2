@@ -9,6 +9,9 @@
 int countT = 1;
 const double PI = 3.141592653589793;
 char* coder[] = { "sin","cos","exp","ctg" };
+char* WarningM[] = { "","","","Number of elements > 12 may cause errors, x in range (-pi;pi)\n" };
+
+
 double SinInit(double x) {
 	return x;
 }
@@ -36,21 +39,6 @@ unsigned int fact(int x)
 	}
 }
 
-//void bernoulliNumbers(long double bn[], long long n) {
-//	while (n != 225) {
-//		n++;
-//		bn[0] = 1;
-//		long double s = 0;
-//		for (long k = 1; k <= n; k++) {
-//			if ((n != 1) && (n % 2 != 0)) {
-//				bn[n] = 0;
-//				break;
-//			}
-//			s += comb(n + 1, k + 1) * bn[n - k];
-//		}
-//		bn[n] = (-1 * s) / (n + 1);
-//	}
-//}
 long double Bern(int twiseN) {
 	return fact(twiseN) /( (double)pow((2 * PI), twiseN));
 }
@@ -115,13 +103,14 @@ double Etalon(int code, double x) {
 }
 
 
-void TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int N, double accuracy,double etalon,int mode,double CalcT2[]) {
+void TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int N, double accuracy,double etalon,int mode,double CalcT2[],double CalcAc[]) {
 	double sum = Init(x);
 	double pr=sum;
 	double temp1;
 	int i = 2;
 	if (mode == 2) {
 		CalcT2[0] = sum;
+		CalcAc[0] = fabs(sum - etalon);
 	}
 	while (fabs(sum - etalon) > accuracy) {
 		temp1= TlrC(x, i, pr);
@@ -129,6 +118,7 @@ void TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int
 		pr = fabs(temp1);
 		if (mode == 2) {
 			CalcT2[(i-1)] = sum;
+			CalcAc[(i-1)] = fabs(sum - etalon);
 		}
 		i += 1;
 		if (i >= N) {
@@ -138,21 +128,22 @@ void TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int
 	countT = i;
 	if (mode == 1) {
 		CalcT2[0] = sum;
+		CalcAc[0] = fabs(sum - etalon);
 	}
 }
-void TeylorCh(double x, int N, int code,double accuracy,double etalon,int mode,double CalcT2[]) {
+void TeylorCh(double x, int N, int code,double accuracy,double etalon,int mode,double CalcT2[], double CalcAc[]) {
 	switch (code) {
 	case(0):
-		TeylorCl(SinInit, SinTlr, x, N,accuracy,etalon,mode,CalcT2);
+		TeylorCl(SinInit, SinTlr, x, N,accuracy,etalon,mode,CalcT2,CalcAc);
 		break;
 	case(1):
-		TeylorCl(CosInit, CosTlr, x, N, accuracy,etalon,mode,CalcT2);
+		TeylorCl(CosInit, CosTlr, x, N, accuracy,etalon,mode,CalcT2,CalcAc);
 		break;
 	case(2):
-		 TeylorCl(expInit, expTlr, x, N, accuracy,etalon,mode,CalcT2);
+		 TeylorCl(expInit, expTlr, x, N, accuracy,etalon,mode,CalcT2, CalcAc);
 		 break;
 	case(3):
-		TeylorCl(ctgInit, ctgTlr, x, N, accuracy, etalon, mode, CalcT2);
+		TeylorCl(ctgInit, ctgTlr, x, N, accuracy, etalon, mode, CalcT2, CalcAc);
 		break;
 	}
 }
@@ -177,21 +168,26 @@ int PrCont(int mode) {
 		}
 	}
 }
-void ShowInfo(double etalon, double x, int N,char name[],double Result[],int mode) {
+void ShowInfo(double etalon, double x, int N,char name[],double Result[],int mode, double CalcAc[]) {
 	printf_s("Name of your func is = %s\n", name);
 	printf_s("Etalon value is %lf\n", etalon);
 	if (mode == 1) {
 		printf_s("Calculated value is %lf\n", Result[0]);
 		printf_s("For calculating used %d elements in Teylor form\n", countT);
+		printf_s("The accuracy is %lf\n", CalcAc[0]);
+
 	}
 	if (mode == 2) {
-		printf_s("Count of Teylor form elsements\r\t\t\t\tResult\n");
+		printf_s("Count of Teylor form elements\r\t\t\t\tResult\r\t\t\t\t\t\t\t\t\tAccuracy\n");
 		for (int i = 1; i < countT; i++) {
-			printf_s("%d\r\t\t\t\t\t %lf\n",i, Result[i-1]);
+			printf_s("%d\r\t\t\t\t\t%lf\r\t\t\t\t\t\t\t%lf\n",i, Result[i-1],CalcAc[i-1]);
 		}
 		
 	}
 	printf_s("In point %lf\n", x);
+}
+void Warning(int code) {
+	printf_s("%s", WarningM[code]);
 }
 int Calculator(int mode) {
 	char name[FuncNameLen];
@@ -222,6 +218,7 @@ int Calculator(int mode) {
 			break;
 		}
 	}
+	Warning(code);
 	printf_s("You need to input argument of func,accuracy and count of elements in Teylor form \n");
 	scanf_s("%lf", &x);
 	scanf_s("%lf", &accuracy);
@@ -229,15 +226,19 @@ int Calculator(int mode) {
 	etalon = Etalon(code, x);
 	if (mode == 2) {
 		double* CalcT2 = (double*)malloc(sizeof(double) * N);
-		TeylorCh(x, N, code, accuracy, etalon, mode, CalcT2);
-		ShowInfo(etalon, x, N, name, CalcT2,mode);
+		double* CalcAc = (double*)malloc(sizeof(double) * N);
+		TeylorCh(x, N, code, accuracy, etalon, mode, CalcT2,CalcAc);
+		ShowInfo(etalon, x, N, name, CalcT2,mode, CalcAc);
 		free(CalcT2);
+		free(CalcAc);
 	}
 	if (mode == 1) {
 		double* CalcT2 = (double*)malloc(sizeof(double));
-		TeylorCh(x, N, code, accuracy, etalon, mode, CalcT2);
-		ShowInfo(etalon,x, N, name, CalcT2,mode);
+		double* CalcAc = (double*)malloc(sizeof(double));
+		TeylorCh(x, N, code, accuracy, etalon, mode, CalcT2, CalcAc);
+		ShowInfo(etalon,x, N, name, CalcT2,mode, CalcAc);
 		free(CalcT2);
+		free(CalcAc);
 	}
 	return 1;
 }
