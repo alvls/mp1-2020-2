@@ -37,5 +37,8 @@
     <ClInclude Include="Types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="all.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

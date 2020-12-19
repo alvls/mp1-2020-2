@@ -1,8 +1,45 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <math.h>
-#include "Types.h"
-#include "Calculating.h"
+#include <omp.h>
+#include "all.h"
+void menu()
+{
+	int away;
+	int ans;//ответ пользователя
+	char c;
+	do {
+		printf("======================== MENU =========================\n");
+		printf("Выберите режим: \n1 - Однократный расчёт функции\n");
+		printf("2 - Серийный эксперимент\n");
+		printf("0 - Выход из программы\n");
+		printf("======================== MENU =========================\n");
+		ans = cleaner(0, 2);
+		away = 1;
+		switch (ans)
+		{
+		case 0:
+			printf("Вы точно уверены, что хотите выйти?\n");
+			printf("Если да, то нажмите 0\n");
+			printf("Eсли нет, то нажмите любой другой символ\n");
+			scanf("%c", &c);
+			ans = c - '0';
+			if (!ans)
+				printf("Всего доброго, хорошего настроения!\n");
+			else
+				away--;
+			break;
+		case 1: case 2:
+			mode(ans);
+			printf("Если вы желаете продолжать, нажмите F, если нет, то любую другую клавишу\n\n");
+			away = getch();
+			away -= 'F';
+			break;
+		}
+	} while (!away);
+	printf("Для похвалы создателя нажмите любую клавишу . . .\n");
+	getch();
+}
 db db_cleaner(db min)
 {
 	db ans;//ответ пользователя
@@ -42,7 +79,7 @@ operation choice()
 	{
 	case 0:
 		printf("\n");
-		main();
+		menu();
 		break;
 	case 1:
 		printf("\n");
@@ -71,37 +108,65 @@ void mode(int a)
 	operation funk = NULL;//получение эталонной функции для выбора программной
 	sum res;//результат вычисления ряда
 	int nmax;//максимальное число слагаемых
+	db t1, t2;//для получения времени
+	int sq;//для проверки корня
 	a--;
 	if (a)
+	{
+		printf("======================== ВТОРОЙ РЕЖИМ =========================\n");
 		printf("\nВы выбрали второй режим\n");
+	}
 	else
+	{
+		printf("======================== ПЕРВЫЙ РЕЖИМ =========================\n");
 		printf("\nВы выбрали первый режим\n");
+	}
 	funk = choice();
 	printf("Введите точку х, в которой будет вычислена функция\n");
+	printf("Для квадратного корня икс по модулю не больше единицы\n");
 	if (funk == sqrt)
-		x = db_cleaner(-1.0);
+	{
+		do {
+			sq = 0;
+			x = db_cleaner(-1.0);
+			if (x > 1.0)
+			{
+				sq = 1;
+				printf("Ошибка ввода\n");
+			}
+		} while (sq);
+	}
 	else
 		x = db_cleaner(-10000000.0);
 	if (a)
 	{
-		printf("\n");
-		printf("Введите число экспериментов\n");
+		printf("Введите число экспериментов, не превышающее 25\n");
 		nmax = cleaner(1, 25);
+		printf("======================== ВТОРОЙ РЕЖИМ =========================\n\n");
 		head(x, funk);
+		t1 = omp_get_wtime();
 		for (count = 1; count <= nmax; count++)
 		{
 			res = polinom(0.0, count, x, funk);
 			printer(count, x, res.s, funk);
 		}
+		t2 = omp_get_wtime() - t1;
+		printf("\nРяды Тейлора были вычислены и написаны за %0.6lf секунды\n\n", t2);
+		printf("============================ РЕЗУЛЬТАТ =============================\n\n");
 	}
 	else
 	{
-		printf("Введите точность вычисления в виде десятичной дроби от 0.000001\n");
-		acc = db_cleaner(-100.0);
+		printf("Введите точность вычисления в виде десятичной дроби от 0,000001\n");
+		acc = db_cleaner(0.000001);
 		printf("Введите количество слагаемых ряда в виде целого числа от 1 до 1000\n");
 		count = cleaner(1, 1000);
+		printf("======================== ПЕРВЫЙ РЕЖИМ =========================\n\n");
+		t1 = omp_get_wtime();
 		res = polinom(acc, count, x, funk);
-		head(x, funk);
-		printer(res.count, x, res.s, funk);
+		t2 = omp_get_wtime() - t1;
+		head(x, funk);		
+		printer(res.count, x, res.s, funk);		
+		printf("\nРяд Тейлора был вычислен за %0.6lf секунды\n\n", t2);
+		printf("============================ РЕЗУЛЬТАТ =============================\n\n");
 	}
 }

@@ -1,9 +1,9 @@
 #include <math.h>
-#include "Types.h"
+#include "all.h"
 void head(double x, operation funk)
 {
 	int i;
-	printf("======================== –≈«”Ћ№“ј“ =========================\n");
+	printf("============================ –≈«”Ћ№“ј“ =============================\n");
 	printf("\nЁталонное значение, вычисленное профессионалами: ");
 	if (funk == sqrt)
 		printf("%lf\n\n", funk(x + 1.0));
@@ -25,13 +25,14 @@ void head(double x, operation funk)
 	printf("–яƒј » Ё“јЋќЌј");
 	printf("\n");
 }
-void printer(int count, db x, db Teilor, operation etalon)////////////////////////////////////////////сделать отступы
+void printer(int count, db x, db Teilor, db(*etalon)(db))
 {
-	long long i;
+	int i;
 	db module;// модуль разности эталонного значени€ и оценки значени€ функции
 	int sec = count;//дл€ расчЄта отступа
 	long long secT = Teilor;//дл€ больших значений суммы получить хороший пробел
 	int mod_gap;//пробел дл€ модул€
+	secT = abs(secT);
 	if (etalon != sqrt)
 		module = etalon(x);
 	else
@@ -46,11 +47,9 @@ void printer(int count, db x, db Teilor, operation etalon)//////////////////////
 	for (sec = 0; sec <= 3 - i; sec += 2)
 		printf(" ");
 	printf("%d", count);/////////////////////////////////сделано написание count
-	for (sec = 0; sec < 5 - i; sec += 2)
+	if (3 - i)
 		printf(" ");
-	if (!(sec % 2))
-		printf(" ");
-	sec = 10;
+	sec = 5;
 	i = 1;
 	while (secT >= 100000)
 	{
@@ -59,23 +58,35 @@ void printer(int count, db x, db Teilor, operation etalon)//////////////////////
 			sec--;
 		i++;
 	}
-	mod_gap = sec;
 	if (Teilor < 0.0)
+		sec--;
+	mod_gap = sec;
+	if (count > 999)
 		sec--;
 	for (i = 0; i < sec; i++)
 		printf(" ");
 	secT = (int)Teilor;
+	if (secT < 0)
+		secT *= -1;
+	if (secT == 0)
+		secT++;
 	for (i = 0; secT > 0; i++)
 		secT /= 10;
-	for (sec = 0; sec <= 3 - i; sec += 2)
+	for (sec = 0; sec <= 16 - i / 2; sec += 2)
+	{
 		printf(" ");
+		if (!(sec % 2))
+			mod_gap--;
+	}
 	printf("%0.6lf", Teilor);/////////////////////////////////сделано написание Teilor
+	for (sec = 0; sec < 16 - i; sec+=2)
+		printf(" ");
 	sec = (int)module;
-	for (i = 0; i < mod_gap - 2; i++)
+	if (module < 10.0 && module > 0.999999)
 		printf(" ");
 	for (i = 0; sec > 0; i++)
 		sec /= 10;
-	for (sec = 0; sec <= 3 - i; sec += 2)
+	for (sec = 0; sec <= 4 - i; sec += 2)
 		printf(" ");
 	printf("%-1.6lf", module);///////////////////////////////сделано полностью написание
 	printf("\n");

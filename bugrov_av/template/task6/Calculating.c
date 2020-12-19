@@ -2,13 +2,16 @@
 #include<math.h>
 #define pi 3.14159265358979323846
 #define T 2*pi
-#include "Types.h"
+#include "all.h"
 int proverka(db acc, db x, db Teilor, operation etalon)
 {
 	if (acc < 0.000001)
 		return 1;
+	/*printf("cos(x)=%lf\n", cos(x));
+	printf("Teilor=%lf\n", Teilor);*/
 	x = etalon(x);
 	x -= Teilor;
+	/*printf("prov=%lf\n", x);*/
 	if (x < 0.0)
 		x *= -1.0;
 	return (x > acc) ? 1 : 0;
@@ -18,13 +21,13 @@ sum polinom(db acc, int count, db x, operation etalon)
 	long long int i;
 	long long fact = 1;//факториал
 	sum Teilor;//значение ряда Тейлора
-	int (*do_it)(db, db, db, db(*etalon)(db)) = proverka;
+	int (*do_it)(db, db, db, operation) = proverka;
 	db n;//для факториала (чтобы использовать факториал некого числа)
 	db a;//слагаемое в формуле Тейлора
 	Teilor.count = 0;
 	if (etalon == cos || etalon == sin)
 	{
-		db sec;//второе значение икс для использования в проверке
+		db sec = x;//второе значение икс для использования в проверке
 		if (x < 0.0)
 		{
 			db pix = x * (-1.0);
@@ -48,7 +51,8 @@ sum polinom(db acc, int count, db x, operation etalon)
 			a = x;
 		}
 		Teilor.s = a;
-		sec = x;
+		//sec = x;
+		//printf("x=%lf\n", x);
 		for (i = 1, n; i <= count && do_it(acc, sec, Teilor.s, etalon); i++, n += 2.0)
 		{
 			Teilor.count++;
@@ -62,8 +66,7 @@ sum polinom(db acc, int count, db x, operation etalon)
 		a = 1.0;
 		if (etalon == exp)
 		{
-			const db sec = x;//второе значение икс для использования в проверке
-			for (i = 1; i <= count && do_it(acc, sec, Teilor.s, etalon); i++)
+			for (i = 1; i <= count && do_it(acc, x, Teilor.s, etalon); i++)
 			{
 				Teilor.count++;
 				a *= x / i;
@@ -73,11 +76,12 @@ sum polinom(db acc, int count, db x, operation etalon)
 		else
 		{
 			const db sec = x + 1.0;//второе значение икс для использования в проверке
+			Teilor.count--;
 			for (i = 0; i <= count && do_it(acc, sec, Teilor.s, etalon); i++)
 			{
+				Teilor.count++;
 				a *= x * (0.5 - i) / (i + 1);
 				Teilor.s += a;
-				Teilor.count++;
 			}
 		}
 	}

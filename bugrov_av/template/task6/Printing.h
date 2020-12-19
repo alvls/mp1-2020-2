@@ -1,6 +1,6 @@
 #ifndef __PRINTING_H__
 #define __PRINTING_H__
-#include "Types.h"
+#include "all.h"
 #include <stdio.h>
 #include <locale.h>
 void head(double x, operation funk);
