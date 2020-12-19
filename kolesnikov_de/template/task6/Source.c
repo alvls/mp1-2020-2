@@ -8,7 +8,7 @@
 #define FuncNameLen 6
 int countT = 1;
 
-char* coder[] = { "sin","cos","exp" };
+char* coder[] = { "sin","cos","exp","ctg" };
 double SinInit(double x) {
 	return x;
 }
@@ -18,13 +18,16 @@ double CosInit(double x) {
 double expInit(double x) {
 	return 1;
 }
+double ctgInit(double x) {
+	return (1/x);
+}
 
 double SinTlr(double x, int N,double pr) {
 	double temp1 = pr * x * x;
 	int ran = 2 * N;
 	double temp2 = temp1 / (ran - 2);
 	double temp3 = (temp2 / (ran-1));
-	if ((2*N+1) % 2 != 0) {
+	if ((N-1) % 2 != 0) {
 		return -temp3;
 	}
 	else {
@@ -36,11 +39,11 @@ double CosTlr(double x, int N, double pr) {
 	int ran = 2 * N;
 	double temp2 = temp1 / (ran - 2);
 	double temp3 = (temp2 / (ran - 3));
-	if ((2 * N + 1) % 2 == 0) {
-		return -temp3;
+	if ((N-1) % 2 == 0) {
+		return temp3;
 	}
 	else {
-		return temp3;
+		return -temp3;
 	}
 }
 double expTlr(double x, int N, double pr) {
@@ -48,7 +51,11 @@ double expTlr(double x, int N, double pr) {
 	double temp3 = (temp1 / (N-1));
 	return temp3;
 }
-
+double ctgTlr(double x, int N, double pr) {
+	double temp1 = pr * x;
+	double temp3 = (temp1 / (N - 1));
+	return temp3;
+}
 int(*Init)(double);
 int(*TlrC)(double, int);
 
@@ -61,6 +68,8 @@ double Etalon(int code, double x) {
 		return cos(x);
 	case(2):
 		return exp(x);
+	case(4):
+		return (cos(x) / sin(x));
 	}
 }
 
@@ -76,7 +85,7 @@ void TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int
 	while (fabs(sum - etalon) > accuracy) {
 		temp1= TlrC(x, i, pr);
 		sum += temp1;
-		pr = temp1;
+		pr = fabs(temp1);
 		if (mode == 2) {
 			CalcT2[(i-1)] = sum;
 		}
@@ -101,6 +110,9 @@ void TeylorCh(double x, int N, int code,double accuracy,double etalon,int mode,d
 	case(2):
 		 TeylorCl(expInit, expTlr, x, N, accuracy,etalon,mode,CalcT2);
 		 break;
+	case(3):
+		TeylorCl(ctgInit, ctgTlr, x, N, accuracy, etalon, mode, CalcT2);
+		break;
 	}
 }
 int PrCont(int mode) {
