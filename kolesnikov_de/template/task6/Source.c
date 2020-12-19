@@ -178,7 +178,7 @@ void ShowInfo(double etalon, double x, int N,char name[],double Result[],int mod
 
 	}
 	if (mode == 2) {
-		printf_s("Count of Teylor form elements\r\t\t\t\tResult\r\t\t\t\t\t\t\t\t\tAccuracy\n");
+		printf_s("Count of Teylor form elements\r\t\t\t\t\tResult\r\t\t\t\t\t\t\tAccuracy\n");
 		for (int i = 1; i < countT; i++) {
 			printf_s("%d\r\t\t\t\t\t%lf\r\t\t\t\t\t\t\t%lf\n",i, Result[i-1],CalcAc[i-1]);
 		}
