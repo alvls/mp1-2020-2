@@ -84,10 +84,41 @@ void TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int
 			break;
 		}
 	}
+<<<<<<< HEAD
 	countT = i;
 	if (mode == 1) {
 		CalcT2[0] = sum;
 	}
+=======
+	size = maxsize - minsize + 1;
+	countequalsizes = (unsigned long*)malloc(size * sizeof(unsigned long));
+	for (_fsize_t i = 0; i < size; i++)
+	{
+		countequalsizes[i] = 0;
+	}
+	for (int i = 0; i < count; i++)
+	{
+		countequalsizes[s[i].size - minsize]++;
+	}
+	for (_fsize_t i = 0; i < size; i++)
+	{
+		while (countequalsizes[i] > 0)
+		{
+			for (int j = k; j >= 0; j--)
+			{
+				if (s[j].size == minsize + i)
+				{
+					buffer = s[j];
+					s[j] = s[k];
+					s[k] = buffer;
+					k--;
+					countequalsizes[i]--;
+				}
+			}
+		}
+	}
+	free(countequalsizes);
+>>>>>>> parent of de439f8... task5 some bugs fixed
 }
 void TeylorCh(double x, int N, int code, double accuracy, double etalon, int mode, double CalcT2[]) {
 	switch (code) {
