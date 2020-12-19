@@ -7,7 +7,7 @@
 #include <string.h>
 #define FuncNameLen 6
 int countT = 1;
-
+const double PI = 3.141592653589793;
 char* coder[] = { "sin","cos","exp","ctg" };
 double SinInit(double x) {
 	return x;
@@ -20,6 +20,39 @@ double expInit(double x) {
 }
 double ctgInit(double x) {
 	return (1/x);
+}
+unsigned int fact(int x)
+{
+	long double x0 = x / 1.0;
+	if (x <= 1)
+		return 1;
+	else {
+		long double fact = 1;
+		for (; x != 0; x--) {
+			fact *= x0;
+			x0--;
+		}
+		return fact;
+	}
+}
+
+//void bernoulliNumbers(long double bn[], long long n) {
+//	while (n != 225) {
+//		n++;
+//		bn[0] = 1;
+//		long double s = 0;
+//		for (long k = 1; k <= n; k++) {
+//			if ((n != 1) && (n % 2 != 0)) {
+//				bn[n] = 0;
+//				break;
+//			}
+//			s += comb(n + 1, k + 1) * bn[n - k];
+//		}
+//		bn[n] = (-1 * s) / (n + 1);
+//	}
+//}
+long double Bern(int twiseN) {
+	return fact(twiseN) /( (double)pow((2 * PI), twiseN));
 }
 
 double SinTlr(double x, int N,double pr) {
@@ -52,9 +85,17 @@ double expTlr(double x, int N, double pr) {
 	return temp3;
 }
 double ctgTlr(double x, int N, double pr) {
-	double temp1 = pr * x;
-	double temp3 = (temp1 / (N - 1));
-	return temp3;
+	N--;
+	int temp4 = 2 * N;
+	double temp1 = (double)pow(x,(temp4-1))*(double)pow(2,temp4)*Bern(temp4);
+	double temp3 = (temp1 / fact(temp4));
+	if (N == 1) {
+		return (-x / 3);
+	}
+	else{ 
+		return -temp3; 
+	}
+	
 }
 int(*Init)(double);
 int(*TlrC)(double, int);
@@ -68,8 +109,8 @@ double Etalon(int code, double x) {
 		return cos(x);
 	case(2):
 		return exp(x);
-	case(4):
-		return (cos(x) / sin(x));
+	case(3):
+		return ((double)cos(x) /(double)sin(x));
 	}
 }
 
