@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "windows.h"
 #include <string.h>
 #define FuncNameLen 6
 int countT = 1;
@@ -244,6 +245,10 @@ int Calculator(int mode) {
 }
 int Menu() {
 	int mode;
+	printf_s("\n\n\n\n\n\n\n\n\n\n\n\n");
+	printf_s("\t\t\t\tThis program performs the expansion in a Maclaurin series\n");
+	printf_s("\t\t\t\t\t\tLet`s get started!");
+	Sleep(3000);
 	while (1) {
 		system("cls");
 		printf_s("\t\t\t\t\t\t ------------\n");
