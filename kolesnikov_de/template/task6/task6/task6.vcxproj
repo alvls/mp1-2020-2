@@ -141,7 +141,10 @@
   <ItemGroup>
 <<<<<<< HEAD:kolesnikov_de/template/task6/task6/task6.vcxproj
 <<<<<<< HEAD:kolesnikov_de/template/task6/task6/task6.vcxproj
+<<<<<<< HEAD:kolesnikov_de/template/task6/task6/task6.vcxproj
     <ClCompile Include="..\Source.c" />
+=======
+>>>>>>> parent of de439f8... task5 some bugs fixed:kolesnikov_de/template/task6/task6.vcxproj
 =======
 >>>>>>> parent of de439f8... task5 some bugs fixed:kolesnikov_de/template/task6/task6.vcxproj
 =======
