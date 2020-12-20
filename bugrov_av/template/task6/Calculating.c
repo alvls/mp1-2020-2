@@ -7,11 +7,8 @@ int proverka(db acc, db x, db Teilor, operation etalon)
 {
 	if (acc < 0.000001)
 		return 1;
-	/*printf("cos(x)=%lf\n", cos(x));
-	printf("Teilor=%lf\n", Teilor);*/
 	x = etalon(x);
 	x -= Teilor;
-	/*printf("prov=%lf\n", x);*/
 	if (x < 0.0)
 		x *= -1.0;
 	return (x > acc) ? 1 : 0;

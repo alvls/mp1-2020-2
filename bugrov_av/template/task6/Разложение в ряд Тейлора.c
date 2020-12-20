@@ -58,7 +58,6 @@
 //#include <math.h>
 /// <summary>
 ///
-///No!
 /// </summary>
 /// 
 #include "all.h"
