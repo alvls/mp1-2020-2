@@ -86,6 +86,7 @@ double choice_your_dot(int vibor)
             {
                 x = x > 0 ? x - 2 * PI : x + 2 * PI;
             }
+            system("cls");
         }
     }
     return x;

@@ -84,7 +84,7 @@ double taylor_cosh(int n, double previous, double x)
 {
     if (n == 1)
         return 1;
-    return (((-1) * previous * x * x) / ((2 * (double)n - 2) * (2 * (double)n - 3)));
+    return ((previous * x * x) / ((2 * (double)n - 2) * (2 * (double)n - 3)));
 }
 
 double taylor_exp(int n, double previous, double x)
