@@ -453,7 +453,7 @@ void stringEditor(char* string, char* stringcopy, int stringcopylen)
     while (stringPointer != NULL)
     {
         strcat(stringcopy, stringPointer);
-        strcat(stringcopy, "\\\\");
+        strcat(stringcopy, "\\");
         stringPointer = strtok(NULL, slashes);
     }
     strcat(stringcopy, "*.*");
