@@ -1,0 +1,11 @@
+double SinInit(double x);
+double CosInit(double x);
+double expInit(double x);
+double ctgInit(double x);
+unsigned int fact(int x);
+long double Bern(int twiseN);
+double SinTlr(double x, int N, double pr);
+double CosTlr(double x, int N, double pr);
+double expTlr(double x, int N, double pr);
+double ctgTlr(double x, int N, double pr);
+double Etalon(int code, double x);
