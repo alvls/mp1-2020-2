@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 #define PI 3.1415926535
 #include <stdio.h>
 #include <locale.h>
@@ -7,16 +7,16 @@
 
 typedef struct
 {
-	double res; //значение
-	double accuracy; //точность
-	double reference; //эталон
-	double differ; //разность
-	int n; //количество элементов в разложении
+	double res; //Р·РЅР°С‡РµРЅРёРµ
+	double accuracy; //С‚РѕС‡РЅРѕСЃС‚СЊ
+	double reference; //СЌС‚Р°Р»РѕРЅ
+	double differ; //СЂР°Р·РЅРѕСЃС‚СЊ
+	int n; //РєРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ СЂР°Р·Р»РѕР¶РµРЅРёРё
 }data_f;
 
 void print_functions()
 {
-	printf("Выберите функцию:\n");
+	printf("Р’С‹Р±РµСЂРёС‚Рµ С„СѓРЅРєС†РёСЋ:\n");
 	printf("1)Sin(x)\n");
 	printf("2)Cos(x)\n");
 	printf("3)Exp(x)\n");
@@ -26,10 +26,10 @@ void print_functions()
 
 void printf_result(data_f result)
 {
-	printf("Вычисленное значение: %lf\n", result.res);
-	printf("Эталонное значение: %lf\n", result.reference);
-	printf("Разница: %lf\n", result.differ);
-	printf("Количество слагаемых: %d\n", result.n);
+	printf("Р’С‹С‡РёСЃР»РµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ: %lf\n", result.res);
+	printf("Р­С‚Р°Р»РѕРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ: %lf\n", result.reference);
+	printf("Р Р°Р·РЅРёС†Р°: %lf\n", result.differ);
+	printf("РљРѕР»РёС‡РµСЃС‚РІРѕ СЃР»Р°РіР°РµРјС‹С…: %d\n", result.n);
 }
 
 data_f TSin(double x, double accurancy, int n)
@@ -128,17 +128,17 @@ data_f TArctg(double x, double accurancy, int n)
 
 data_f TArcctg(double x, double accurancy, int n)
 {
-	data_f function = TArctg(x, accurancy, n); //разложение арктангенса для данной точки
-	double reference = PI / 2 - atan(x); //эталон
-	double result = PI / 2 - function.res * PI / 180; //приведение значения арктангенса к арккотангенсу
-	function.res = result * 180 / PI; //значение арккотангеса 
-	function.differ = fabs(result - reference); //разница с эталонным
-	function.reference = reference * 180 / PI; //эталон
+	data_f function = TArctg(x, accurancy, n); //СЂР°Р·Р»РѕР¶РµРЅРёРµ Р°СЂРєС‚Р°РЅРіРµРЅСЃР° РґР»СЏ РґР°РЅРЅРѕР№ С‚РѕС‡РєРё
+	double reference = PI / 2 - atan(x); //СЌС‚Р°Р»РѕРЅ
+	double result = PI / 2 - function.res * PI / 180; //РїСЂРёРІРµРґРµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ Р°СЂРєС‚Р°РЅРіРµРЅСЃР° Рє Р°СЂРєРєРѕС‚Р°РЅРіРµРЅСЃСѓ
+	function.res = result * 180 / PI; //Р·РЅР°С‡РµРЅРёРµ Р°СЂРєРєРѕС‚Р°РЅРіРµСЃР° 
+	function.differ = fabs(result - reference); //СЂР°Р·РЅРёС†Р° СЃ СЌС‚Р°Р»РѕРЅРЅС‹Рј
+	function.reference = reference * 180 / PI; //СЌС‚Р°Р»РѕРЅ
 	return function;
 }
 
 
-data_f(*select())() //выбор функции
+data_f(*select())() //РІС‹Р±РѕСЂ С„СѓРЅРєС†РёРё
 {
 	int choice;
 	data_f(*funct[])(double x, double accurancy, int n) = { TSin, TCos, TExp, TArctg, TArcctg };
@@ -147,7 +147,7 @@ data_f(*select())() //выбор функции
 	scanf_s("%d", &choice);
 	while (choice > 5 && choice < 1)
 	{
-		printf("Ошибка выбора функции, попробуйте еще раз\n");
+		printf("РћС€РёР±РєР° РІС‹Р±РѕСЂР° С„СѓРЅРєС†РёРё, РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·\n");
 		scanf_s("%d", &choice);
 	}
 	return funct[choice - 1];
@@ -156,45 +156,45 @@ data_f(*select())() //выбор функции
 void single_mode()
 {
 
-	double x; //точка
-	double accurancy; //точность
-	int n; //количество слагаемых
-	data_f result; // структура с результатом измерений
-	data_f(*choice)();//содержит ссылку на функцию
+	double x; //С‚РѕС‡РєР°
+	double accurancy; //С‚РѕС‡РЅРѕСЃС‚СЊ
+	int n; //РєРѕР»РёС‡РµСЃС‚РІРѕ СЃР»Р°РіР°РµРјС‹С…
+	data_f result; // СЃС‚СЂСѓРєС‚СѓСЂР° СЃ СЂРµР·СѓР»СЊС‚Р°С‚РѕРј РёР·РјРµСЂРµРЅРёР№
+	data_f(*choice)();//СЃРѕРґРµСЂР¶РёС‚ СЃСЃС‹Р»РєСѓ РЅР° С„СѓРЅРєС†РёСЋ
 
 	choice = select();
 	if (choice == TArctg || choice == TArcctg)
 	{
-		printf("Точка в которой нужно вычислить значение(|x|<=1): ");
+		printf("РўРѕС‡РєР° РІ РєРѕС‚РѕСЂРѕР№ РЅСѓР¶РЅРѕ РІС‹С‡РёСЃР»РёС‚СЊ Р·РЅР°С‡РµРЅРёРµ(|x|<=1): ");
 		scanf_s("%lf", &x);
 		while (x < -1 || x>1)
 		{
-			printf("|x|<=1, попробуйте еще раз:");
+			printf("|x|<=1, РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·:");
 			scanf_s("%lf", &x);
 		}
 	}
 	else if (choice == TSin || choice == TCos)
 	{
-		printf("Значение угла(в градусах): ");
+		printf("Р—РЅР°С‡РµРЅРёРµ СѓРіР»Р°(РІ РіСЂР°РґСѓСЃР°С…): ");
 		scanf_s("%lf", &x);
 	}
 	else
 	{
-		printf("Точка в которой нужно вычислить значение: ");
+		printf("РўРѕС‡РєР° РІ РєРѕС‚РѕСЂРѕР№ РЅСѓР¶РЅРѕ РІС‹С‡РёСЃР»РёС‚СЊ Р·РЅР°С‡РµРЅРёРµ: ");
 		scanf_s("%lf", &x);
 	}
-	printf("\nТочность (>= 0.000001): ");
+	printf("\nРўРѕС‡РЅРѕСЃС‚СЊ (>= 0.000001): ");
 	scanf_s("%lf", &accurancy);
 	while (accurancy < 0.000001)
 	{
-		printf("Слишком маленькая точность, попробуйте еще раз:");
+		printf("РЎР»РёС€РєРѕРј РјР°Р»РµРЅСЊРєР°СЏ С‚РѕС‡РЅРѕСЃС‚СЊ, РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·:");
 		scanf_s("%lf", &accurancy);
 	}
-	printf("\nЧисло элементов ряда (N - от 1 до 1000): ");
+	printf("\nР§РёСЃР»Рѕ СЌР»РµРјРµРЅС‚РѕРІ СЂСЏРґР° (N - РѕС‚ 1 РґРѕ 1000): ");
 	scanf_s("%d", &n);
 	while (n < 1 || n>1000)
 	{
-		printf("Ошибка выбора числа элементов ряда, попробуйте еще раз:");
+		printf("РћС€РёР±РєР° РІС‹Р±РѕСЂР° С‡РёСЃР»Р° СЌР»РµРјРµРЅС‚РѕРІ СЂСЏРґР°, РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·:");
 		scanf_s("%d", &n);
 	}
 	result = choice(x, accurancy, n);
@@ -207,43 +207,43 @@ void serial_mode()
 	double x;
 	int i = 0;
 	int n;
-	data_f result; // структура с результатом измерений
-	data_f(*choice)();//содержит ссылку на функцию
+	data_f result; // СЃС‚СЂСѓРєС‚СѓСЂР° СЃ СЂРµР·СѓР»СЊС‚Р°С‚РѕРј РёР·РјРµСЂРµРЅРёР№
+	data_f(*choice)();//СЃРѕРґРµСЂР¶РёС‚ СЃСЃС‹Р»РєСѓ РЅР° С„СѓРЅРєС†РёСЋ
 
 	choice = select();
 	if (choice == TArctg || choice == TArcctg)
 	{
-		printf("Точка в которой нужно вычислить значение(|x|<=1): ");
+		printf("РўРѕС‡РєР° РІ РєРѕС‚РѕСЂРѕР№ РЅСѓР¶РЅРѕ РІС‹С‡РёСЃР»РёС‚СЊ Р·РЅР°С‡РµРЅРёРµ(|x|<=1): ");
 		scanf_s("%lf", &x);
 		while (x < -1 || x>1)
 		{
-			printf("|x|<=1, попробуйте еще раз:");
+			printf("|x|<=1, РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·:");
 			scanf_s("%lf", &x);
 		}
 	}
 	else if (choice == TSin || choice == TCos)
 	{
-		printf("Значение угла(в градусах): ");
+		printf("Р—РЅР°С‡РµРЅРёРµ СѓРіР»Р°(РІ РіСЂР°РґСѓСЃР°С…): ");
 		scanf_s("%lf", &x);
 	}
 	else
 	{
-		printf("Точка в которой нужно вычислить значение: ");
+		printf("РўРѕС‡РєР° РІ РєРѕС‚РѕСЂРѕР№ РЅСѓР¶РЅРѕ РІС‹С‡РёСЃР»РёС‚СЊ Р·РЅР°С‡РµРЅРёРµ: ");
 		scanf_s("%lf", &x);
 	}
-	printf("\nЧисло элементов ряда (N - от 1 до 25): ");
+	printf("\nР§РёСЃР»Рѕ СЌР»РµРјРµРЅС‚РѕРІ СЂСЏРґР° (N - РѕС‚ 1 РґРѕ 25): ");
 	scanf_s("%d", &n);
 	while (n < 1 || n>25)
 	{
-		printf("Ошибка выбора числа элементов ряда, попробуйте еще раз:");
+		printf("РћС€РёР±РєР° РІС‹Р±РѕСЂР° С‡РёСЃР»Р° СЌР»РµРјРµРЅС‚РѕРІ СЂСЏРґР°, РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·:");
 		scanf_s("%d", &n);
 	}
 	printf("N \t\t\t");
-	printf("Значение функции\t\t\t\t");
-	printf("Разница между эталонным значением\n");
+	printf("Р—РЅР°С‡РµРЅРёРµ С„СѓРЅРєС†РёРё\t\t\t\t");
+	printf("Р Р°Р·РЅРёС†Р° РјРµР¶РґСѓ СЌС‚Р°Р»РѕРЅРЅС‹Рј Р·РЅР°С‡РµРЅРёРµРј\n");
 	for (i = 1; i <= n; i++)
 	{
-		result = choice(x, 0.00000000000000001, i); // 2 параметр - точность, чтобы выполнилось условие fabs(result - reference) > accurancy
+		result = choice(x, 0.00000000000000001, i); // 2 РїР°СЂР°РјРµС‚СЂ - С‚РѕС‡РЅРѕСЃС‚СЊ, С‡С‚РѕР±С‹ РІС‹РїРѕР»РЅРёР»РѕСЃСЊ СѓСЃР»РѕРІРёРµ fabs(result - reference) > accurancy
 		printf("%-2d\t %30.7lf           %40.7lf\n", i, result.res, result.differ);
 	}
 
@@ -256,13 +256,13 @@ void main()
 
 	while (mode != 0)
 	{
-		printf("Выберите режим работы:\n");
-		printf("1)Однократный расчет функции в заданной точке\n");
-		printf("2)Серийный эксперимент\n");
+		printf("Р’С‹Р±РµСЂРёС‚Рµ СЂРµР¶РёРј СЂР°Р±РѕС‚С‹:\n");
+		printf("1)РћРґРЅРѕРєСЂР°С‚РЅС‹Р№ СЂР°СЃС‡РµС‚ С„СѓРЅРєС†РёРё РІ Р·Р°РґР°РЅРЅРѕР№ С‚РѕС‡РєРµ\n");
+		printf("2)РЎРµСЂРёР№РЅС‹Р№ СЌРєСЃРїРµСЂРёРјРµРЅС‚\n");
 		scanf_s("%d", &mode);
 		while (mode != 1 && mode != 2)
 		{
-			printf("Ошибка выбора режима, попробуйте еще раз:");
+			printf("РћС€РёР±РєР° РІС‹Р±РѕСЂР° СЂРµР¶РёРјР°, РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·:");
 			scanf_s("%d", &mode);
 		}
 		switch (mode)
@@ -274,11 +274,11 @@ void main()
 			serial_mode();
 			break;
 		}
-		printf("Хотите изменить режим? 1-Да 0-Нет\n");
+		printf("РҐРѕС‚РёС‚Рµ РёР·РјРµРЅРёС‚СЊ СЂРµР¶РёРј? 1-Р”Р° 0-РќРµС‚\n");
 		scanf_s("%d", &mode);
 		while (mode != 1 && mode!=0)
 		{
-			printf("Ошибка выбора попробуйте еще раз\n");
+			printf("РћС€РёР±РєР° РІС‹Р±РѕСЂР° РїРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰Рµ СЂР°Р·\n");
 			scanf_s("%d", &mode);
 		}
 	}
