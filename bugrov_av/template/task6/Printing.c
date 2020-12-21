@@ -79,14 +79,12 @@ void printer(int count, db x, db Teilor, db(*etalon)(db))
 			mod_gap--;
 	}
 	printf("%0.6lf", Teilor);/////////////////////////////////сделано написание Teilor
-	for (sec = 0; sec < 15 - i; sec += 2)
+	for (sec = 0; sec < 13 - i; sec += 2)
 		printf(" ");
 	sec = (int)module;
-	if (module < 100.0 && module > 0.999999)
-		printf(" ");
 	for (i = 0; sec > 0; i++)
 		sec /= 10;
-	for (sec = 0; sec <= 4 - i; sec += 2)
+	for (sec = 0; sec <= 7 - i; sec += 2)
 		printf(" ");
 	printf("%-1.6lf", module);///////////////////////////////сделано полностью написание
 	printf("\n");

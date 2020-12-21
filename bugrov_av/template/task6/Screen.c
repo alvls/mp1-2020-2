@@ -31,9 +31,9 @@ void menu()
 			break;
 		case 1: case 2:
 			mode(ans);
-			printf("Если вы желаете продолжать, нажмите F, если нет, то любую другую клавишу\n\n");
+			printf("Если вы желаете продолжать, нажмите 0, если нет, то любую другую клавишу\n\n");
 			away = getch();
-			away -= 'F';
+			away -= '0';
 			break;
 		}
 	} while (!away);
@@ -82,19 +82,15 @@ operation choice()
 		menu();
 		break;
 	case 1:
-		printf("\n");
 		funk = cos;
 		break;
 	case 2:
-		printf("\n");
 		funk = sin;
 		break;
 	case 3:
-		printf("\n");
 		funk = exp;
 		break;
 	case 4:
-		printf("\n");
 		funk = sqrt;
 		break;
 	}
@@ -112,15 +108,9 @@ void mode(int a)
 	int sq;//для проверки корня
 	a--;
 	if (a)
-	{
 		printf("======================== ВТОРОЙ РЕЖИМ =========================\n");
-		printf("\nВы выбрали второй режим\n");
-	}
 	else
-	{
 		printf("======================== ПЕРВЫЙ РЕЖИМ =========================\n");
-		printf("\nВы выбрали первый режим\n");
-	}
 	funk = choice();
 	printf("Введите точку х, в которой будет вычислена функция\n");
 	printf("Для квадратного корня икс по модулю не больше единицы\n");

@@ -48,8 +48,6 @@ sum polinom(db acc, int count, db x, operation etalon)
 			a = x;
 		}
 		Teilor.s = a;
-		//sec = x;
-		//printf("x=%lf\n", x);
 		for (i = 1, n; i <= count && do_it(acc, sec, Teilor.s, etalon); i++, n += 2.0)
 		{
 			Teilor.count++;
