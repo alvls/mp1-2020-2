@@ -1,3 +1,5 @@
+extern char* coder[];
+extern char* WarningM[];
 double SinInit(double x);
 double CosInit(double x);
 double expInit(double x);

@@ -10,18 +10,14 @@
 int countT = 1; //count of elements in teylor form
 
 
-extern char* coder[];
-extern char* WarningM[];
-
 int(*Init)(double);
-int(*TlrC)(double, int);
+int(*TlrC)(double, int,double);
 
 
-void TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int N, double accuracy,double etalon,int mode,double CalcT2[],double CalcAc[]) {
+void TeylorCl(double (*Init)(double), double (*TlrC)(double, int,double), double x, int N, double accuracy,double etalon,int mode,double CalcT2[],double CalcAc[]) {
 	double sum = Init(x);
 	double pr=sum;
 	double temp1;
-	double temp2;
 	int i = 2;
 	if (mode == 2) {
 		CalcT2[0] = sum;
@@ -34,6 +30,9 @@ void TeylorCl(double (*Init)(double), double (*TlrC)(double, int), double x, int
 			}
 		}
 		temp1= TlrC(x, i, pr);
+		if (pr != pr) {
+			break;
+		}
 		sum += temp1;
 		pr = fabs(temp1);
 		if (mode == 2) {
@@ -64,21 +63,6 @@ void TeylorCh(double x, int N, int code,double accuracy,double etalon,int mode,d
 		break;
 	}
 }
-int PrCont(int mode) {
-	int i = 0;
-	int ans;
-	Calculator(mode, i);
-	while (1) {
-		printf_s("Want to do another experiment?(1-Yes,0-No)\n");
-		scanf_s("%d", &ans);
-		if (ans == 1) {
-			Calculator(mode);
-		}
-		if (ans == 0) {
-			break;
-		}
-	}
-}
 void ShowInfo(double etalon, double x, int N,char name[],double Result[],int mode, double CalcAc[]) {
 	system("cls");
 	printf_s("Name of your func is = %s\n", name);
@@ -92,20 +76,24 @@ void ShowInfo(double etalon, double x, int N,char name[],double Result[],int mod
 	if (mode == 2) {
 		printf_s("Count of Teylor form elements\r\t\t\t\t\tResult\r\t\t\t\t\t\t\tAccuracy\n");
 		for (int i = 1; i < countT; i++) {
+			if (Result[i - 1] != Result[i - 1]) {
+				printf("End of calculating limit\n");
+				break;
+			}
 			printf_s("%d\r\t\t\t\t\t%lf\r\t\t\t\t\t\t\t%lf\n",i, Result[i-1],CalcAc[i-1]);
 		}
 		
 	}
-	printf_s("In point %lf\n", x);
+	printf_s("Calculate in point %lf\n", x);
 }
 void Warning(int code) {
 	printf_s("%s", WarningM[code]);
 }
 int Calculator(int mode) {
 	char name[FuncNameLen];
-	int flag = 0, temp2;
+	int flag = 0;
 	int code,N;
-	double x, etalon, calculated,accuracy=0,difference;
+	double x, etalon,  accuracy = 0;
 	while (1) {
 		printf_s("You need to input name of function\n");
 		while (getchar() != '\n');
@@ -161,6 +149,20 @@ int Calculator(int mode) {
 		free(CalcAc);
 	}
 	return 1;
+}
+void PrCont(int mode) {
+	int ans;
+	Calculator(mode);
+	while (1) {
+		printf_s("Want to do another experiment?(1-Yes,0-No)\n");
+		scanf_s("%d", &ans);
+		if (ans == 1) {
+			Calculator(mode);
+		}
+		if (ans == 0) {
+			break;
+		}
+	}
 }
 int Menu() {
 	int mode;

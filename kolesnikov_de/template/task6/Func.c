@@ -5,12 +5,12 @@ char* WarningM[] = { "","","","Number of elements > 12 may cause errors, x in ra
 //Bernulli numbers alg.
 
 
-unsigned int fact(int x){
-	unsigned int x0 = x;;
+long long int fact(int x){
+	long long int x0 = x;;
 	if (x <= 1)
 		return 1;
 	else {
-		unsigned int fact = 1;
+		long long fact = 1;
 		for (; x != 0; x--) {
 			fact *= x0;
 			x0--;
