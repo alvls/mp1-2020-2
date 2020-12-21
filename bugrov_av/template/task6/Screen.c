@@ -73,8 +73,10 @@ operation choice()
 	printf("2 - Синус\n");
 	printf("3 - Экспонента (e^x) \n");
 	printf("4 - Квадратный корень из 1+х\n");
+	printf("5 - Арктангенс\n");
+	printf("6 - Ареатангенс - гиперболический тангенс\n");
 	printf("0 - Выход в меню\n");
-	ans = cleaner(0, 4);
+	ans = cleaner(0, 6);
 	switch (ans)/////////////////////////////////
 	{
 	case 0:
@@ -92,6 +94,12 @@ operation choice()
 		break;
 	case 4:
 		funk = sqrt;
+		break;
+	case 5: 
+		funk = atan;
+		break;
+	case 6:
+		funk = atanh;
 		break;
 	}
 	return funk;
@@ -114,8 +122,10 @@ void mode(int a)
 	funk = choice();
 	printf("Введите точку х, в которой будет вычислена функция\n");
 	printf("Для квадратного корня икс по модулю не больше единицы\n");
-	if (funk == sqrt)
+	printf("Для ареатангенса и арктангенса по модулю меньше единицы\n");
+	if (funk == sqrt || funk == atanh || funk == atan)
 	{
+		if(funk == sqrt)
 		do {
 			sq = 0;
 			x = db_cleaner(-1.0);
@@ -125,6 +135,16 @@ void mode(int a)
 				printf("Ошибка ввода\n");
 			}
 		} while (sq);
+		if (funk == atanh || funk == atan)
+			do {
+				sq = 0;
+				x = db_cleaner(-0.999999);
+				if (x >= 1.0)
+				{
+					sq = 1;
+					printf("Ошибка ввода\n");
+				}
+			} while (sq);
 	}
 	else
 		x = db_cleaner(-10000000.0);

@@ -22,20 +22,23 @@ sum polinom(db acc, int count, db x, operation etalon)
 	db n;//для факториала (чтобы использовать факториал некого числа)
 	db a;//слагаемое в формуле Тейлора
 	Teilor.count = 0;
-	if (etalon == cos || etalon == sin)
+	if (etalon == cos || etalon == sin || etalon == atanh || etalon == atan)
 	{
 		db sec = x;//второе значение икс для использования в проверке
-		if (x < 0.0)
+		if (x > T || x < (-1.0) * T)
 		{
-			db pix = x * (-1.0);
-			while (pix > T)
-				pix -= T;
-			x = pix * (-1.0);
-		}
-		else
-		{
-			while (x > T)
-				x -= T;
+			if (x < 0.0)
+			{
+				db pix = x * (-1.0);
+				while (pix > T)
+					pix -= T;
+				x = pix * (-1.0);
+			}
+			else
+			{
+				while (x > T)
+					x -= T;
+			}
 		}
 		if (etalon == cos)
 		{
@@ -48,12 +51,34 @@ sum polinom(db acc, int count, db x, operation etalon)
 			a = x;
 		}
 		Teilor.s = a;
-		for (i = 1, n; i <= count && do_it(acc, sec, Teilor.s, etalon); i++, n += 2.0)
-		{
-			Teilor.count++;
-			a *= ((-1.0) * x * x) / ((n + 1) * (n + 2));
-			Teilor.s += a;
-		}
+		if (etalon == atanh)
+			for (i = 1, n = 3.0; i <= count && do_it(acc, sec, Teilor.s, etalon); i++, n += 2.0)
+			{
+				x *= sec * sec;
+				Teilor.count++;
+				a = x / n;
+				Teilor.s += a;
+			}
+		else
+			if (etalon == atan) 
+			{
+				db minus = -1.0;
+				for (i = 1, n = 3.0; i <= count && do_it(acc, sec, Teilor.s, etalon); i++, n += 2)
+				{
+					x *= sec * sec;
+					Teilor.count++;
+					a = (minus * x) / n;
+					Teilor.s += a;
+					minus *= -1.0;
+				}
+			}
+			else
+				for (i = 1, n; i <= count && do_it(acc, sec, Teilor.s, etalon); i++, n += 2.0)
+				{
+					Teilor.count++;
+					a *= ((-1.0) * x * x) / ((n + 1) * (n + 2));
+					Teilor.s += a;
+				}
 	}
 	else
 	{
