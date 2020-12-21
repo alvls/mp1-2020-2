@@ -1,4 +1,4 @@
-#define _USE_MATH_DEFINES
+ #define _USE_MATH_DEFINES
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -114,12 +114,13 @@ void main() {
 				if (fabs(y - aim) <= accuracy)
 					break;
 			}
-
+			if ((i == n) && (fabs(y - aim) > accuracy))
+				i--;
 			accuracy = fabs(y - aim);
 			printf("\nAim: %lf", aim);
 			printf("\nResult: %lf", y);
 			printf("\nAccuracy: %lf", accuracy);
-			printf("\nNumber of terms: %d", i-1);
+			printf("\nNumber of terms: %d", i);
 			break;
 
 		case 2:
