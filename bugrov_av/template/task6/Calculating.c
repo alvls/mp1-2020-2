@@ -21,26 +21,14 @@ sum polinom(db acc, int count, db x, operation etalon)
 	int (*do_it)(db, db, db, operation) = proverka;
 	db n;//для факториала (чтобы использовать факториал некого числа)
 	db a;//слагаемое в формуле Тейлора
-	Teilor.count = 0;
-	if (etalon == cos || etalon == sin || etalon == atanh || etalon == atan)
+	Teilor.count = 0;//количество вычисленных слагаемых
+	db minus = -1.0;//для знака слагаемого
+	if (etalon == cos || etalon == sin || etalon == atanh || etalon == atan || etalon == sinh || etalon == cosh)
 	{
 		db sec = x;//второе значение икс для использования в проверке
-		if (x > T || x < (-1.0) * T)
-		{
-			if (x < 0.0)
-			{
-				db pix = x * (-1.0);
-				while (pix > T)
-					pix -= T;
-				x = pix * (-1.0);
-			}
-			else
-			{
-				while (x > T)
-					x -= T;
-			}
-		}
-		if (etalon == cos)
+		if (etalon == cos || etalon == sin)
+			x = fmod(x, T);
+		if (etalon == cos || etalon == cosh)
 		{
 			a = 1;
 			n = 0.0;
@@ -60,9 +48,8 @@ sum polinom(db acc, int count, db x, operation etalon)
 				Teilor.s += a;
 			}
 		else
-			if (etalon == atan) 
+			if (etalon == atan)
 			{
-				db minus = -1.0;
 				for (i = 1, n = 3.0; i <= count && do_it(acc, sec, Teilor.s, etalon); i++, n += 2)
 				{
 					x *= sec * sec;
@@ -73,24 +60,45 @@ sum polinom(db acc, int count, db x, operation etalon)
 				}
 			}
 			else
+			{
+				if (etalon == cosh || etalon == sinh)
+					minus = 1.0;
 				for (i = 1, n; i <= count && do_it(acc, sec, Teilor.s, etalon); i++, n += 2.0)
 				{
 					Teilor.count++;
-					a *= ((-1.0) * x * x) / ((n + 1) * (n + 2));
+					a *= (minus * x * x) / ((n + 1) * (n + 2));
 					Teilor.s += a;
 				}
+			}
 	}
 	else
 	{
 		Teilor.s = 1.0;
 		a = 1.0;
-		if (etalon == exp)
+		if (etalon == exp || etalon == log)
 		{
-			for (i = 1; i <= count && do_it(acc, x, Teilor.s, etalon); i++)
-			{
-				Teilor.count++;
-				a *= x / i;
-				Teilor.s += a;
+			if (etalon == exp)
+				for (i = 1; i <= count && do_it(acc, x, Teilor.s, etalon); i++)
+				{
+					Teilor.count++;
+					a *= x / i;
+					Teilor.s += a;
+				}
+			else
+			{//из интернета узнал, что логарифм не должен быть точным по ряду Меркатора
+				//я пробовал другой способ, но там точность с увеличением числа слагаемых уменьшается
+				const db x1 = x;
+				const db sec = x + 1.0;//второе значение икс для использования в проверке
+				a = x;
+				Teilor.s = x;
+				for (i = 1; i <= count && do_it(acc, sec, Teilor.s, etalon); i++)
+				{
+					Teilor.count++;
+					x *= x1;
+					a *= (minus * x) / (i + 1);
+					Teilor.s += a;
+					a *= i + 1;
+				}
 			}
 		}
 		else

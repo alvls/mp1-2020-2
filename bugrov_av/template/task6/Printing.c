@@ -5,7 +5,7 @@ void head(double x, operation funk)
 	int i;
 	printf("============================ –≈«”Ћ№“ј“ =============================\n");
 	printf("\nЁталонное значение, вычисленное профессионалами: ");
-	if (funk == sqrt)
+	if (funk == sqrt || funk == log)
 		printf("%lf\n\n", funk(x + 1.0));
 	else
 		printf("%lf\n\n", funk(x));
@@ -33,7 +33,7 @@ void printer(int count, db x, db Teilor, db(*etalon)(db))
 	long long secT = Teilor;//дл€ больших значений суммы получить хороший пробел
 	int mod_gap;//пробел дл€ модул€
 	secT = abs(secT);
-	if (etalon != sqrt)
+	if (etalon != sqrt && etalon != log)
 		module = etalon(x);
 	else
 		module = etalon(1 + x);

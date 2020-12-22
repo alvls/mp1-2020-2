@@ -24,9 +24,7 @@ void menu()
 			printf("Eсли нет, то нажмите любой другой символ\n");
 			scanf("%c", &c);
 			ans = c - '0';
-			if (!ans)
-				printf("Всего доброго, хорошего настроения!\n");
-			else
+			if (ans)
 				away--;
 			break;
 		case 1: case 2:
@@ -75,8 +73,11 @@ operation choice()
 	printf("4 - Квадратный корень из 1+х\n");
 	printf("5 - Арктангенс\n");
 	printf("6 - Ареатангенс - гиперболический тангенс\n");
+	printf("7 - Гиперболический синус\n");
+	printf("8 - Гиперболический косинус\n");
+	printf("9 - Натуральный логарифм от 1+x\n");
 	printf("0 - Выход в меню\n");
-	ans = cleaner(0, 6);
+	ans = cleaner(0, 9);
 	switch (ans)/////////////////////////////////
 	{
 	case 0:
@@ -101,6 +102,15 @@ operation choice()
 	case 6:
 		funk = atanh;
 		break;
+	case 7:
+		funk = sinh;
+		break;
+	case 8:
+		funk = cosh;
+		break;
+	case 9:
+		funk = log;
+		break;
 	}
 	return funk;
 }
@@ -120,12 +130,12 @@ void mode(int a)
 	else
 		printf("======================== ПЕРВЫЙ РЕЖИМ =========================\n");
 	funk = choice();
-	printf("Введите точку х, в которой будет вычислена функция\n");
-	printf("Для квадратного корня икс по модулю не больше единицы\n");
+	printf("Введите точку х, в которой будет вычислена функция, отделяя запятой дробную часть от целой\n");
+	printf("Для квадратного корня и натурального логарифма x по модулю не больше единицы\n");
 	printf("Для ареатангенса и арктангенса по модулю меньше единицы\n");
-	if (funk == sqrt || funk == atanh || funk == atan)
+	if (funk == sqrt || funk == atanh || funk == atan || funk == log)
 	{
-		if(funk == sqrt)
+		if (funk == sqrt || funk == log)
 		do {
 			sq = 0;
 			x = db_cleaner(-1.0);
