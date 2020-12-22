@@ -7,4 +7,4 @@ double choice_your_dot(int vibor);
 double your_function(double x, double etalon, int vibor);
 void navigator(int vibormenu);
 
-#endif // !MENU_H_
+#endif // !DATA_PROCESSING_H_

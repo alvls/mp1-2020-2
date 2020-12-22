@@ -31,7 +31,7 @@ int condition_one(double x, int i, int n, double etalon, function func, double s
 
 int condition_two(double x, int i, int n, double etalon, function func, double sum, double eps)
 {
-    printf("%3d |%44.20lf |%44.20lf\n", i - 1, sum, fabs(etalon - sum));
+    printf("%3d |%44.15lf |%44.15lf\n", i - 1, sum, fabs(etalon - sum));
     if (i <= n)
     {
         return 1;
