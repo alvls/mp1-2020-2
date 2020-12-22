@@ -19,7 +19,7 @@ double FunctionHyporbolicTangentWithE(long int numberOfElements, double x, doubl
 double FunctionHyporbolicTangentWithBernoulli(long int numberOfElements, double x, double referenceValue, double calculationAccuracy);
 
 char* modes[] = { "1. Режим (С заданием точности вычисления)", "2. Режим (С заданием числа экспериментов)" };
-char* functions[] = { "1. sin(x)", "2. cos(x)", "3. exp(x)", "4. th(x) с помощью функции E", "5. th(x) с помощью чисел Бернулли"};
+char* functions[] = { "1. sin(x)", "2. cos(x)", "3. exp(x)", "4. th(x) с помощью функции E", "5. th(x) с помощью чисел Бернулли" };
 
 int numberOfElements, numberOfExperiments;
 double calculationAccuracy, referenceValue, originalValue;
@@ -66,7 +66,7 @@ int MenuFunction()
 		printf("\n");
 		printf("Выберите одну из функций: ");
 		scanf("%d", &selectedFunction);
-		if (selectedFunction == 1 || selectedFunction == 2 || selectedFunction == 3 || selectedFunction == 4 || selectedFunction == 5)
+		if (selectedFunction == 1 || selectedFunction == 2 || selectedFunction == 3 || selectedFunction == 4 || selectedFunction == 5 || selectedFunction == 5)
 		{
 			done = 0;
 		}
@@ -97,62 +97,58 @@ void main()
 		scanf("%lf", &x);
 		switch (selectedFunction)
 		{
-			case 1:
-			{
-				pointFunc = FunctionSin;
-				x = x * (M_PI / 180);
-				printf("Значение X в радианах: %f\n", x);
-				referenceValue = sin(x);
-				originalValue = x;
-				break;
-			}
-			case 2:
-			{
-				pointFunc = FunctionCos;
-				x = x * (M_PI / 180);
-				printf("Значение X в радианах: %f\n", x);
-				referenceValue = cos(x);
-				originalValue = x;
-				break;
-			}
-			case 3:
-			{
-				pointFunc = FunctionExpiration;
-				referenceValue = exp(x);
-				originalValue = x;
-				break;
-			}
-			case 4:
-			{
-				pointFunc = FunctionHyporbolicTangentWithE;
-				//x = x * (M_PI / 180);
-				//printf("Значение X в радианах: %f\n", x);
-				referenceValue = tanh(x);
-				originalValue = x;
-				break;
-			}
-			case 5:
-			{
-				pointFunc = FunctionHyporbolicTangentWithBernoulli;
-				//x = x * (M_PI / 180);
-				//printf("Значение X в радианах: %f\n", x);
-				referenceValue = tanh(x);
-				originalValue = x;
-				break;
-			}
+		case 1:
+		{
+			pointFunc = FunctionSin;
+			x = x * (M_PI / 180);
+			printf("Значение X в радианах: %f\n", x);
+			referenceValue = sin(x);
+			originalValue = x;
+			break;
+		}
+		case 2:
+		{
+			pointFunc = FunctionCos;
+			x = x * (M_PI / 180);
+			printf("Значение X в радианах: %f\n", x);
+			referenceValue = cos(x);
+			originalValue = x;
+			break;
+		}
+		case 3:
+		{
+			pointFunc = FunctionExpiration;
+			referenceValue = exp(x);
+			originalValue = x;
+			break;
+		}
+		case 4:
+		{
+			pointFunc = FunctionHyporbolicTangentWithE;
+			referenceValue = tanh(x);
+			originalValue = x;
+			break;
+		}
+		case 5:
+		{
+			pointFunc = FunctionHyporbolicTangentWithBernoulli;
+			referenceValue = tanh(x);
+			originalValue = x;
+			break;
+		}
 		}
 		switch (mode)
 		{
-			case 1:
-			{
-				FirstMode(pointFunc);
-				break;
-			}
-			case 2:
-			{
-				SecondMode(pointFunc);
-				break;
-			}
+		case 1:
+		{
+			FirstMode(pointFunc);
+			break;
+		}
+		case 2:
+		{
+			SecondMode(pointFunc);
+			break;
+		}
 		}
 		printf("\nХотите попробовать еще раз?\n\nВарианты меню:\n1. Попробовать другую функцию\n2. Выйти из программы\n\n");
 		while (doneExit)
@@ -161,26 +157,26 @@ void main()
 			scanf("%d", &exitMode);
 			switch (exitMode)
 			{
-				case 0:
-				{
-					break;
-				}
-				case 1:
-				{
-					doneExit = 0;
-					break;
-				}
-				case 2:
-				{
-					doneExit = 0;
-					done = 0;
-					break;
-				}
-				default:
-				{
-					printf("\nТакого пункта меню не существует, пожалуйста, попробуйте еще раз.\n\n");
-					break;
-				}
+			case 0:
+			{
+				break;
+			}
+			case 1:
+			{
+				doneExit = 0;
+				break;
+			}
+			case 2:
+			{
+				doneExit = 0;
+				done = 0;
+				break;
+			}
+			default:
+			{
+				printf("\nТакого пункта меню не существует, пожалуйста, попробуйте еще раз.\n\n");
+				break;
+			}
 			}
 		}
 	}

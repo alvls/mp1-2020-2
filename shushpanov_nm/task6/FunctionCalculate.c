@@ -1,9 +1,9 @@
-#define _USE_MATH_DEFINES
+п»ї#define _USE_MATH_DEFINES
 #include <stdio.h>
 #include <math.h>
 
 double FunctionBernoulli(int n);
-double FunctionBink(long int i, long int j);
+double FunctionBinominalNewton(long int i, long int j);
 long int FunctionFactorial(long int x);
 
 double FunctionSin(long int numberOfElements, double x, double referenceValue, double calculationAccuracy)
@@ -33,7 +33,7 @@ double FunctionCos(long int numberOfElements, double x, double referenceValue, d
 double FunctionExpiration(long int numberOfElements, double x, double referenceValue, double calculationAccuracy)
 {
 	int i;
-	double function = x, term = 1;
+	double function = 1, term = 1;
 	for (i = 2; (i <= numberOfElements) && (fabs(x - referenceValue) >= calculationAccuracy); i++)
 	{
 		term *= x / (i - 1);
@@ -45,7 +45,7 @@ double FunctionExpiration(long int numberOfElements, double x, double referenceV
 double FunctionHyporbolicTangentWithE(long int numberOfElements, double x, double referenceValue, double calculationAccuracy)
 {
 	int i;
-	double function = x, term = 1;
+	double function = 1, term = 1;
 	for(i = 2; (i <= numberOfElements) && (fabs(x - referenceValue) > calculationAccuracy); i++)
 	{
 		term *= ((exp(2 * x) + 1) / (exp(2 * x) - 1));
@@ -54,8 +54,7 @@ double FunctionHyporbolicTangentWithE(long int numberOfElements, double x, doubl
 	printf("%10d %33.10lf %28.10lf\n", i - 1, function, fabs(referenceValue - function));
 }
 
-
-//Работает странно, долго считает
+//РЎС‡РёС‚Р°РµС‚ Р±Р»РёР·РєРѕ Рє С‚РѕРјСѓ, С‡С‚Рѕ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ, РЅРѕ СЂР°Р±РѕС‚Р°РµС‚ РґРѕР»РіРѕ
 double FunctionHyporbolicTangentWithBernoulli(long int numberOfElements, double x, double referenceValue, double calculationAccuracy)
 {
 	int i;
@@ -65,7 +64,7 @@ double FunctionHyporbolicTangentWithBernoulli(long int numberOfElements, double 
 		term = (pow(2, 2 * i) * (pow(2, 2 * i) - 1) * FunctionBernoulli(2 * i) * pow(x, 2 * i - 1)) / FunctionFactorial(2 * i);
 		termSum += term;
 	}
-	function = sinh(termSum) / cosh(termSum);
+	function += termSum;
 	printf("%10d %33.10lf %28.10lf\n", i - 1, function, fabs(referenceValue - function));
 }
 
@@ -81,7 +80,7 @@ long int FunctionFactorial(long int x)
 	}
 }
 
-double FunctionBink(long int i, long int j) 
+double FunctionBinominalNewton(long int i, long int j) 
 {
 	return 1.0 * FunctionFactorial(i) / FunctionFactorial(j) / FunctionFactorial(i - j);
 }
@@ -98,7 +97,7 @@ double FunctionBernoulli(int n)
 	{
 		for (j = 1; j <= n; j++)
 		{
-			sum += FunctionBink(n + 1, j + 1) * FunctionBernoulli(n - j);
+			sum += FunctionBinominalNewton(n + 1, j + 1) * FunctionBernoulli(n - j);
 		}
 		return -1.0 / (n + 1) * sum;
 	}
