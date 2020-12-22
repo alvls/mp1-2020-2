@@ -36,7 +36,6 @@ data_f TSin(double x, double accurancy, int n)
 {
 	data_f function;
 	int i = 0;
-	x = x * PI / 180;
 	double reference = sin(x);
 	double result = x;
 	double temp = x;
@@ -60,7 +59,6 @@ data_f TCos(double x, double accurancy, int n)
 {
 	data_f function;
 	int i = 0;
-	x = x * PI / 180;
 	double reference = cos(x);
 	double result = 1;
 	double temp = 1;
@@ -118,10 +116,10 @@ data_f TArctg(double x, double accurancy, int n)
 		result += temp;
 		count++;
 	}
-	function.res = result * 180 / PI;
+	function.res = result;
 	function.differ = fabs(result - reference);
 	function.accuracy = accurancy;
-	function.reference = reference * 180 / PI;
+	function.reference = reference;
 	function.n = count;
 	return function;
 }
@@ -130,10 +128,10 @@ data_f TArcctg(double x, double accurancy, int n)
 {
 	data_f function = TArctg(x, accurancy, n); //разложение арктангенса для данной точки
 	double reference = PI / 2 - atan(x); //эталон
-	double result = PI / 2 - function.res * PI / 180; //приведение значения арктангенса к арккотангенсу
-	function.res = result * 180 / PI; //значение арккотангеса 
+	double result = PI / 2 - function.res; //приведение значения арктангенса к арккотангенсу
+	function.res = result; //значение арккотангеса 
 	function.differ = fabs(result - reference); //разница с эталонным
-	function.reference = reference * 180 / PI; //эталон
+	function.reference = reference; //эталон
 	return function;
 }
 
@@ -173,17 +171,12 @@ void single_mode()
 			scanf_s("%lf", &x);
 		}
 	}
-	else if (choice == TSin || choice == TCos)
-	{
-		printf("Значение угла(в градусах): ");
-		scanf_s("%lf", &x);
-	}
 	else
 	{
 		printf("Точка в которой нужно вычислить значение: ");
 		scanf_s("%lf", &x);
 	}
-	printf("\nТочность (>= 0.000001): ");
+	printf("\nТочность (>= 0.000001)(через запятую): ");
 	scanf_s("%lf", &accurancy);
 	while (accurancy < 0.000001)
 	{
@@ -220,11 +213,6 @@ void serial_mode()
 			printf("|x|<=1, попробуйте еще раз:");
 			scanf_s("%lf", &x);
 		}
-	}
-	else if (choice == TSin || choice == TCos)
-	{
-		printf("Значение угла(в градусах): ");
-		scanf_s("%lf", &x);
 	}
 	else
 	{
