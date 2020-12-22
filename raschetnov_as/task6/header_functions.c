@@ -20,14 +20,36 @@ void numberCheckerNoRestrictions(double* number)
 	}
 }
 
-void modeChoicer(int* modechoice, int* choice)
+void menuFunction(int* menuChoice)
 {
-	printf("This program is supposed to find function value in some point using Taylor's series for that.\n");
-	printf("Program has 2 modes:\n\n");
-	printf("Mode 1: You have to enter point you want to find function value in, number of elements in Taylor's series and infelecity between reference and evaluation (evalution will be found by Taylor's series).\n\n");
-	printf("Mode 2: You have to enter point you want to find function value in and number of elements in Taylor's series between 1 and 25.\n\n");
-	printf("In mode 1 you will receive reference of function value, evaluation, difference between reference and evaluation, number of elements in Taylor's series that were used (if infelecity you entered was reacdhed before number of elements in Taylor's series are gone).\n\n");
-	printf("In mode 2 you will receive evaluation of function value and spreadsheet that contains these columns: number of elements in talor's series, evaluation of function value, difference between reference and evaluation on each step of Talor's series.\n\n");
+	int checker = 0;
+	int c;
+	printf("Wanna continue working with program ? 1 for yes, 0 for no (You will be directed to mode choose):\n");
+	checker = scanf("%d", menuChoice);
+	while (checker != 1 || *menuChoice < 0 || *menuChoice > 1)
+	{
+	    printf("\nWanna continue working with program ? 1 for yes, 0 for no (You will be directed to mode choose if 1):\n");
+		printf("Choose program mode:\n");
+		while ((c = getchar()) != '\n' && c != EOF);
+		{
+			checker = scanf("%d", menuChoice);
+		}
+	}	
+	
+	
+}
+
+void modeChoicer(int* modechoice, int* choice, int* counter)
+{
+	if(*counter == 0)
+	{
+	  printf("This program is supposed to find function value in some point using Taylor's series for that.\n");
+	  printf("Program has 2 modes:\n\n");
+	  printf("Mode 1: You have to enter point you want to find function value in, number of elements in Taylor's series and infelecity between reference and evaluation (evalution will be found by Taylor's series).\n\n");
+	  printf("Mode 2: You have to enter point you want to find function value in and number of elements in Taylor's series between 1 and 25.\n\n");
+	  printf("In mode 1 you will receive reference of function value, evaluation, difference between reference and evaluation, number of elements in Taylor's series that were used (if infelecity you entered was reacdhed before number of elements in Taylor's series are gone).\n\n");
+	  printf("In mode 2 you will receive evaluation of function value and spreadsheet that contains these columns: number of elements in talor's series, evaluation of function value, difference between reference and evaluation on each step of Talor's series.\n\n");
+	}
 	modeChoicerInputControl(modechoice);
 	menuChoicer(choice);
 }
