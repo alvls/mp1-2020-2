@@ -1,4 +1,4 @@
- #define _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -42,6 +42,22 @@ void t_exp(int i) {
 	}
 }
 
+void t_sqrt(int i) {
+	if (i == 1) {
+		y = 1;
+	}
+	else {
+		if (i == 2) {
+			y = 1 + x / 2;
+			term = x / 2; 
+		}
+		else {
+			term *= x * (0.5 - i + 2) / (i - 1);
+			y += term;
+		}
+	}
+}
+
 void t_ln(int i) {
 	if (i == 1) {
 		y = x;	
@@ -53,6 +69,7 @@ void t_ln(int i) {
 	}
 }
 
+
 void main() {
 	int mode = 0, choice = 0, next = 1, measure = 0;
 	double aim, accuracy;
@@ -62,42 +79,63 @@ void main() {
 	while (next) {
 		system("cls");
 		printf("Choose the function:\n");
-		printf("0 sin\n");
-		printf("1 cos\n");
-		printf("2 exp\n");
-		printf("3 ln(1+x)\n");
+		printf("1 sin\n");
+		printf("2 cos\n");
+		printf("3 exp\n");
+		printf("4 sqrt(1+x)\n");
+		printf("5 ln(1+x)\n");
 		scanf_s("%d", &choice);
 		switch (choice) {
-		case 0:
+		case 1:
 			teilor = t_sin;
 			math = sin;
 			break;
-		case 1:
+		case 2:
 			teilor = t_cos;
 			math = cos;
 			break;
-		case 2:
+		case 3:
 			teilor = t_exp;
 			math = exp;
 			break;
-		case 3:
+		case 4:
+			teilor = t_sqrt;
+			math = sqrt;
+			break;
+		case 5:
 			teilor = t_ln;
 			math = log;
 			break;
+		default:
+			continue;
 		}
 
 		printf("\nEnter X = ");
 		scanf_s("%lf", &x);
-		if(choice == 3)
-			aim = math(1+x);
-		else if(choice == 0 || choice == 1){
+
+		switch (choice) {
+		case 1:
+		case 2:
 			printf("\nRad (0) or deg (not 0)? ");
 			scanf_s("%d", &measure);
 			if (measure)
-				x = x / 180 * M_PI;
+				x = x / 180 * M_PI;	//DEG TO RAD
+			aim = math(x); 
+			x = fmod(x, 2 * M_PI);
+			break;
+		case 4:
+		case 5:
+			if (x <= -1) {
+				printf("\nWRONG ENTER\n");
+				system("pause");
+				continue;
+			}
+			aim = math(1 + x);
+			break;
+		default:
 			aim = math(x);
-		}else
-			aim = math(x);
+		}
+
 		printf("\nChoose mode (1, 2): ");
 		scanf_s("%d", &mode);
 
@@ -114,7 +152,7 @@ void main() {
 				if (fabs(y - aim) <= accuracy)
 					break;
 			}
-			if ((i == n) && (fabs(y - aim) > accuracy))
+			if (i > n)
 				i--;
 			accuracy = fabs(y - aim);
 			printf("\nAim: %lf", aim);
