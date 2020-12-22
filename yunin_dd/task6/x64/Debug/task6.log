@@ -1,6 +1,13 @@
-﻿  SourceLaba6.c
-C:\Users\Danii\mp1-2020-2\yunin_dd\task6\SourceLaba6.c(163,82): warning C4101: ymno: неиспользованная локальная переменная
-C:\Users\Danii\mp1-2020-2\yunin_dd\task6\SourceLaba6.c(685,9): warning C4101: arg: неиспользованная локальная переменная
-C:\Users\Danii\mp1-2020-2\yunin_dd\task6\SourceLaba6.c(755,25): warning C4018: <=: несоответствие типов со знаком и без знака
-C:\Users\Danii\mp1-2020-2\yunin_dd\task6\SourceLaba6.c(807,117): warning C4305: =: усечение из "__int64" в "long double"
+﻿  FirstMode.c
+C:\Users\Danii\mp1-2020-2\yunin_dd\task6\FirstMode.c(12,92): warning C4101: ymno: неиспользованная локальная переменная
+C:\Users\Danii\mp1-2020-2\yunin_dd\task6\FirstMode.c(176,9): warning C4101: arg: неиспользованная локальная переменная
+C:\Users\Danii\mp1-2020-2\yunin_dd\task6\FirstMode.c(201,9): warning C4101: arg: неиспользованная локальная переменная
+C:\Users\Danii\mp1-2020-2\yunin_dd\task6\FirstMode.c(371,25): warning C4018: <=: несоответствие типов со знаком и без знака
+C:\Users\Danii\mp1-2020-2\yunin_dd\task6\FirstMode.c(401,13): warning C4047: ==: "int *" отличается по уровням косвенного обращения от "int"
+  Interactive.c
+  MyProgram.c
+  SecondMode.c
+C:\Users\Danii\mp1-2020-2\yunin_dd\task6\SecondMode.c(11,181): warning C4305: инициализация: усечение из "__int64" в "long double"
+C:\Users\Danii\mp1-2020-2\yunin_dd\task6\SecondMode.c(88,9): warning C4101: arg: неиспользованная локальная переменная
+  Создание кода...
   task6.vcxproj -> C:\Users\Danii\mp1-2020-2\yunin_dd\x64\Debug\task6.exe

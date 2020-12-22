@@ -11,8 +11,28 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SourceLaba6.c">
+    <ClCompile Include="MyProgram.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FirstMode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SecondMode.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Interactive.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FirstMode.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SecondMode.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactive.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
