@@ -143,7 +143,7 @@ data_f(*select())() //выбор функции
 
 	print_functions();
 	scanf_s("%d", &choice);
-	while (choice > 5 && choice < 1)
+	while (choice > 5 || choice < 1)
 	{
 		printf("Ошибка выбора функции, попробуйте еще раз\n");
 		scanf_s("%d", &choice);
@@ -170,6 +170,11 @@ void single_mode()
 			printf("|x|<=1, попробуйте еще раз:");
 			scanf_s("%lf", &x);
 		}
+	}
+	else if (choice == TSin || choice == TCos)
+	{
+		printf("Значение угла в радианах: ");
+		scanf_s("%lf", &x);
 	}
 	else
 	{
