@@ -70,7 +70,7 @@ double taylor_arccos(int n, double previous, double x)
         return (PI / 2);
     if (n == 2)
         return (-x);
-    return ((previous * x * x * (2 * (double)n - 3) * (2 * (double)n - 3)) / ((2 * (double)n - 2) * (2 * (double)n - 1)));
+    return ((previous * x * x * (2 * (double)n - 5) * (2 * (double)n - 5)) / ((2 * (double)n - 4) * (2 * (double)n - 3)));
 }
 
 double taylor_sinh(int n, double previous, double x)
