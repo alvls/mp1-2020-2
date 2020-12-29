@@ -111,6 +111,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FirstMode.c" />
+    <ClCompile Include="Interactive.c" />
+    <ClCompile Include="MyProgram.c" />
+    <ClCompile Include="SecondMode.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="FirstMode.h" />
+    <ClInclude Include="Interactive.h" />
+    <ClInclude Include="SecondMode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
