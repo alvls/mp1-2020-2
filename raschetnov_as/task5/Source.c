@@ -12,7 +12,7 @@ int selection;
 struct filesInformation
 {
     int size;
-    char name[30];
+    char name[50];
 };
 struct filesInformation* information;
 
@@ -445,7 +445,6 @@ void stringEditor(char* string, char* stringcopy, int stringcopylen)
 {
     int i = 0, k = 0;
     char* slashes = "\\";
-    slashes = (char*)malloc(sizeof(char) * 4);
     for (i = 0; i < stringcopylen; i++)
         stringcopy[i] = 0;
     char* stringPointer;
@@ -457,7 +456,6 @@ void stringEditor(char* string, char* stringcopy, int stringcopylen)
         stringPointer = strtok(NULL, slashes);
     }
     strcat(stringcopy, "*.*");
-    free(slashes);
 }
 
 void main()
