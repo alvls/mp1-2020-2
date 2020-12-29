@@ -111,6 +111,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Calculating.c" />
+    <ClCompile Include="Printing.c" />
+    <ClCompile Include="Screen.c" />
+    <ClCompile Include="Разложение в ряд Тейлора.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="all.h" />
+    <ClInclude Include="Calculating.h" />
+    <ClInclude Include="Printing.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
