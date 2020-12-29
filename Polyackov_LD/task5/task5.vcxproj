@@ -111,6 +111,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source Files\Source.c">
+      <AdditionalOptions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">/windows1251 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,4 +10,35 @@
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="all.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="0 main.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="1 data processing.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="2 taylor series.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="3 secondary functions.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="0 main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="1 data processing.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="2 taylor series.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="3 secondary functions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>
