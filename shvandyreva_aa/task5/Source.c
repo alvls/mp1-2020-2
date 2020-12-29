@@ -1,170 +1,4 @@
-#include <stdio.h>  
-#include <stdlib.h>  
-#include <io.h>  
-#include <time.h>  
-#include <locale.h>
-#include <omp.h>
-#include <string.h>
-#define _CRT_SECURE_NO_WARNINGS
-
-void showmenu() //вывод меню
-{
-	char* menu[] = { "Список сортировок:","1 - Пузырьком ", "2 - Выбором","3 - Вставками", "4 - Слиянием", "5 - Хоара", "6 - Шелла", "7 - Подсчётом" };
-	int menu_size = sizeof(menu) / sizeof(char*);
-	int i = 0;
-	for (i = 0; i < menu_size; i++)
-		printf("%s \n", menu[i]);
-}
-int menuchoice() //выбор из меню 
-{
-	int choice;
-	printf("Введите номер нужной вам сортировки: ");
-	scanf_s("%d", &choice);
-	while (choice < 1 || choice > 7) //проверка правильности введенных пользователем данных
-	{
-		printf("Вы неправильно ввели номер сортировки, введите, пожалуйста, ещё раз: \n");
-		scanf_s("%d", &choice);
-	}
-	return choice;
-}
-int counter(char path[]) //счетчик количества файлов
-{
-	struct _finddata_t c_file;
-	intptr_t hFile;
-	int count = 0;
-	if ((hFile = _findfirst(path, &c_file)) == -1L)
-		printf("Неправильный путь к директории\n");
-	else
-	{
-		do {
-			count++;
-		} while (_findnext(hFile, &c_file) == 0);
-		_findclose(hFile);
-	}
-	return count; //кол-во файлов 
-}
-//СОРТИРОВКИ............................//
-void Bubble(struct _finddata_t c_file[], int k)
-{
-	int i, j;
-	struct _finddata_t x;
-	for (i = 0; i < k; i++)
-	{
-		for (j = k; j > i; j--)
-		{
-			if (c_file[j - 1].size > c_file[j].size)
-			{
-				x = c_file[j - 1];
-				c_file[j - 1] = c_file[j];
-				c_file[j] = x;
-			}
-		}
-	}
-}
-
-int main()
-{
-	setlocale(LC_ALL, "rus");
-	struct _finddata_t c_file;
-	intptr_t hFile;
-	char path[200];
-	int count = 0;
-	double t1, t2; //для вемени сортировки 
-	double time_sort;
-	int sort; // выбор способа сортировки 
-	int sort_way; // выбор возрастание/убывание 
-	struct _finddata_t* files; //информация о файле 
-	SetConsoleCP(1251); //Чтобы в пути могли быть названия папок на русском языке
-	SetConsoleOutputCP(1251); //Чтобы в пути могли быть названия папок на русском языке
-	printf("Введите путь до директории: \n");
-	gets_s(path, 200);
-	printf("\nВы ввели путь: %s\n", path);
-	//strcat(path, "\*");
-
-
-
-	if ((count = counter(path)) != 0)
-	{
-		files = (struct _finddata_t*)malloc(count * sizeof(struct _finddata_t));
-		//hFile = _findfirst(path, &files[0]);
-		hFile = _findfirst(path, &c_file);
-		printf("Список файлов в указанной папке (без сортировки)\n\n");
-		printf("Имя файла      %16c     Размер\n", ' ');
-		printf("----         ---- %24c   ----\n", ' ');
-		do
-			printf("%-12.12s  %10ld\n", c_file.name, c_file.size);
-		while (_findnext(hFile, &c_file) == 0);
-		printf("Количество файлов: %d\n", count);
-		while (1)
-		{
-			showmenu();
-			sort = menuchoice();
-			printf("Если вы хотите, чтобы выши файлы были отсортированы по возрастанию размера - нажмите 1, если по убыванию - 2");
-			scanf_s("%d", &sort_way);
-			while ((sort_way < 1) || sort_way > 2) //проверка правильности введенных пользователем данных
-			{
-				printf("Вы неправильно ввели номер варианта сортировки, введите, пожалуйста, ещё раз \n");
-				scanf_s("%i", &sort_way);
-			}
-			switch (sort) //сортировки 
-			{
-			case 1:
-				t1 = omp_get_wtime();
-				Bubble(files, count);
-				t2 = omp_get_wtime();
-				break;
-			case 2:
-				t1 = omp_get_wtime();
-
-				t2 = omp_get_wtime();
-				break;
-			case 3:
-				t1 = omp_get_wtime();
-
-				t2 = omp_get_wtime();
-				break;
-			case 4:
-				t1 = omp_get_wtime();
-
-				t2 = omp_get_wtime();
-				break;
-			case 5:
-				t1 = omp_get_wtime();
-
-				t2 = omp_get_wtime();
-				break;
-			case 6:
-				t1 = omp_get_wtime();
-
-				t2 = omp_get_wtime();
-				break;
-			case 7:
-				t1 = omp_get_wtime();
-
-				t2 = omp_get_wtime();
-				break;
-			}
-			if (sort_way == 1)
-			{
-				for (int i = 0; i < count; i++)
-					printf("%-12.12s  %10ld\n", files[i].name, files[i].size);
-			}
-			if (sort_way == 2)
-			{
-				for (int i = count - 1; i >= 0; i--)
-					printf("%-12.12s  %10ld\n", files[i].name, files[i].size);
-			}
-			time_sort = (double)(t2 - t1) / CLOCKS_PER_SEC;
-			printf("Время на сортировку составило:\n %a \n", time_sort);
-		}
-		free(files); //освобождение динамической памяти 
-	}
-	system("pause");
-}
-
-
-
-/*#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>  
 #include <stdlib.h>  
 #include <io.h>  
@@ -174,36 +8,199 @@ int main()
 #include <malloc.h>
 #include <locale.h>
 #include <omp.h>
+#include <Windows.h> //РґР»СЏ СЂСѓСЃСЃРєРѕРіРѕ СЏР·С‹РєР° 
 
-void showmenu() //вывод меню
+char* menu[] = { "РњР•РќР®:","1 - РЎРѕСЂС‚РёСЂРѕРІРєР° РџСѓР·С‹СЂСЊРєРѕРј ", "2 - РЎРѕСЂС‚РёСЂРѕРІРєР° Р’С‹Р±РѕСЂРѕРј","3 - РЎРѕСЂС‚РёСЂРѕРІРєР° Р’СЃС‚Р°РІРєР°РјРё", "4 - РЎРѕСЂС‚РёСЂРѕРІРєР° РЎР»РёСЏРЅРёРµРј", "5 - РЎРѕСЂС‚РёСЂРѕРІРєР° РҐРѕР°СЂР°", "6 - РЎРѕСЂС‚РёСЂРѕРІРєР° РЁРµР»Р»Р°", "7 - РЎРѕСЂС‚РёСЂРѕРІРєР° РџРѕРґСЃС‡С‘С‚РѕРј", "8 - Р’С‹С…РѕРґ" };
+void showmenu() //РІС‹РІРѕРґ РјРµРЅСЋ
 {
-	char* menu[] = { "Список сортировок:","1 - Пузырьком ", "2 - Выбором","3 - Вставками", "4 - Слиянием", "5 - Хоара", "6 - Шелла", "7 - Подсчётом" };
 	int menu_size = sizeof(menu) / sizeof(char*);
 	int i = 0;
 	for (i = 0; i < menu_size; i++)
 		printf("%s \n", menu[i]);
 }
-int menuchoice() //выбор из меню 
+int menuchoice() //РІС‹Р±РѕСЂ РёР· РјРµРЅСЋ 
 {
 	int choice;
-	printf("Введите номер нужной вам сортировки: ");
+	printf("\nР’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РЅСѓР¶РЅРѕР№ РІР°Рј СЃРѕСЂС‚РёСЂРѕРІРєРё РёР»Рё РЅР°Р¶РјРёС‚Рµ 8 РґР»СЏ РІС‹С…РѕРґР° РёР· РїСЂРѕРіСЂР°РјРјС‹:   ");
 	scanf_s("%d", &choice);
-	while (choice < 1 || choice > 7) //проверка правильности введенных пользователем данных
+	if (choice < 1 || choice > 8) //РїСЂРѕРІРµСЂРєР° РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё РІРІРµРґРµРЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј РґР°РЅРЅС‹С…
 	{
-		printf("Вы неправильно ввели номер сортировки, введите, пожалуйста, ещё раз: \n");
+		printf("\nР’С‹ РЅРµРїСЂР°РІРёР»СЊРЅРѕ РІРІРµР»Рё РЅРѕРјРµСЂ СЃРѕСЂС‚РёСЂРѕРІРєРё, РІРІРµРґРёС‚Рµ, РїРѕР¶Р°Р»СѓР№СЃС‚Р°, РµС‰С‘ СЂР°Р·:   ");
 		scanf_s("%d", &choice);
 	}
+	if (choice != 8)
+		printf("\nР’С‹ РІС‹Р±СЂР°Р»Рё <%s>\n\n", menu[choice]);
 	return choice;
 }
-
-struct sort
+int counter(char path[]) //СЃС‡РµС‚С‡РёРє РєРѕР»РёС‡РµСЃС‚РІР° С„Р°Р№Р»РѕРІ
 {
-	int size;
-	char name[200];
-};
-struct sort files[3000];
+	struct _finddata_t c_file;
+	intptr_t hFile;
+	int count = 0;
+	if ((hFile = _findfirst(path, &c_file)) == -1L)
+		printf("РќРµРїСЂР°РІРёР»СЊРЅС‹Р№ РїСѓС‚СЊ Рє РґРёСЂРµРєС‚РѕСЂРёРё\n");
+	else
+	{
+		do {
+			count++;
+		} while (_findnext(hFile, &c_file) == 0);
+		_findclose(hFile);
+	}
+	return count; //РєРѕР»-РІРѕ С„Р°Р№Р»РѕРІ 
+}
+//РЎРћР РўРР РћР’РљР............................//
+//case 1: РЎРѕСЂС‚РёСЂРѕРІРєР° РџСѓР·С‹СЂСЊРєРѕРј 
+void Bubble(struct _finddata_t* c_file, int count) //РїСѓР·С‹СЂСЊРєРѕРј // РґРѕРї РїР°РјСЏС‚СЊ РЅРµ С‚СЂРµР±СѓРµС‚ //РѕС†РµРЅРєР° O(n^2) //СЃР»РёС€РєРѕРј РјРµРґР»РµРЅРЅС‹Р№ 
+{
+	int i, j;
+	struct _finddata_t temp;
+	for (i = 0; i < count; i++)
+	{
+		for (j = count - 1; j > i; j--)
+		{
+			if (c_file[j - 1].size > c_file[j].size) //>
+			{
+				temp = c_file[j - 1];
+				c_file[j - 1] = c_file[j];
+				c_file[j] = temp;
+			}
+		}
+	}
+}
+//case 2: РЎРѕСЂС‚РёСЂРѕРІРєР° Р’С‹Р±РѕСЂРѕРј 
+void SelectSort(struct _finddata_t c_file[], int count) //РІС‹Р±РѕСЂРѕРј 
+{
+	int i, j, a;
+	struct _finddata_t temp; //РЅСѓР¶РЅР°, С‡С‚РѕР±С‹ РїРѕРјРµРЅСЏС‚СЊ РјРµСЃС‚Р°РјРё 
+	for (i = 0; i < count; i++)
+	{
+		a = i;
+		temp = c_file[i];
+		for (j = i + 1; j < count + 1; j++)
+			if (c_file[j].size < temp.size) //<
+			{
+				a = j;
+				temp = c_file[j];
+			}
+		c_file[a] = c_file[i];
+		c_file[i] = temp;
+	}
+}
+//case 3: РЎРѕСЂС‚РёСЂРѕРІРєР° Р’СЃС‚Р°РІРєР°РјРё 
+void InsertSort(struct _finddata_t* c_file, int count) //РІСЃС‚Р°РІРєР°РјРё //РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚ РґРѕРї РїР°РјСЏС‚СЊ //РѕС†РµРЅРєР° O(n^2)
+{
+	int i, j;
+	struct _finddata_t temp;
+	for (i = 1; i < count; i++)
+	{
+		temp = c_file[i];
+		for (j = i - 1; j >= 0 && (c_file[j].size > temp.size); j--) //>
+			c_file[j + 1] = c_file[j];
+		c_file[j + 1] = temp;
+	}
+}
 
-int increment(long inc[], long size)
+void Merge(struct _finddata_t* c_file, int left, int right); //С‡С‚РѕР±С‹ MergeSort РІРёРґРµР»Р° Merge
+//case 4: РЎРѕСЂС‚РёСЂРѕРІРєР° РЎР»РёСЏРЅРёРµРј 
+void MergeSort(struct _finddata_t* c_file, int left, int right) //СЃР»РёСЏРЅРёРµРј //С‚СЂРµР±СѓРµС‚СЃСЏ РґРѕРї РїР°РјСЏС‚СЊ 
+{
+	int mid = (left + right) / 2;
+	if (left == right)
+		return;
+	MergeSort(c_file, left, mid);
+	MergeSort(c_file, mid + 1, right);
+	Merge(c_file, left, right);
+}
+
+void Merge(struct _finddata_t* c_file, int left, int right) //СЃР»РёСЏРЅРёРµ РјР°СЃСЃРёРІРѕРІ 
+{
+	int mid = (left + right) / 2;
+	int k, i = left;
+	int j = mid + 1;
+	struct _finddata_t* add_memory; //РґРѕРї 
+	right += 1;
+	add_memory = (struct _finddata_t*)malloc(right * sizeof(struct _finddata_t)); //РґРѕРї РїР°РјСЏС‚СЊ
+	for (k = left; k < right; k++)
+	{
+		if ((i <= mid) && (j < right))
+		{
+			if (c_file[i].size <= c_file[j].size) ///<=
+			{
+				add_memory[k] = c_file[i];
+				i++;
+			}
+			else
+			{
+				add_memory[k] = c_file[j];
+				j++;
+			}
+		}
+		else
+		{
+			if (i == mid + 1)
+				for (; j < right; j++, k++)
+					add_memory[k] = c_file[j];
+			else
+				for (; i < mid + 1; i++, k++)
+					add_memory[k] = c_file[i];
+		}
+	}
+	for (k = left; k < right; k++)
+	{
+		c_file[k] = add_memory[k];
+	}
+	free(add_memory); //РѕСЃРІРѕР±РѕР¶РґРµРЅРёРµ РґРѕРї РїР°РјСЏС‚Рё
+}
+//case 5: РЎРѕСЂС‚РёСЂРѕРІРєР° РҐРѕР°СЂР° 
+void QuickSort(struct _finddata_t* c_file, int count) //РѕС€РёР±РєР°
+{
+	int i = 0; //РЅРѕРјРµСЂ РїРµСЂРІРѕРіРѕ СЌР»РµРјРµРЅС‚Р° 
+	int j = count - 1; //РЅРѕРјРµСЂ РїРѕСЃР»РµРґРЅРµРіРѕ СЌР»РµРјРµРЅС‚Р° 
+	int mid = count / 2; //РЅРѕРјРµСЂ С†РµРЅС‚СЂР°Р»СЊРЅРѕРіРѕ СЌР»-С‚Р° 
+	struct _finddata_t* central;
+	central = c_file[mid].size; //С†РµРЅС‚СЂР°Р»СЊРЅС‹Р№ СЌР»РµРјРµРЅС‚ 
+	struct _finddata_t temp; //РґРѕРї
+	do
+	{
+		while (c_file[i].size < central) //<
+			i++;
+		while (c_file[j].size > central) //>
+			j--;
+		if (i <= j)
+		{
+			temp = c_file[i];
+			c_file[i] = c_file[j];
+			c_file[j] = temp;
+			i++;
+			j--;
+		}
+	} while (i <= j);
+	if (j > 0)
+		QuickSort(c_file, j+1);
+	if (count > i)
+		QuickSort(c_file + i, count - i);
+}
+//case 6: РЎРѕСЂС‚РёСЂРѕРІРєР° РЁРµР»Р»Р° 
+int Increment(long inc[], int count); //С‡С‚РѕР±С‹ ShellSort РІРёРґРµР»Р° Increment  
+void ShellSort(struct _finddata_t* c_file, int count)
+{
+	struct _finddata_t temp; // РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ РїРµСЂРµСЃС‚Р°РЅРѕРІРєРё
+	long inc, i, j, seq[40];
+	int s;
+	s = Increment(seq, count); // РІС‹С‡РёСЃР»РµРЅРёРµ РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚Рё РїСЂРёСЂР°С‰РµРЅРёР№
+	while (s >= 0)
+	{
+		inc = seq[s--]; //СЃРѕСЂС‚РёСЂРѕРІРєР° РІСЃС‚Р°РІРєР°РјРё СЃ РёРЅРєСЂРµРјРµРЅС‚Р°РјРё inc[]
+		for (i = inc; i < count; i++)
+		{
+			temp = c_file[i];
+			for ((j = i - inc); ((j >= 0) && (c_file[j].size > temp.size)); (j -= inc)) //>
+				c_file[j + inc] = c_file[j];
+			c_file[j + inc] = temp;
+		}
+	}
+}
+int Increment(long inc[], int count)
 {
 	int p1, p2, p3, s;
 	p1 = p2 = p3 = 1;
@@ -218,269 +215,156 @@ int increment(long inc[], long size)
 			p3 *= 2;
 		}
 		p1 *= 2;
-	} while (3 * inc[s] < size);
+	} while (3 * inc[s] < count);
+
 	return s > 0 ? --s : 0;
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void Bubble(struct sort files[], int k)
+//case 7: РЎРѕСЂС‚РёСЂРѕРІРєР° РџРѕРґСЃС‡С‘С‚РѕРј 
+void CountingSort(struct _finddata_t* c_file, long count) 
 {
-	int i, j;
-	struct sort x;
-	for (i = 0; i < k; i++)
+
+	int i, j, k = 0;
+	int size = 0;
+	int max, min, * dop;
+	max = min = c_file[0].size;
+	struct _finddata_t temp;
+
+	for (i = 0; i < count; i++)
 	{
-		for (j = k; j > i; j--)
+		if (max < c_file[i].size)
+			max = c_file[i].size;
+		if (min > c_file[i].size)
+			min = c_file[i].size;
+	}
+	size = max - min + 1;
+	dop = (int*)malloc(sizeof(int) * size);
+	for (i = 0; i < size; i++)
+		dop[i] = 0;
+	for (i = 0; i < count; i++)
+		dop[c_file[i].size - min]++;
+	for (i = 0; i < size; i++)
+	{
+		while (dop[i] > 0)
 		{
-			if (files[j - 1].size > files[j].size)
+			for (j = 0; j < count; j++)
 			{
-				x = files[j - 1];
-				files[j - 1] = files[j];
-				files[j] = x;
-			}
-		}
-	}
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void selectSort(struct sort files[], int k) {
-	int i, j, a;
-	struct sort x;
-	for (i = 0; i < k; i++) {
-		a = i; x = files[i];
-		for (j = i + 1; j < k + 1; j++)
-			if (files[j].size< x.size) {
-				a = j; x = files[j];
-			}
-		files[a] = files[i]; files[i] = x;
-	}
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void insertSort(struct sort files[], int k)
-{
-	struct sort x;
-	int i, j;
-	for (i = 0; i < k + 1; i++)
-	{
-		x = files[i];
-		for (j = i - 1; j >= 0 && files[j].size > x.size; j--)
-			files[j + 1] = files[j];
-		files[j + 1] = x;
-	}
-}
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void quickSort(struct sort files[], int k)
-{
-	long i = 0, j = k;
-	struct sort x;
-	long p;
-	p = files[k >> 1].size;
-	do
-	{
-		while (files[i].size < p) i++;
-		while (files[j].size > p) j--;
-		if (i <= j)
-		{
-			x = files[i];
-			files[i] = files[j];
-			files[j] = x;
-			i++; j--;
-		}
-	} while (i <= j);
-	if (j > 0) quickSort(files, j);
-	if (k > i) quickSort(files + i, k - i);
-}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void shellSort(struct sort files[], int k)
-{
-	int inc, i, j, seq[40], s;
-	struct sort x;
-	s = increment(seq, k);
-	while (s >= 0)
-	{
-		inc = seq[s--];
-		for (i = inc; i < k + 1; i++)
-		{
-			x = files[i];
-			for (j = i - inc; (j >= 0) && (files[j].size > x.size); j -= inc)
-				files[j + inc].size = files[j].size;
-			files[j + inc] = x;
-		}
-	}
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void merge(struct sort files[], int lb, int split, int ub)
-{
-	struct sort* x;
-	int pos1 = lb;
-	int pos2 = split + 1;
-	int pos3 = 0;
-	x = (struct sort*)malloc((ub - lb + 1) * sizeof(struct sort));
-	while (pos1 <= split && pos2 <= ub) {
-		if (files[pos1].size < files[pos2].size)
-			x[pos3++] = files[pos1++];
-		else
-			x[pos3++] = files[pos2++];
-	}
-	while (pos2 <= ub)
-		x[pos3++] = files[pos2++];
-	while (pos1 <= split)
-		x[pos3++] = files[pos1++];
-	for (pos3 = 0; pos3 < ub - lb + 1; pos3++)
-		files[lb + pos3] = x[pos3];
-	free(x);
-}void mergeSort(struct sort files[], int lb, int ub)
-{
-	int split;
-	time_t start, end;
-	if (lb < ub)
-	{
-		split = (lb + ub) / 2;
-		mergeSort(files, lb, split);
-		mergeSort(files, split + 1, ub);
-		merge(files, lb, split, ub);
-	}
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void CountingSort(struct sort* files, int k)
-{
-	unsigned long max, min;
-	int i, j, m = 0, * p;
-	struct sort x;
-	max = min = files[0].size;
-	for (i = 0; i < k + 1; i++)
-	{
-		if (files[i].size > max)
-			max = files[i].size;
-		if (files[i].size < min)
-			min = files[i].size;
-	}
-	max++;
-	p = (int*)malloc(max * sizeof(int));
-	memset(p, 0, max * sizeof(int));
-	for (i = 0; i < k + 1; i++)
-		p[files[i].size]++;
-	for (i = min; i < max; i++)
-	{
-		if (p[i] != 0)
-		{
-			for (j = m; j < k + 1; j++)
-				if (files[j].size == i)
+				if (c_file[j].size == min + i)
 				{
-					x = files[j];
-					files[j] = files[m];
-					files[m] = x;
-					m++;
+					temp = c_file[j];
+					c_file[j] = c_file[k];
+					c_file[k] = temp;
+					k++;
+					dop[i]--;
 				}
+			}
 		}
 	}
-	free(p);
+	free(dop);
 }
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-int main(void)
+
+
+int main()
 {
-	setlocale(LC_ALL, "ru");
+	setlocale(LC_ALL, "rus");
 	struct _finddata_t c_file;
 	intptr_t hFile;
-	char path[200];
-	int count = 0, sort, i, flag, k;
-	double t1, t2; //для вемени сортировки 
+	char path[200];//РїСѓС‚СЊ
+	int count = 0;
+	double t1, t2; //РґР»СЏ РІСЂРµРјРµРЅРё СЃРѕСЂС‚РёСЂРѕРІРєРё 
 	double time_sort;
-	int sort_way; // выбор возрастание/убывание 
-
-	printf("Введите путь вида: с:\\..\\ \n");
-	gets(path);
-	strcat(path, "*");
-	i = 0; flag = 1;
-	if ((hFile = _findfirst(path, &c_file)) == -1L)
+	int sort; // РІС‹Р±РѕСЂ СЃРїРѕСЃРѕР±Р° СЃРѕСЂС‚РёСЂРѕРІРєРё 
+	int sort_way; // РІС‹Р±РѕСЂ РІРѕР·СЂР°СЃС‚Р°РЅРёРµ/СѓР±С‹РІР°РЅРёРµ 
+	struct _finddata_t* files; //РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ С„Р°Р№Р»Рµ 
+	SetConsoleCP(1251); //Р§С‚РѕР±С‹ РІ РїСѓС‚Рё РјРѕРіР»Рё Р±С‹С‚СЊ РЅР°Р·РІР°РЅРёСЏ РїР°РїРѕРє РЅР° СЂСѓСЃСЃРєРѕРј СЏР·С‹РєРµ
+	SetConsoleOutputCP(1251); //Р§С‚РѕР±С‹ РІ РїСѓС‚Рё РјРѕРіР»Рё Р±С‹С‚СЊ РЅР°Р·РІР°РЅРёСЏ РїР°РїРѕРє РЅР° СЂСѓСЃСЃРєРѕРј СЏР·С‹РєРµ
+	printf("Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ РІ РїСЂРѕРіСЂР°РјРјСѓ 'Р¤Р°Р№Р»РѕРІС‹Р№ РјРµРЅРµРґР¶РµСЂ'\n");
+	printf("\nР­С‚Р° РїСЂРѕРіСЂР°РјРјР° СЃРѕР·РґР°РЅР°, С‡С‚РѕР±С‹ РїРѕРјРѕС‡СЊ РІР°Рј РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ С„Р°Р№Р»С‹ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ/СѓР±С‹РІР°РЅРёСЋ РІ РЅСѓР¶РЅРѕР№ РІР°Рј РїР°РїРєРµ. \n");
+	printf("\nР’РІРµРґРёС‚Рµ РїСѓС‚СЊ РґРѕ РґРёСЂРµРєС‚РѕСЂРёРё: \n");
+	gets_s(path, 200);
+	strcat(path, "\\*");
+	printf("\nР’С‹ РІРІРµР»Рё РїСѓС‚СЊ: %s\n", path);
+	if ((count = counter(path)) != 0)
 	{
-		printf("Неправильный путь к директории \n");
-		flag = 0;
-	}
-	else
-	{
-		printf("Список файлов в указанной папке (без сортировки)\n\n");
-		printf("Имя файла      %16c     Размер\n", ' ');
-		printf("----         ---- %24c   ----\n", ' ');
-		do {
-				if (count <= 3000)
-				{
-					strcpy(files[i].name, c_file.name);
-					files[i].size = c_file.size;
-					printf("%-12.12s  %10ld\n", c_file.name, c_file.size);
-					count++;
-					i++;
-				}
-		} while (_findnext(hFile, &c_file) == 0);
-		_findclose(hFile);
-		printf("\nКоличество файлов: %d\n", count);
-		k = i - 1;
-	}
-	if (flag == 0)
-		return(0);
-	int choice;
-	do
-	{
-		showmenu();
-		sort = menuchoice();
-		printf("Если вы хотите, чтобы выши файлы были отсортированы по возрастанию размера - нажмите 1, если по убыванию - 2\n");
-		scanf_s("%d", &sort_way);
-		while ((sort_way < 1) || sort_way > 2) //проверка правильности введенных пользователем данных
+		files = (struct _finddata_t*)malloc(count * sizeof(struct _finddata_t));
+		hFile = _findfirst(path, &c_file);
+		printf("\nРЎРїРёСЃРѕРє С„Р°Р№Р»РѕРІ РІ СѓРєР°Р·Р°РЅРЅРѕР№ РїР°РїРєРµ (Р±РµР· СЃРѕСЂС‚РёСЂРѕРІРєРё): \n\n");
+		printf("РРјСЏ С„Р°Р№Р»Р° %16cР Р°Р·РјРµСЂ\n________________________________\n", ' ');
+		do
+			printf("%-15.12s  %10ld Р±Р°Р№С‚\n", c_file.name, c_file.size);
+		while (_findnext(hFile, &c_file) == 0);
+		printf("\nРљРѕР»РёС‡РµСЃС‚РІРѕ С„Р°Р№Р»РѕРІ: %d\n\n", count);
+		hFile = _findfirst(path, &files[0]);
+		for (int i = 1; i < count; i++)
+			_findnext(hFile, &files[i]);
+		while (1)
 		{
-			printf("Вы неправильно ввели номер варианта сортировки, введите, пожалуйста, ещё раз \n");
-			scanf_s("%i", &sort_way);
-		}
-		switch (sort)
-		{
-		case 1:
-			t1 = omp_get_wtime();
-			Bubble(files, k);
-			t2 = omp_get_wtime();
-			break;
-		case 2:
-			t1 = omp_get_wtime();
-			selectSort(files, k);
-			t2 = omp_get_wtime();
-			break;
-		case 3:
-			t1 = omp_get_wtime();
-			insertSort(files, k);
-			t2 = omp_get_wtime();
-			break;
-		case 4:
-			t1 = omp_get_wtime();
-			mergeSort(files, 0, k);
-			t2 = omp_get_wtime();
-			break;
-		case 5:
-			t1 = omp_get_wtime();
-			quickSort(files, k);
-			t2 = omp_get_wtime();
-			break;
-		case 6:
-			t1 = omp_get_wtime();
-			shellSort(files, k);
-			t2 = omp_get_wtime();
-			break;
-		case 7:
-			t1 = omp_get_wtime();
-			CountingSort(files, k);
-			t2 = omp_get_wtime();
-			break;
-		}
-		if (sort_way == 1)
-		{
-			for (i = 0; i <= k; i++)
+			showmenu();
+			sort = menuchoice();
+			if (sort == 8)
 			{
-				printf("%-12.12s     %i\n", files[i].name, files[i].size);
+				printf("Р”Рѕ СЃРІРёРґР°РЅРёСЏ!\n");
+				break;
 			}
-		}
-		if (sort_way == 2)
-		{
-			for (int i = k - 1; i >= 0; i--)
+			printf("РљР°Рє РІС‹ С…РѕС‚РёС‚Рµ, С‡С‚РѕР±С‹ Р±С‹Р»Рё РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅС‹ РІР°С€Рё С„Р°Р№Р»С‹:\n1 - РџРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ СЂР°Р·РјРµСЂР°\n2 - РџРѕ СѓР±С‹РІР°РЅРёСЋ СЂР°Р·РјРµСЂР°\n");
+			printf("\nР’С‹Р±РµСЂРёС‚Рµ РЅСѓР¶РЅС‹Р№ РІР°Рј РїСѓРЅРєС‚:");
+			scanf_s("%d", &sort_way);
+			while ((sort_way < 1) || sort_way > 2) //РїСЂРѕРІРµСЂРєР° РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё РІРІРµРґРµРЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµРј РґР°РЅРЅС‹С…
 			{
-				printf("%-12.12s     %i\n", files[i].name, files[i].size);
+				printf("Р’С‹ РЅРµРїСЂР°РІРёР»СЊРЅРѕ РІРІРµР»Рё РЅРѕРјРµСЂ РІР°СЂРёР°РЅС‚Р° СЃРѕСЂС‚РёСЂРѕРІРєРё, РІРІРµРґРёС‚Рµ, РїРѕР¶Р°Р»СѓР№СЃС‚Р°, РµС‰С‘ СЂР°Р· \n");
+				scanf_s("%d", &sort_way);
 			}
+			switch (sort) //СЃРѕСЂС‚РёСЂРѕРІРєРё 
+			{
+			case 1:
+				t1 = omp_get_wtime();
+				Bubble(files, count);
+				t2 = omp_get_wtime();
+				break;
+			case 2:
+				t1 = omp_get_wtime();
+				SelectSort(files, count);
+				t2 = omp_get_wtime();
+				break;
+			case 3:
+				t1 = omp_get_wtime();
+				InsertSort(files, count);
+				t2 = omp_get_wtime();
+				break;
+			case 4:
+				t1 = omp_get_wtime();
+				MergeSort(files, 0, count - 1);
+				t2 = omp_get_wtime();
+				break;
+			case 5:
+				t1 = omp_get_wtime();
+				QuickSort(files, count);
+				t2 = omp_get_wtime();
+				break;
+			case 6:
+				t1 = omp_get_wtime();
+				ShellSort(files, count);
+				t2 = omp_get_wtime();
+				break;
+			case 7:
+				t1 = omp_get_wtime();
+				CountingSort(files, count);
+				t2 = omp_get_wtime();
+				break;
+			}
+			if (sort_way == 1) //РІС‹РІРѕРґРёС‚ С„Р°Р№Р»С‹ РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ 
+			{
+				for (int i = 0; i < count; i++)
+					printf("%-12.12s  %10i Р±Р°Р№С‚\n", files[i].name, files[i].size);
+			}
+			if (sort_way == 2) //РІС‹РІРѕРґРёС‚ С„Р°Р№Р»С‹ РїРѕ СѓР±С‹РІР°РЅРёСЋ 
+			{
+				for (int i = count - 1; i >= 0; i--)
+					printf("%-12.12s  %10ld Р±Р°Р№С‚\n", files[i].name, files[i].size);
+			}
+			time_sort = t2 - t1;
+			printf("\nР’СЂРµРјСЏ РЅР° СЃРѕСЂС‚РёСЂРѕРІРєСѓ СЃРѕСЃС‚Р°РІРёР»Рѕ:   %f СЃРµРє.\n", time_sort);
 		}
-		time_sort = (double)(t2 - t1) / CLOCKS_PER_SEC;
-		printf("Время на сортировку составило:\n %a \n", time_sort);
-	} while (1);
+		free(files); //РѕСЃРІРѕР±РѕР¶РґРµРЅРёРµ РґРёРЅР°РјРёС‡РµСЃРєРѕР№ РїР°РјСЏС‚Рё 
+	}
 	system("pause");
-}*/
+}
